@@ -22,9 +22,7 @@
             class="form-input"
             required
             id="loginEmail"
-            [value]="inputValueEmail()"
-            (inputValueChange)="updateEmail($event)" 
-            [className]="''"
+            [(value)]="inputValueEmail"
           />
         </div>
 
@@ -39,9 +37,7 @@
               class="form-input"
               id="loginPassword"
               required
-              [value]="inputValuePassword()"
-              (inputValueChange)="updatePassword($event)"
-              [className]="''"
+              [(value)]="inputValuePassword"
             />
             <span
               (click)="togglePasswordVisibility()"
@@ -80,18 +76,6 @@
           Sign in
         </app-button>
       </form>
-
-      <div class="mt-5">
-        <p class="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-          Don't have an account?
-          <a
-            routerLink="/signup"
-            class="text-brand-500 hover:text-brand-600 dark:text-brand-400"
-          >
-            Sign Up
-          </a>
-        </p>
-      </div>
     </div>
   </div>
 

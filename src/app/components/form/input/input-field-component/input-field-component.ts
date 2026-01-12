@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
+import { FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-input-field',
@@ -9,9 +10,9 @@ import { ChangeDetectionStrategy, Component, computed, input, model, output, sig
 export class InputFieldComponent {
 
 
-value = model('');
+  value = model('');
+  type = model('');
 
-  type =model('text');
   id =input.required<string>();
   name = input.required<string>();
   placeholder = input<string>('');
@@ -22,7 +23,7 @@ value = model('');
   success = input(false);
   error: boolean = false;
   hint = input<string>('');
-  className = input.required<string>();
+  className = input<string>('');
 
   readonly inputValueChange =  output<Event>();
 
@@ -42,8 +43,9 @@ value = model('');
   }
 
   
-  onInputEntered(event: Event): void {
-    this.inputValueChange.emit(event);
+  onInputEntered($event: Event): void {
+    const input = $event.target as HTMLInputElement;
+    this.value.set(input.value);
   }
 
 }

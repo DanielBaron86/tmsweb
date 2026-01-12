@@ -4,11 +4,11 @@ import { LabelComponent } from '../../form/label/label-component';
 import { InputFieldComponent } from '../../form/input/input-field-component/input-field-component';
 import { CheckboxComponent } from '../../form/input/checkbox-component/checkbox-component';
 import { ButtonComponent } from '../../ui/button-component/button-component';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signin-form',
-  imports: [LabelComponent,InputFieldComponent,CheckboxComponent,ButtonComponent,ButtonComponent,FormsModule, ReactiveFormsModule],
+  imports: [LabelComponent,InputFieldComponent,CheckboxComponent,ButtonComponent,ButtonComponent,FormsModule],
   templateUrl: './signin-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -17,8 +17,8 @@ export class SigninFormComponent {
 
 readonly authService = inject(AuthServices)
  
- inputValueEmail = signal('');
- inputValuePassword = signal('');
+ inputValueEmail = '';
+ inputValuePassword = '';
    
  showPassword = false;
  isChecked = false;
@@ -38,21 +38,11 @@ readonly authService = inject(AuthServices)
   
 
    onSignIn(): void {
-    
-    this.authService.login(this.inputValueEmail(), this.inputValuePassword(),this.isChecked);
+   this.authService.login(this.inputValueEmail,this.inputValuePassword,this.isChecked);
+  
   }
 
   onKeepMeLoggedIn($event:boolean){
     this.isChecked=$event;
   }
-
-  updateEmail($event: Event) {
-    const input = $event.target as HTMLInputElement;
-    this.inputValueEmail.set(input.value);
-  }
-
-  updatePassword($event: Event) {
-    const input = $event.target as HTMLInputElement;
-    this.inputValuePassword.set(input.value);
-}
 }
