@@ -10,6 +10,6 @@ export interface UserResource {
 }
 
 export interface LoginResponse{
-    Token: string;
-    UserProfile: UserResource;
+    token: string;
+    userProfile: UserResource;
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from "@angular/router";
-import { MainPage } from '../../components/main-page/main-page';
+import { MainPage } from '../../../components/main-page/main-page';
 
 
 @Component({

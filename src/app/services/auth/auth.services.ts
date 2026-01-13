@@ -11,7 +11,16 @@ import e from 'express';
 })
 export class AuthServices {
 
+
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
+  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api/v1/users/login';
+  readonly #tokenString = signal<string | null>('');
   keepLoggeddIn= false;
+  readonly tokenString = this.#tokenString.asReadonly();
+
+  isAuthenticated = computed(() => this.#tokenString() !== null);
 
   logout() {
     this.#tokenString.set(null);
@@ -25,15 +34,6 @@ export class AuthServices {
       this.router.navigate(['/login']);
   }
 
-
-  private http = inject(HttpClient);
-  private router = inject(Router);
- 
-  readonly apiUrl = 'https://tmsapi.local/api/v1/users/login';
-  readonly #tokenString = signal<string | null>(null);
-
-  isAuthenticated = computed(() => this.#tokenString() !== null);
-
   login(username: string, password: string, keepLoggeddIn: boolean = false) {
     this.keepLoggeddIn = keepLoggeddIn;
     const body = { username:username, password:password };
@@ -43,10 +43,11 @@ export class AuthServices {
      .pipe(
       tap( (tokenString) =>{
         const response = tokenString as LoginResponse;
-        this.#tokenString.set(response.Token);
-        
+        console.log('response.Token',response.token);
+        this.#tokenString.set(response.token);
+
         if(keepLoggeddIn){
-          localStorage.setItem('userToken', response.Token);
+          localStorage.setItem('userToken', response.token);
         }
         this.router.navigate(['/main']);
       }
@@ -54,4 +55,4 @@ export class AuthServices {
       ).subscribe();
 
     }
-  }    
+  }

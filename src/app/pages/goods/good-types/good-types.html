@@ -1,0 +1,8 @@
+<ul>
+  @for (item of goodService.goodstypesList(); track item.id) {
+    <li>{{ item.name }} - {{ item.description }}</li>
+  } @empty {
+    <li>There are no items.</li>
+  }
+</ul>
+
