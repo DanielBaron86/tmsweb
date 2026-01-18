@@ -1,0 +1,10 @@
+services:
+  tmsweb:
+    image: registry.danielsplaygrounds.com/docker/images/tms_web:latest
+    restart: unless-stopped
+    container_name: tmsweb
+    volumes:
+      - /home/daniel/devops/tmp:/var/log/nginx
+    ports:
+      - 8185:80
+    tty: true
