@@ -13,7 +13,7 @@ export const routes: Routes = [
       canActivate: [CanActivateAuthGuard],
    },
    {
-    path: 'users', loadComponent: () => import('./pages/user/users-component/users-component').then(m => m.UsersComponent),
+    path: 'users', loadComponent: () =>  import('./components/main-page/main-page').then(m => m.MainPage),
     canActivate: [CanActivateAuthGuard],
     children: [
       {
@@ -22,11 +22,14 @@ export const routes: Routes = [
     ]
    },
    {
-    path: 'goods', loadComponent: () => import('./pages/goods/goods-page/goods-page').then(m => m.GoodsPage),
+    path: 'goods', loadComponent: () =>  import('./components/main-page/main-page').then(m => m.MainPage),
     canActivate: [CanActivateAuthGuard],
      children: [
        {
          path: "good_types", loadComponent: () => import('./pages/goods/good-types/good-types').then(m => m.GoodTypes),
+       },
+       {
+         path: "good_types/add",loadComponent: () => import('./pages/goods/good-types/good-types').then(m => m.GoodTypes),
        }
      ]
    },

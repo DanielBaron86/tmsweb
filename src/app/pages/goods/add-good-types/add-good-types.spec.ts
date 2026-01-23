@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsersComponent } from './users-component';
+import { AddGoodTypes } from './add-good-types';
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('AddGoodTypes', () => {
+  let component: AddGoodTypes;
+  let fixture: ComponentFixture<AddGoodTypes>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UsersComponent]
+      imports: [AddGoodTypes]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(AddGoodTypes);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

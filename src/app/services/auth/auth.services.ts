@@ -1,9 +1,10 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { LoginResponse } from '../../models/user-models';
-import e from 'express';
+import { error } from 'console';
+import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -41,18 +42,19 @@ export class AuthServices {
       body
       )
      .pipe(
-      tap( (tokenString) =>{
+      catchError( (error) => {
+        return throwError(() => error)
+      } )
+      ).subscribe( (tokenString) => {
         const response = tokenString as LoginResponse;
         console.log('response.Token',response.token);
         this.#tokenString.set(response.token);
-
+    
         if(keepLoggeddIn){
           localStorage.setItem('userToken', response.token);
         }
         this.router.navigate(['/main']);
-      }
-     )
-      ).subscribe();
+      });
 
     }
   }

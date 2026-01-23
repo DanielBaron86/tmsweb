@@ -54,7 +54,7 @@ export  const navItemsList: NavItem[] = [
       name: "Goods",
       subItems: [
         { name: "List Goods Types", path: "/goods/good_types" },
-        { name: "New Goods Types", path: "/" },
+        { name: "New Goods Types", path: "/goods/good_types/add" },
         { name: "List Goods", path: "/" },
       ],
     },

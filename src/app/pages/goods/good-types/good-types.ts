@@ -9,6 +9,8 @@ import {GoodsService} from '../../../services/goods/goods-service';
 })
 export class GoodTypes {
   readonly  goodService = inject(GoodsService);
-
-  goodTypesList  = this.goodService.getGoodTypes()
+  constructor(){
+    this.goodService.getGoodTypes()
+  }
+  
 }

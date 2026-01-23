@@ -1,1 +1,4 @@
 good types
+@for (goodType of goodService.goodstypesList(); track goodType.id ) {
+    <li>{{ goodType.name }} {{ goodType.description }}</li>
+}
