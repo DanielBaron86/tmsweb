@@ -1,5 +1,5 @@
 export interface UserResource {
-    Id: number;
+    id: number;
     Username: string;
     Email: string;
     FirstName: string;
@@ -12,4 +12,5 @@ export interface UserResource {
 export interface LoginResponse{
     token: string;
     userProfile: UserResource;
+    refreshToken: string;
 }

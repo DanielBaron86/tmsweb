@@ -1,8 +1,9 @@
-import {HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {HttpErrorResponse, HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest} from '@angular/common/http';
+import {Observable, switchMap, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 import {inject} from '@angular/core';
 import {AuthServices} from '../services/auth/auth.services';
+
 
 
 export function loggingInterceptor(
@@ -19,11 +20,33 @@ export function loggingInterceptor(
 }
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  // Inject the current `AuthService` and use it to get an authentication token:
   const authToken = inject(AuthServices);
-  // Clone the request to add the authentication header.
   const newReq = req.clone({
     headers: req.headers.append('Authorization', 'Bearer ' + authToken.tokenString()),
   });
   return next(newReq);
+}
+
+export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
+  const authToken = inject(AuthServices);
+  return next(req).pipe(
+    catchError( (error: HttpErrorResponse) => {
+      if(error.status == 401 && !(error.url?.includes('users/login') || error.url?.includes('users/refreshToken') )){
+        return authToken.refreshToken().pipe(
+          switchMap(res => {
+            authToken.setToken(res);
+            const newReq = req.clone({
+              headers: req.headers.set('Authorization', 'Bearer ' + res),
+            });
+            return next(newReq);
+          }),
+          catchError( (err) => {
+            return  throwError(() => new Error(err.error.message))
+          })
+        );
+      }else{
+        return  throwError(() => new Error(error.error.message))
+      }
+    })
+  );
 }

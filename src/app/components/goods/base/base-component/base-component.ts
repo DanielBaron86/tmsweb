@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
-import {BaseItem} from '../../../../models/base-item';
+import {BaseItem} from '../../../../models/goods-models';
+
 
 @Component({
   selector: 'app-base-component',

@@ -50,7 +50,7 @@ export  const navItemsList: NavItem[] = [
       subItems: [
         { name: "Base Goods Types", path: "/goods/base_types" },
         { name: "Goods Types", path: "/goods/good_types" },
-        { name: "List Goods", path: "/goods/list" },
+        { name: "List Goods", path: "/goods/item_list" },
       ],
     },
     {

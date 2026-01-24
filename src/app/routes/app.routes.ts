@@ -1,0 +1,26 @@
+import { Routes } from '@angular/router';
+import { CanActivateAuthGuard } from '../components/auth/guards/can-activate';
+import {goodsRoutes} from './goods.routes';
+import {userRoutes} from './user.routes';
+
+
+export const routes: Routes = [
+   {
+      path: '', redirectTo: '/login', pathMatch: 'full'
+   },
+   {
+    path: 'login', loadComponent: () => import('../components/auth/sign-in-component/sign-in-component').then(m => m.SignInComponent),
+   },
+   {
+      path: 'main', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+      canActivate: [CanActivateAuthGuard],
+   },
+  userRoutes,
+  goodsRoutes,
+  {
+    path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
+  },
+  {
+    path: '**', redirectTo: '/404'
+  },
+];

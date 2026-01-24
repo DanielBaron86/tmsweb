@@ -7,3 +7,20 @@ export  interface GoodsTypesModel extends BaseModel
   name:string;
   description:string;
 }
+
+
+export interface GoodsModels extends BaseModel
+{
+  id:number;
+  goodModelId:number;
+  price:number;
+  serialNumber:string;
+  locationId:number;
+}
+
+export  interface BaseItem extends BaseModel{
+  id:number
+  goodModelBaseTypeId: number;
+  description: string;
+  manufacturer: string
+}
