@@ -14,6 +14,7 @@ export interface GoodsModels extends BaseModel
   id:number;
   goodModelId:number;
   price:number;
+  status: number
   serialNumber:string;
   locationId:number;
 }

@@ -1,22 +1,27 @@
 
-<!--<div>-->
-<!--  <div class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">-->
-<!--    <div class="mx-auto w-full text-center">-->
-<!--      @for (item of goodsService.itemList.value() ; track item.id){-->
-<!--        <p>{{item.serialNumber}}</p>-->
-<!--      }-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<!--
+<div>
+  <div class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
+    <div class="mx-auto w-full text-center">
+      @if(goodService.baseTypes.hasValue()) {
+        @for(basicItem of test(); track basicItem.id){
+          <app-base-component [baseItem]="basicItem" ></app-base-component>
+        }
+      }
+    </div>
+  </div>
+</div>
+-->
 
 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
   <div class="flex flex-col justify-between gap-5 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center dark:border-gray-800">
     <div>
-      <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Products List</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">Track your store's progress to boost your sales.</p>
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Base List</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">List of basic item types</p>
     </div>
     <div class="flex gap-3">
-      <app-button variant="outline">Export
+      <app-button variant="outline">
+        Export
       </app-button>
       <a class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" href="/add-product" routerlink="/add-product">
         <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +62,7 @@
         <th class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              goodModelId</p><span class="flex flex-col gap-0.5"><svg class="text-gray-500 dark:text-gray-400" fill="none" height="5" viewBox="0 0 8 5"
+              Description</p><span class="flex flex-col gap-0.5"><svg class="text-gray-500 dark:text-gray-400" fill="none" height="5" viewBox="0 0 8 5"
                                                                    width="8"
                                                                    xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -70,7 +75,7 @@
         <th class="cursor-pointer px-5 py-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              price</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
+              Manufacturer</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
                                                                    width="8"
                                                                    xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -83,7 +88,7 @@
         <th class="cursor-pointer px-5 py-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              serialNumber</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
+              CreatedDate</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
                                                                 width="8"
                                                                 xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -96,7 +101,7 @@
         <th class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              locationId</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300" fill="none" height="5" viewBox="0 0 8 5"
+              UpdatedDate</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300" fill="none" height="5" viewBox="0 0 8 5"
                                                                 width="8"
                                                                 xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -105,60 +110,44 @@
             d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
             fill="currentColor"></path></svg></span></div>
         </th>
-        <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-          status
-        </th>
-        <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-          createdDate
-        </th>
-        <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-          updatedDate
-        </th>
+
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-      @if(goodService.itemList.hasValue()){
-        @for(itemInstance of goodsListInstances(); track  itemInstance.id){
-          <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
-            <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
-              <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
-                <input class="sr-only" type="checkbox"><span class="flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] bg-transparent border-gray-300 dark:border-gray-700"><span
-                class="opacity-0"><svg fill="none" height="12" viewBox="0 0 12 12" width="12"
-                                       xmlns="http://www.w3.org/2000/svg"><path d="M10 3L4.5 8.5L2 6" stroke="white"
-                                                                                strokeLinecap="round" strokeLinejoin="round"
-                                                                                strokeWidth="1.6666"></path></svg></span></span>
-              </label>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <div class="flex items-center gap-3">
-                <div class="h-12 w-12"><img alt="" class="h-12 w-12 rounded-md" src="/images/product/product-03.jpg">
-                </div>
-                <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{itemInstance.goodModelId}}</span></div>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{itemInstance.price}}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{itemInstance.serialNumber}}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{itemInstance.locationId}}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{itemInstance.status}}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{itemInstance.createdDate | date}}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{itemInstance.updatedDate | date }}</p>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <app-button size="sm" variant="outline"> Edit </app-button>
-            </td>
-          </tr>
-       }
-      }
+        @if (goodService.baseTypes.hasValue()){
+          @for (baseItem of baseTypesList(); track baseItem.id) {
+            <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
+              <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
+                <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
+                  <input class="sr-only" type="checkbox"><span class="flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] bg-transparent border-gray-300 dark:border-gray-700"><span
+                  class="opacity-0"><svg fill="none" height="12" viewBox="0 0 12 12" width="12"
+                                         xmlns="http://www.w3.org/2000/svg"><path d="M10 3L4.5 8.5L2 6" stroke="white"
+                                                                                  strokeLinecap="round" strokeLinejoin="round"
+                                                                                  strokeWidth="1.6666"></path></svg></span></span>
+                </label>
+              </td>
+              <td class="px-5 py-4 whitespace-nowrap">
+                <div class="flex items-center gap-3">
+                  <div class="h-12 w-12"><img alt="" class="h-12 w-12 rounded-md" src="/images/product/product-03.jpg">
+                  </div>
+                  <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{baseItem.description}}</span></div>
+              </td>
+              <td class="px-5 py-4 whitespace-nowrap">
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{baseItem.manufacturer}}</p>
+              </td>
+              <td class="px-5 py-4 whitespace-nowrap">
+                <p class="text-sm text-gray-700 dark:text-gray-400">{{baseItem.createdDate | date}}</p>
+              </td>
+              <td class="px-5 py-4 whitespace-nowrap">
+                <p class="text-sm text-gray-700 dark:text-gray-400">{{baseItem.updatedDate | date}}</p>
+              </td>
+              <td class="px-5 py-4 whitespace-nowrap">
+                <app-button size="sm" variant="outline"> Edit </app-button>
+              </td>
+            </tr>
+          }
+        }
+
       <!---->
       </tbody>
     </table>
@@ -188,3 +177,4 @@
     </div>
   </div>
 </div>
+
