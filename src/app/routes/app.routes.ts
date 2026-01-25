@@ -15,10 +15,13 @@ export const routes: Routes = [
    {
       path: 'main', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
       canActivate: [CanActivateAuthGuard],
-   },
-  userRoutes,
-  goodsRoutes,
-  inventoryRoutes,
+     children: [
+       ...inventoryRoutes,
+       ...goodsRoutes,
+       ...userRoutes
+     ]
+   }
+  ,
   {
     path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
   },

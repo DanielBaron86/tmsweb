@@ -1,8 +1,9 @@
-import {Route} from '@angular/router';
-import {CanActivateAuthGuard} from '../components/auth/guards/can-activate';
+import { Routes} from '@angular/router';
 
-export const inventoryRoutes: Route  =
+
+export const inventoryRoutes: Routes  =[
   {
     path: 'itasks', loadComponent: () =>  import('../pages/inventory/tasks-list-component/tasks-list-component').then(m => m.TasksListComponent),
-    canActivate: [CanActivateAuthGuard]
   }
+]
+

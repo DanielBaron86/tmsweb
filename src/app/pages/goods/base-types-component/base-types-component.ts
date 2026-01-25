@@ -1,9 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../components/goods/base/base-component/base-component';
 import GoodsService from '../../../services/goods/goods-service';
-import goodsService from '../../../services/goods/goods-service';
-import {BaseItem} from '../../../models/goods-models';
-
 @Component({
   selector: 'app-base-types-component',
   imports: [BaseComponent],

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { AppSidebarComponent } from '../shared/app-sidebar-component/app-sidebar-component';
 import { AppHeaderComponent } from '../shared/app-header-component/app-header-component';
 import { BackdropComponent } from '../shared/backdrop-component/backdrop-component';
@@ -13,12 +13,10 @@ import {AuthServices} from '../../services/auth/auth.services';
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })
-export class MainPage {
+export class MainPage implements OnInit{
   readonly sidebarService = inject(SidebarService);
   readonly authService = inject(AuthServices);
-
-  protected refreshToken() {
-    console.log('refreshToken');
-    this.authService.refreshToken();
+  ngOnInit(): void {
+    console.log("MainPage");
   }
 }
