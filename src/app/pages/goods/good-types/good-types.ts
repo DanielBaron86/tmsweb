@@ -1,6 +1,12 @@
-import {ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component, contentChildren,
+  ElementRef,
+  inject,
+  linkedSignal,
+  viewChildren
+} from '@angular/core';
 import GoodsService from '../../../services/goods/goods-service';
-import {AuthServices} from '../../../services/auth/auth.services';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
 
 @Component({
@@ -12,6 +18,8 @@ import {ButtonComponent} from "../../../components/ui/button-component/button-co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypes {
+  readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
+
   goodService = inject(GoodsService);
   goodTypesList = linkedSignal({
     source: () => this.goodService.goodstypes.value(),
@@ -23,4 +31,12 @@ export class GoodTypes {
       }
     }
   })
+
+  protected onSearchInput($event: any) {
+    this.goodTypesList()?.forEach( (val,index) => {
+      const isMatch =val.name.toLowerCase().includes($event.target.value.toLowerCase())
+      this.tableList()[index].nativeElement.hidden = !isMatch
+    })
+
+  }
 }

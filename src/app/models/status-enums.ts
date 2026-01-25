@@ -1,0 +1,14 @@
+export enum GoodsStatusEnum
+{
+  NONE,
+  PENDING,
+  IN_TRANSIT,
+  AVAILABLE,
+  DEFECTED,
+  IN_REPAIR,
+  SOLD,
+  RETURNED,
+  LOST,
+  DELETED,
+  RESERVED
+}
