@@ -1,8 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {MainPage} from '../../../components/main-page/main-page';
 
 @Component({
   selector: 'app-tasks-list-component',
-  imports: [],
+  imports: [
+    MainPage
+  ],
   templateUrl: './tasks-list-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

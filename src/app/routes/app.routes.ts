@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { CanActivateAuthGuard } from '../components/auth/guards/can-activate';
 import {goodsRoutes} from './goods.routes';
 import {userRoutes} from './user.routes';
+import {inventoryRoutes} from './inventory.routes';
 
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
    },
   userRoutes,
   goodsRoutes,
+  inventoryRoutes,
   {
     path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
   },

@@ -3,7 +3,7 @@ import { SidebarWidgetComponent } from './sidebar-widget-component';
 import { SidebarService } from '../../../services/sidebar/sidebar-service';
 import { Router, RouterModule } from '@angular/router';
 import { SafeHtmlPipe } from '../../../pipes/safe-html-pipe';
-import { navItemsList,NavItem } from './menu-items-list';
+import { navItemsList,NavItem } from '../../../routes/menu-items-list';
 
 
 
@@ -18,7 +18,7 @@ export class AppSidebarComponent {
  readonly  sidebarService = inject(SidebarService);
  readonly  router = inject(Router);
  readonly cdr = inject(ChangeDetectorRef);
- 
+
  openSubmenu: string | null | number = null;
  subMenuHeights: { [key: string]: number } = {};
 
@@ -31,7 +31,7 @@ export class AppSidebarComponent {
    toggleSubmenu(section: string, index: number){
     const key = `${section}-${index}`;
     const el = document.getElementById(key);
-    
+
     if (el) {
       console.log('Element:', el.scrollHeight);
     }
