@@ -7,6 +7,19 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
+  test:
+    name: Build and analyze
+    runs-on: host
+    
+    steps:
+      - uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+      - run: "sonar \
+              -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
+              -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+              -Dsonar.projectKey=tmsweb"
+
   build:
     name: Build Docker
     runs-on: host
