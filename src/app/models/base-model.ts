@@ -1,6 +1,6 @@
 export  interface  BaseModel {
-  createdDate: Date | null;
-  updatedDate: Date | null;
+  createdDate?: Date | null;
+  updatedDate?: Date | null;
 }
 
 export interface paginatedResult<T> {

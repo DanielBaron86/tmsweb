@@ -4,7 +4,6 @@ import {LocationUnitModel} from './location-models';
 
 export  interface BaseItem extends BaseModel{
   id:number
-  goodModelBaseTypeId: number;
   description: string;
   manufacturer: string
 }

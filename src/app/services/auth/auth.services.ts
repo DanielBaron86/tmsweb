@@ -1,9 +1,8 @@
-import { HttpClient, httpResource } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import {LoginResponse, UserResource} from '../../models/user-models';
-import { error } from 'console';
 import { throwError } from 'rxjs';
 
 

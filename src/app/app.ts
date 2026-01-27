@@ -11,4 +11,5 @@ import {AuthServices} from './services/auth/auth.services';
 export class App {
   protected readonly title = signal('tmsweb');
   auth = inject(AuthServices)
+
 }

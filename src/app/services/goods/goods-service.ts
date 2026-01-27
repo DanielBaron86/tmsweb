@@ -1,17 +1,17 @@
-import {computed, inject, Injectable, linkedSignal, signal} from '@angular/core';
+import { inject, Injectable, Injector, linkedSignal, signal} from '@angular/core';
 import {BaseItem, GoodsModels, GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
-import {AuthServices} from '../auth/auth.services';
-import {paginatedResult, PaginationHeader} from '../../models/base-model';
+import {paginatedResult} from '../../models/base-model';
+import {map, switchMap, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root',
 })
-class GoodsService {
+export default class GoodsService {
 
   http = inject(HttpClient);
-  AuthServices= inject(AuthServices);
-  /*readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';*/
   readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
 
   get goodstypes(){
@@ -22,6 +22,9 @@ class GoodsService {
     return this.#baseTypes;
   }
 
+  baseItemById (baseId :number): BaseItem  {
+    return (this.getbaseTypesList())().result.filter(b => b.id == baseId)[0];
+  }
    baseTypesHeaders(){
     this.http.get(`${this.apiUrl}/v1/goods/base_goods`,{observe:'response' } ).subscribe(res => {
       console.log(res.headers.get('X-Pagination'))
@@ -85,12 +88,6 @@ class GoodsService {
     })
   }
 
-
-  etag = computed(() => {
-    const res = this.#baseTypes?.headers();
-    return res?.get('etag') ?? null;
-  });
-
   readonly #itemList = httpResource<GoodsModels[]>(() => ({
     params: {
       pageNumber: 1,
@@ -101,11 +98,20 @@ class GoodsService {
     defaultValue: signal<GoodsModels[]>([])
   }));
 
+  updateBaseItem(baseItem: BaseItem) {
+   return this.http.put<BaseItem>(`https://tmsapi.danielsplaygrounds.com/api/v1/goods/base_goods/${baseItem.id}`, baseItem).pipe(
+     catchError((error) => {
+       return throwError(() => error);
+     })
+   )
+  }
 
-
-
-
+  createBaseItem(baseItem: BaseItem) {
+    return this.http.post<BaseItem>(`https://tmsapi.danielsplaygrounds.com/api/v1/goods/base_goods`, baseItem).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
+  }
 
 }
-
-export default GoodsService

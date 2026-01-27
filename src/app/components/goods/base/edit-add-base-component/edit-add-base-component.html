@@ -1,0 +1,26 @@
+  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+    <div class="space-y-6">
+      <form novalidate="" class="ng-untouched ng-pristine ng-valid">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          <div>
+            <app-input-field id="baseDesc" name="baseDesc" type="text" placeholder="Description"
+                             [(value)]="baseItem().description"
+            >
+            </app-input-field>
+          </div>
+          <div>
+            <app-input-field id="baseMan" name="baseMan" type="text" placeholder="Manufacturer"
+                             [(value)]="baseItem().manufacturer"
+            >
+            </app-input-field>
+          </div>
+          <div>
+            <app-button classname="w-full" size="sm" [variant]="'primary'"
+                        (btnClick)="onSave()"
+            >Save
+            </app-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
