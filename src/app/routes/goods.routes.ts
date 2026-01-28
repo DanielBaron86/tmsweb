@@ -1,5 +1,4 @@
 import { Routes} from '@angular/router';
-import { BaseItemResolver } from '../resolvers/baseitem-resolver';
 
 export const goodsRoutes: Routes = [
   {

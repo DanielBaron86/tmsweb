@@ -6,7 +6,7 @@ import {
   linkedSignal,
   viewChildren
 } from '@angular/core';
-import GoodsService from '../../../services/goods/goods-service';
+import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
 
 @Component({
@@ -20,7 +20,7 @@ import {ButtonComponent} from "../../../components/ui/button-component/button-co
 export class GoodTypes {
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
 
-  goodService = inject(GoodsService);
+  goodService = inject(GoodsTypesService);
   goodTypesList = linkedSignal({
     source: () => this.goodService.goodstypes.value(),
     computation: () => {

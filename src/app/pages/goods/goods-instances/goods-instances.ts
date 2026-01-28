@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject, linkedSignal, viewChildren} from '@angular/core';
-import GoodsService from '../../../services/goods/goods-service';
+import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {GoodsStatusEnum} from '../../../models/status-enums';
+import GoodsInstancesService from '../../../services/goods/goods-instances-service';
 
 @Component({
   selector: 'app-goods-instances',
@@ -15,7 +16,7 @@ import {GoodsStatusEnum} from '../../../models/status-enums';
 })
 export class GoodsInstances {
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
-  goodService = inject(GoodsService);
+  goodService = inject(GoodsInstancesService);
   goodsListInstances = linkedSignal({
     source: () => this.goodService.itemList.value(),
     computation: () => {
