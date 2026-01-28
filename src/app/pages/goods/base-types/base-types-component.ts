@@ -6,13 +6,13 @@ import {
   signal,
   viewChildren
 } from '@angular/core';
-import GoodsService from '../../../services/goods/goods-service';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe, LocationStrategy} from '@angular/common';
 import {BaseItem} from '../../../models/goods-models';
 import {InputFieldComponent} from '../../../components/form/input/input-field-component/input-field-component';
 
 import {HttpClient} from '@angular/common/http';
+import BaseItemsService from '../../../services/goods/base-items-service';
 
 
 
@@ -23,7 +23,9 @@ import {HttpClient} from '@angular/common/http';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-
+  goodService = inject(BaseItemsService);
+  location = inject(LocationStrategy);
+  http = inject(HttpClient)
   constructor() {
     console.log(this.location.getState());
     effect( () =>{
@@ -33,14 +35,15 @@ export class BaseTypesComponent {
 
 
 
+
+
   operation =signal<string>('edit');
 
-  goodService = inject(GoodsService);
-  location = inject(LocationStrategy);
-  http = inject(HttpClient)
+
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
 
   baseTypesList =this.goodService.getbaseTypesList();
+
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
   activePage = signal<number>(1);
@@ -127,4 +130,5 @@ export class BaseTypesComponent {
     this.disabled.set(false);
     this.filterTableByString('');
   }
+
 }
