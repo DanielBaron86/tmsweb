@@ -18,6 +18,9 @@ jobs:
       - run: "sonar \
               -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
               -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+              -Dsonar.pullrequest.key=${{ github.head_ref }} \
+              -Dsonar.pullrequest.branch= ${{ github.head_ref }} \
+              -Dsonar.pullrequest.base=master
               -Dsonar.projectKey=tmsweb"
 
   build:
