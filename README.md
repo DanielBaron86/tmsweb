@@ -1,5 +1,10 @@
 # Tmsweb
 
+[![Maintainability Rating](https://sonarqube.danielsplaygrounds.com/api/project_badges/measure?project=tmsweb&metric=software_quality_maintainability_rating&token=sqb_b1571393176ecc9b03c4be1951d60afc6b04f140)](https://sonarqube.danielsplaygrounds.com/dashboard?id=tmsweb)
+[![Reliability Rating](https://sonarqube.danielsplaygrounds.com/api/project_badges/measure?project=tmsweb&metric=software_quality_reliability_rating&token=sqb_b1571393176ecc9b03c4be1951d60afc6b04f140)](https://sonarqube.danielsplaygrounds.com/dashboard?id=tmsweb)
+[![Security Rating](https://sonarqube.danielsplaygrounds.com/api/project_badges/measure?project=tmsweb&metric=software_quality_security_rating&token=sqb_b1571393176ecc9b03c4be1951d60afc6b04f140)](https://sonarqube.danielsplaygrounds.com/dashboard?id=tmsweb)
+[![Quality gate](https://sonarqube.danielsplaygrounds.com/api/project_badges/quality_gate?project=tmsweb&token=sqb_b1571393176ecc9b03c4be1951d60afc6b04f140)](https://sonarqube.danielsplaygrounds.com/dashboard?id=tmsweb)
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.3.
 
 ## Development server.
