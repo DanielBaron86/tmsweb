@@ -40,7 +40,7 @@
       <p class="text-sm text-gray-500 dark:text-gray-400">List of basic item types</p>
     </div>
     <div class="flex gap-3">
-      <app-button variant="outline">
+      <app-button variant="outline" (click)="Export()">
         Export
       </app-button>
       <a (click)="NewBase()" class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" >
@@ -135,7 +135,7 @@
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
         @if (goodService.baseTypes.hasValue()){
-          @for (baseItem of baseTypesList().result; track baseItem.id) {
+          @for (baseItem of baseTypesList().result[this.activePage()].collectionName; track baseItem.id) {
             <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #baseList>
               <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
                 <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">

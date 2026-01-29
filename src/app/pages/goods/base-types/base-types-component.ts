@@ -27,7 +27,6 @@ export class BaseTypesComponent {
   location = inject(LocationStrategy);
   http = inject(HttpClient)
   constructor() {
-    console.log(this.location.getState());
     effect( () =>{
       this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
     } )
@@ -44,6 +43,7 @@ export class BaseTypesComponent {
 
   baseTypesList =this.goodService.getbaseTypesList();
 
+
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
   activePage = signal<number>(1);
@@ -53,7 +53,7 @@ export class BaseTypesComponent {
   );
   editableItem =computed( ()=> {
     if(this.baseId() != 0){
-      return this.baseTypesList().result.filter(b => b.id == this.baseId())[0]
+      return this.baseTypesList().result[this.activePage()].collectionName.filter(b => b.id == this.baseId())[0]
     }
     let obj: BaseItem= {  id :0 ,description:'' , manufacturer: ''}
     return obj;
@@ -61,19 +61,31 @@ export class BaseTypesComponent {
 
 
   protected changePage(pageNumber: number) {
+    this.activePage.set(pageNumber);
+    if (!this.goodService.cachedPages().includes(this.activePage())) {
+      this.goodService.cachedPages().push(this.activePage()) ;
       this.goodService.baseTypesPageNumber.set(pageNumber);
-      this.activePage.set(pageNumber);
+    }
+
   }
 
   protected decreasePage() {
 
     this.activePage() < 2 ? this.activePage.set(this.baseTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
-    this.goodService.baseTypesPageNumber.set(this.activePage());
+    if (!this.goodService.cachedPages().includes(this.activePage())) {
+      this.goodService.baseTypesPageNumber.set(this.activePage());
+      this.goodService.cachedPages().push(this.activePage()) ;
+    }
+   console.log(this.goodService.cachedPages());
   }
 
   protected increasePage(){
     this.activePage() > this.baseTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
-    this.goodService.baseTypesPageNumber.set(this.activePage());
+    if (!this.goodService.cachedPages().includes(this.activePage())) {
+      this.goodService.baseTypesPageNumber.set(this.activePage());
+      this.goodService.cachedPages().push(this.activePage()) ;
+    }
+    console.log(this.goodService.cachedPages());
   }
 
   protected EditBase(baseItem: BaseItem) {
@@ -95,7 +107,7 @@ export class BaseTypesComponent {
 
       results= this.goodService.createBaseItem(this.editableItem())
       results.subscribe( (data) => {
-        this.baseTypesList().result.push(data);
+        this.baseTypesList().result[this.activePage()].collectionName.push(data);
         this.disabled.set(false);
       })
 
@@ -113,14 +125,14 @@ export class BaseTypesComponent {
     this.filterTableByString($event.target.value);
   }
   protected filterTableByString(filterValue: string) {
-    this.baseTypesList().result?.forEach( (val,index) => {
+    this.baseTypesList().result[this.activePage()]?.collectionName.forEach( (val,index) => {
       const isMatch =val.description.toLowerCase().includes(filterValue.toLowerCase()) || val.manufacturer.toLowerCase().includes(filterValue.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
 
   protected filterTableById(filterValue: number) {
-    this.baseTypesList().result?.forEach( (val,index) => {
+    this.baseTypesList().result[this.activePage()]?.collectionName.forEach( (val,index) => {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
@@ -131,4 +143,8 @@ export class BaseTypesComponent {
     this.filterTableByString('');
   }
 
+  protected Export() {
+    console.log(this.goodService.cachedPages());
+    console.log(this.baseTypesList());
+  }
 }
