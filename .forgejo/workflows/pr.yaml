@@ -1,4 +1,4 @@
-name: Build
+name: TestPR
 
 on:
   push:
@@ -8,17 +8,20 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   test:
-    name: Build and analyze
+    name: Test and analyze
     runs-on: host
     
     steps:
       - uses: actions/checkout@v4
         with: 
           fetch-depth: 0
+      - run: echo Incoming Branch ${{ github.head_ref }}
+      - run: echo BASE branch ${{ github.base_ref }}    
+      - run: echo PR ID ${{ github.event.number }}
       - run: "sonar \
               -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
               -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-              -Dsonar.pullrequest.key=${{ github.head_ref }} \
-              -Dsonar.pullrequest.branch= ${{ github.head_ref }} \
-              -Dsonar.pullrequest.base=master \
-              -Dsonar.projectKey=tmsweb"  
+              -Dsonar.pullrequest.base=${{ github.base_ref }} \
+              -Dsonar.pullrequest.key=${{ github.event.number }} \
+              -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+              -Dsonar.projectKey=tmsweb"
