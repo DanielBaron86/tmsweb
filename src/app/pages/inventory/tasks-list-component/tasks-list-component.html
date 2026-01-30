@@ -6,15 +6,7 @@
     </div>
     <div class="flex gap-3">
       <app-button variant="outline">
-        <button class="inline-flex items-center justify-center gap-2 rounded-lg transition px-5 py-3.5 text-sm bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300"
-                type="button">
-          <!---->Export
-          <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.667 13.3333V15.4166C16.667 16.1069 16.1074 16.6666 15.417 16.6666H4.58295C3.89259 16.6666 3.33295 16.1069 3.33295 15.4166V13.3333M10.0013 13.3333L10.0013 3.33325M6.14547 9.47942L9.99951 13.331L13.8538 9.47942" stroke="currentColor" strokeLinecap="round"
-                  strokeLinejoin="round" strokeWidth="1.5"></path>
-          </svg>
-          <!---->
-        </button>
+        Export
       </app-button>
       <a class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" href="/add-product" routerlink="/add-product">
         <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -43,19 +35,10 @@
     <table class="w-full">
       <thead>
       <tr class="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-        <th class="lg:w-14 px-5 py-4 text-left whitespace-nowrap">
-          <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
-            <input class="sr-only" type="checkbox"><span class="flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] bg-transparent border-gray-300 dark:border-gray-700"><span
-            class="opacity-0"><svg fill="none" height="12" viewBox="0 0 12 12" width="12"
-                                   xmlns="http://www.w3.org/2000/svg"><path d="M10 3L4.5 8.5L2 6" stroke="white"
-                                                                            strokeLinecap="round" strokeLinejoin="round"
-                                                                            strokeWidth="1.6666"></path></svg></span></span>
-          </label>
-        </th>
         <th class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              Products</p><span class="flex flex-col gap-0.5"><svg class="text-gray-500 dark:text-gray-400" fill="none" height="5" viewBox="0 0 8 5"
+              Task Type</p><span class="flex flex-col gap-0.5"><svg class="text-gray-500 dark:text-gray-400" fill="none" height="5" viewBox="0 0 8 5"
                                                                    width="8"
                                                                    xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -68,7 +51,7 @@
         <th class="cursor-pointer px-5 py-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              Category</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
+              Task Status</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
                                                                    width="8"
                                                                    xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -81,7 +64,7 @@
         <th class="cursor-pointer px-5 py-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              Brand</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
+              Description</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300 dark:text-gray-400/50" fill="none" height="5" viewBox="0 0 8 5"
                                                                 width="8"
                                                                 xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -94,7 +77,7 @@
         <th class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-3">
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              Price</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300" fill="none" height="5" viewBox="0 0 8 5"
+              Created By</p><span class="flex flex-col gap-0.5"><svg class="text-gray-300" fill="none" height="5" viewBox="0 0 8 5"
                                                                 width="8"
                                                                 xmlns="http://www.w3.org/2000/svg"><path
             d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
@@ -104,10 +87,10 @@
             fill="currentColor"></path></svg></span></div>
         </th>
         <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-          Stock
+          Created Date
         </th>
         <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-          Created At
+          Update Date
         </th>
         <th class="px-5 py-4 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
           <div class="relative"><span class="sr-only">Action</span></div>
@@ -115,70 +98,63 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-      <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
-        <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
-          <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
-            <input class="sr-only" type="checkbox"><span class="flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] bg-transparent border-gray-300 dark:border-gray-700"><span
-            class="opacity-0"><svg fill="none" height="12" viewBox="0 0 12 12" width="12"
-                                   xmlns="http://www.w3.org/2000/svg"><path d="M10 3L4.5 8.5L2 6" stroke="white"
-                                                                            strokeLinecap="round" strokeLinejoin="round"
-                                                                            strokeWidth="1.6666"></path></svg></span></span>
-          </label>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <div class="flex items-center gap-3">
-            <div class="h-12 w-12"><img alt="" class="h-12 w-12 rounded-md" src="/images/product/product-03.jpg">
-            </div>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-400">ASUS ROG Gaming Laptop</span></div>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Laptop</p>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <p class="text-sm text-gray-700 dark:text-gray-400">ASUS</p>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <p class="text-sm text-gray-700 dark:text-gray-400">$2,199</p>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap"><span class="text-xs rounded-full px-2 py-0.5 font-medium bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-500">Out of Stock</span>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <p class="text-sm text-gray-700 dark:text-gray-400">01 Dec, 2027</p>
-        </td>
-        <td class="px-5 py-4 whitespace-nowrap">
-          <div class="relative inline-block">
+      @if (tasksService.taskList.hasValue()) {
+        @for(task of tasksService.taskList.value(); track task.id) {
+          <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
+            <td class="px-5 py-4 whitespace-nowrap">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{task.taskType | enumToString:TaskTypes }} </span></div>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{task.taskStatus | enumToString:TaskTypesStatus }}</p>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{task.description}}</p>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{task.userName  }} </p>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{task.createdDate | date}}</p>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{task.updatedDate | date}}</p>
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <div class="relative inline-block" appDropdownDirective>
 
-            <div>
-              <div>
-                <div dropdown-button="">
-                  <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                    <svg class="fill-current" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                      <path clip-rule="evenodd" d="M5.99902 10.245C6.96552 10.245 7.74902 11.0285 7.74902 11.995V12.005C7.74902 12.9715 6.96552 13.755 5.99902 13.755C5.03253 13.755 4.24902 12.9715 4.24902 12.005V11.995C4.24902 11.0285 5.03253 10.245 5.99902 10.245ZM17.999 10.245C18.9655 10.245 19.749 11.0285 19.749 11.995V12.005C19.749 12.9715 18.9655 13.755 17.999 13.755C17.0325 13.755 16.249 12.9715 16.249 12.005V11.995C16.249 11.0285 17.0325 10.245 17.999 10.245ZM13.749 11.995C13.749 11.0285 12.9655 10.245 11.999 10.245C11.0325 10.245 10.249 11.0285 10.249 11.995V12.005C10.249 12.9715 11.0325 13.755 11.999 13.755C12.9655 13.755 13.749 12.9715 13.749 12.005V11.995Z"
-                            fill="" fill-rule="evenodd"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="z-10" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);">
-                <div aria-labelledby="options-menu" aria-orientation="vertical" class="p-2 bg-white border border-gray-200 rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-900 w-40" role="menu" style="display: none;">
-                  <div class="space-y-1">
-                    <div dropdown-content="">
-                      <button class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2">
-                        View More
-                      </button>
-                      <button class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2">
-                        Delete
+                <div>
+                  <div>
+                    <div dropdown-button="">
+                      <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg class="fill-current" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                          <path clip-rule="evenodd" d="M5.99902 10.245C6.96552 10.245 7.74902 11.0285 7.74902 11.995V12.005C7.74902 12.9715 6.96552 13.755 5.99902 13.755C5.03253 13.755 4.24902 12.9715 4.24902 12.005V11.995C4.24902 11.0285 5.03253 10.245 5.99902 10.245ZM17.999 10.245C18.9655 10.245 19.749 11.0285 19.749 11.995V12.005C19.749 12.9715 18.9655 13.755 17.999 13.755C17.0325 13.755 16.249 12.9715 16.249 12.005V11.995C16.249 11.0285 17.0325 10.245 17.999 10.245ZM13.749 11.995C13.749 11.0285 12.9655 10.245 11.999 10.245C11.0325 10.245 10.249 11.0285 10.249 11.995V12.005C10.249 12.9715 11.0325 13.755 11.999 13.755C12.9655 13.755 13.749 12.9715 13.749 12.005V11.995Z"
+                                fill="" fill-rule="evenodd"></path>
+                        </svg>
                       </button>
                     </div>
                   </div>
+                  <div class="z-10" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);">
+                    <div #dropDown aria-labelledby="options-menu" aria-orientation="vertical" class="p-2 bg-white border border-gray-200 rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-900 w-40" role="menu" style="display: none;">
+                      <div class="space-y-1">
+                        <div dropdown-content="">
+                          <button class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2">
+                            View More
+                          </button>
+                          <button class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-          </div>
-        </td>
-      </tr>
-      <!---->
+              </div>
+            </td>
+          </tr>
+        }
+      }
       </tbody>
     </table>
   </div>

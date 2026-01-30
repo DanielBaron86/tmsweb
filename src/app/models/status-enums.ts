@@ -12,3 +12,23 @@ export enum GoodsStatusEnum
   DELETED,
   RESERVED
 }
+
+
+
+
+export enum TaskTypes
+{
+  NONE,
+  PROCUREMENT,
+  TRANSFER,
+
+}
+
+export  enum TaskTypesStatus
+{
+  NONE,
+  PENDING,
+  OPEN,
+  CLOSED,
+  COMPLETE
+}
