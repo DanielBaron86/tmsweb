@@ -8,7 +8,7 @@ import {TaskModels} from '../../models/tasks-models';
   providedIn: 'root',
 })
 export class TasksService {
-  readonly apiUrl = 'https://localhost:7220/api';
+  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
 
 
 
