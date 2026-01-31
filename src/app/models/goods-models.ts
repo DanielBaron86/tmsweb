@@ -13,7 +13,8 @@ export  interface GoodsTypesModel extends BaseModel
   goodModelId:number;
   name:string;
   description:string;
-  goodModelBaseType?:BaseItem;
+  type:string;
+  manufacturer: string
 }
 
 

@@ -152,19 +152,19 @@
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{item.name}}</span></div>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{item.goodModelBaseType?.description}}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{item.type}}</p>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{item.goodModelBaseType?.manufacturer}}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{item.manufacturer}}</p>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
               <p class="text-sm text-gray-700 dark:text-gray-400">{{item.description}}</p>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{item.createdDate}}</p>
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{item.createdDate | date}}</p>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
-              <p class="text-sm text-gray-700 dark:text-gray-400">{{item.updatedDate}}</p>
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{item.updatedDate | date }}</p>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
               <app-button size="sm" variant="outline"> Edit </app-button>

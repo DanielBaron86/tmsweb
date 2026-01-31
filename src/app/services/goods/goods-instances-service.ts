@@ -21,7 +21,7 @@ export default class GoodsInstancesService {
       pageNumber: 1,
       pageSize: 10
     },
-    url: `${this.apiUrl}/v1/goods`,
+    url: `${this.apiUrl}/v1/goods_instance`,
     method: 'GET',
     defaultValue: signal<GoodsModels[]>([])
   }));

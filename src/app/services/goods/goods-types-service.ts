@@ -22,7 +22,7 @@ export default class GoodsTypesService {
       pageNumber: 1,
       pageSize: 10
     },
-    url: `${this.apiUrl}/v1/goods/goodtypes`,
+    url: `${this.apiUrl}/v1/goods_type`,
     method: 'GET',
     defaultValue:  signal<GoodsTypesModel[]>([])
   }));

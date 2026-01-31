@@ -60,7 +60,7 @@ clearCache(){
       pageNumber: this.baseTypesPageNumber(),
       pageSize: this.baseTypesPageSize()
     },
-    url: `${this.apiUrl}/v1/goods/base_goods`,
+    url: `${this.apiUrl}/v1/goods_base`,
     method: 'GET',
     observe: 'response',
     defaultValue: signal<BaseItem[]>([])
@@ -69,7 +69,7 @@ clearCache(){
 
 
   updateBaseItem(baseItem: BaseItem) {
-    return this.http.put<BaseItem>(`https://tmsapi.danielsplaygrounds.com/api/v1/goods/base_goods/${baseItem.id}`, baseItem).pipe(
+    return this.http.put<BaseItem>(`${this.apiUrl}/v1/goods_base/${baseItem.id}`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);
       })
@@ -77,7 +77,7 @@ clearCache(){
   }
 
   createBaseItem(baseItem: BaseItem) {
-    return this.http.post<BaseItem>(`https://tmsapi.danielsplaygrounds.com/api/v1/goods/base_goods`, baseItem).pipe(
+    return this.http.post<BaseItem>(`${this.apiUrl}/v1/goods_base`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);
       })

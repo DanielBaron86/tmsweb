@@ -9,12 +9,14 @@ import {
 import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-good-types',
   imports: [
     ButtonComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DatePipe
   ],
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
