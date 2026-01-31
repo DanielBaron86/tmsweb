@@ -1,6 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {GoodsModels, GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
+import {ConfigService} from '../config/config-service';
 
 
 @Injectable({
@@ -9,7 +10,8 @@ import {HttpClient, httpResource} from '@angular/common/http';
 export default class GoodsInstancesService {
 
   http = inject(HttpClient);
-  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
+  readonly config = inject(ConfigService);
+  readonly apiUrl = this.config.apiUrl;
 
   get itemList(){
     return this.#itemList.asReadonly()

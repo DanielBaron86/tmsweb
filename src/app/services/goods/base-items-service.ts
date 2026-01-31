@@ -4,13 +4,16 @@ import {BaseItem} from '../../models/goods-models';
 import {CollectionName, paginatedResult} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
+import {ConfigService} from '../config/config-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export default class BaseItemsService {
   http = inject(HttpClient);
-  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
+
+  readonly config = inject(ConfigService);
+  readonly apiUrl = this.config.apiUrl;
 
   get baseTypes(){
     return this.#baseTypes;

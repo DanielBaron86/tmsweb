@@ -5,6 +5,7 @@ import {DatePipe} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {TaskTypes, TaskTypesStatus} from '../../../models/status-enums';
 import {DropdownDirective} from '../../../directives/dropdown-directive';
+import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 
 @Component({
   selector: 'app-tasks-list-component',
@@ -12,7 +13,8 @@ import {DropdownDirective} from '../../../directives/dropdown-directive';
     ButtonComponent,
     DatePipe,
     EnumToStringPipe,
-    DropdownDirective
+    DropdownDirective,
+    SpinnerComponent
   ],
   templateUrl: './tasks-list-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

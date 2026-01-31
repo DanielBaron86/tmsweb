@@ -162,10 +162,12 @@
                 <p class="text-sm text-gray-700 dark:text-gray-400">{{baseItem.updatedDate | date}}</p>
               </td>
               <td class="px-5 py-4 whitespace-nowrap">
-                <app-button size="sm" variant="outline" [disabled]="disabled()" (btnClick)="EditBase(baseItem)" ) > Edit </app-button>
+                <app-button size="sm" variant="outline" [disabled]="disabled()" (btnClick)="EditBase(baseItem)"  > Edit </app-button>
               </td>
             </tr>
           }
+        } @else {
+            <app-spinner-component></app-spinner-component>
         }
 
       <!---->

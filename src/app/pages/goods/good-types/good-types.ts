@@ -8,12 +8,14 @@ import {
 } from '@angular/core';
 import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
+import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 
 @Component({
   selector: 'app-good-types',
-    imports: [
-        ButtonComponent
-    ],
+  imports: [
+    ButtonComponent,
+    SpinnerComponent
+  ],
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

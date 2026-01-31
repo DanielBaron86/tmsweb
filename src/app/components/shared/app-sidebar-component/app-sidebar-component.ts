@@ -32,10 +32,6 @@ export class AppSidebarComponent {
     const key = `${section}-${index}`;
     const el = document.getElementById(key);
 
-    if (el) {
-      console.log('Element:', el.scrollHeight);
-    }
-
     if (this.openSubmenu === key) {
       this.openSubmenu = null;
       this.subMenuHeights[key] = 0;

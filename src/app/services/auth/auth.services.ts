@@ -4,18 +4,17 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import {LoginResponse, UserResource} from '../../models/user-models';
 import { throwError } from 'rxjs';
+import {ConfigService} from '../config/config-service';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServices {
-
-
-  private http = inject(HttpClient);
-  private router = inject(Router);
-
-  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
+  readonly config = inject(ConfigService);
+  readonly apiUrl = this.config.apiUrl;
+  readonly http = inject(HttpClient);
+  readonly router = inject(Router);
   readonly #tokenString = signal<string | null>(null);
   readonly #reshTokenString = signal<string | null>(null);
   readonly #userProfile = signal<UserResource | null>(null);

@@ -13,12 +13,13 @@ import {InputFieldComponent} from '../../../components/form/input/input-field-co
 
 import {HttpClient} from '@angular/common/http';
 import BaseItemsService from '../../../services/goods/base-items-service';
+import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 
 
 
 @Component({
   selector: 'app-base-types',
-  imports: [ButtonComponent, DatePipe, InputFieldComponent],
+  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent],
   templateUrl: './base-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

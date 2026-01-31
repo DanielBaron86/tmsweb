@@ -31,7 +31,6 @@ export class ConfigService {
   }
 
   get apiUrl() {
-    console.log('Config loaded', this.config , 'Is Dev ' ,isDevMode());
     return  this.config.apiUrl;
   }
 

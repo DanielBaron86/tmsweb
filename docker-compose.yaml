@@ -4,9 +4,10 @@ services:
     restart: unless-stopped
     container_name: tmsweb
     volumes:
-      - /home/daniel/devops/tmp:/var/log/nginx
+      - /logs/:/var/log/nginx
     ports:
       - 8185:80
     environment:
-      - API_URL=https://tmsapi.danielsplaygrounds.com/api
+      - API_URL=https://api.url.com/api
+      - APP_STR= AppTitle
     tty: true

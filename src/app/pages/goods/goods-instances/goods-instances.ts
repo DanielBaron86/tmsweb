@@ -5,11 +5,12 @@ import {DatePipe} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {GoodsStatusEnum} from '../../../models/status-enums';
 import GoodsInstancesService from '../../../services/goods/goods-instances-service';
+import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 
 @Component({
   selector: 'app-goods-instances',
   imports: [
-    ButtonComponent,DatePipe,EnumToStringPipe
+    ButtonComponent, DatePipe, EnumToStringPipe, SpinnerComponent
   ],
   templateUrl: './goods-instances.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
