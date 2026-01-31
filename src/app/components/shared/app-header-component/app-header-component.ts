@@ -11,7 +11,7 @@ import { UserDropdownComponent } from '../user-dropdown-component/user-dropdown-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHeaderComponent {
-  
+
   readonly sidebarService = inject(SidebarService);
   isApplicationMenuOpen = signal(false);
 

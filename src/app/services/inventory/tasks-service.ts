@@ -1,6 +1,7 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {httpResource} from '@angular/common/http';
 import {TaskModels} from '../../models/tasks-models';
+import {ConfigService} from '../config/config-service';
 
 
 
@@ -8,7 +9,8 @@ import {TaskModels} from '../../models/tasks-models';
   providedIn: 'root',
 })
 export class TasksService {
-  readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api';
+  config = inject(ConfigService);
+  readonly apiUrl = this.config.apiUrl;
 
 
 

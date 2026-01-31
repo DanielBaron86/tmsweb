@@ -17,10 +17,7 @@ import {DropdownDirective} from '../../../directives/dropdown-directive';
   templateUrl: './tasks-list-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksListComponent implements OnInit{
-  ngOnInit(): void {
-      console.log('TasksListComponent initialized',this.tasksService.taskList.value());
-  }
+export class TasksListComponent{
   tasksService = inject(TasksService);
   protected readonly TaskTypes = TaskTypes;
   protected readonly TaskTypesStatus = TaskTypesStatus;
