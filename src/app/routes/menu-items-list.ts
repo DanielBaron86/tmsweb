@@ -13,6 +13,8 @@ export  const navItemsList: NavItem[] = [
       name: "Inventory Tasks",
       subItems: [
         { name: "Tasks List", path: "/main/itasks" },
+        { name: "Add Procurement", path: "/main/add_procurement" },
+        { name: "Add Transfer", path: "/main/add_transfer" },
       ],
     },
     {
