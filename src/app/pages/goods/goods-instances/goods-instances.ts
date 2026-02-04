@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject, linkedSignal, viewChildren} from '@angular/core';
-import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
@@ -32,7 +31,7 @@ export class GoodsInstances {
 
   protected onSearchInput($event: any) {
     this.goodsListInstances()?.forEach( (val,index) => {
-      const isMatch =val.goodsTypes?.name.toLowerCase().includes($event.target.value.toLowerCase()) || val.serialNumber.toLowerCase().includes($event.target.value.toLowerCase())
+      const isMatch =val.name.toLowerCase().includes($event.target.value.toLowerCase()) || val.serialNumber.toLowerCase().includes($event.target.value.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }

@@ -10,13 +10,16 @@ import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 import {DatePipe} from '@angular/common';
+import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
+import {InventoryKey} from '../../../models/status-enums';
 
 @Component({
   selector: 'app-good-types',
   imports: [
     ButtonComponent,
     SpinnerComponent,
-    DatePipe
+    DatePipe,
+    EnumToStringPipe
   ],
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +32,7 @@ export class GoodTypes {
     source: () => this.goodService.goodstypes.value(),
     computation: () => {
       if (this.goodService.goodstypes.hasValue()) {
+        console.log(this.goodService.goodstypes.value());
         return this.goodService.goodstypes.value();
       } else {
         return [];
@@ -43,4 +47,6 @@ export class GoodTypes {
     })
 
   }
+
+  protected readonly InventoryKey = InventoryKey;
 }

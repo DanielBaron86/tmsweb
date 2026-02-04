@@ -10,7 +10,6 @@ import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner
 @Component({
   selector: 'app-tasks-list-component',
   imports: [
-    ButtonComponent,
     DatePipe,
     EnumToStringPipe,
     DropdownDirective,

@@ -32,3 +32,8 @@ export  enum TaskTypesStatus
   CLOSED,
   COMPLETE
 }
+
+export enum InventoryKey {
+  Quantity,
+  Serial
+}
