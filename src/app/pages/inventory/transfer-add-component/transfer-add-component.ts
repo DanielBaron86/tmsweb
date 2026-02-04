@@ -1,12 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {AuthServices} from '../../../services/auth/auth.services';
+import GoodsTypesService from '../../../services/goods/goods-types-service';
 
 @Component({
   selector: 'app-transfer-add-component',
   imports: [],
   templateUrl: './transfer-add-component.html',
-  styleUrl: './transfer-add-component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferAddComponent {
+
+  readonly auth = inject(AuthServices)
+
+  readonly userProfile = this.auth.userProfile();
+
+
 
 }

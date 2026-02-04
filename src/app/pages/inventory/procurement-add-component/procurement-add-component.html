@@ -1,1 +1,76 @@
-<p>procurement-add-component works!</p>
+<div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
+  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+    <div class="space-y-6">
+      <div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
+        <div class="px-6 py-5">
+          <h3 class="text-base font-medium text-gray-800 dark:text-white/90"> Items added to procurement form for location :  {{selectedLocation().address}} - {{selectedLocation().description}} </h3>
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div class="col-span-2">
+            <div>
+              <app-label for="taskDescription">Task Description <span class="text-error-500">*</span></app-label>
+              <app-input-field
+                type="text"
+                placeholder="Gett some items"
+                name="taskDescription"
+                class="form-input"
+                required
+                id="taskDescription"
+                [(value)]="taskDescription"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+          <div class="space-y-6">
+            <form novalidate="" class="ng-untouched ng-pristine ng-valid">
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="col-span-full">
+                  <table class="min-w-full bg-white shadow-md rounded-xl">
+                    <thead>
+                    <tr class="text-gray-400">
+                      <th class="  text-left">Good Type Id</th>
+                      <th class="py-3 px-4 text-left">Good Type</th>
+                      <th class="py-3 px-4 text-left">Location</th>
+                      <th class="py-3 px-4 text-left">Quantity</th>
+                      <th class="py-3 px-4 text-left">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-blue-gray-900">
+                      @for (item of itemsTobeAdded(); track $index ){
+                        <tr class="border-b border-blue-gray-200">
+                          <td class="py-3 px-4">{{ item.goodTypeId }}</td>
+                          <td class="py-3 px-4">{{ item.goodType }}</td>
+                          <td class="py-3 px-4">{{ item.location }}</td>
+                          <td class="py-3 px-4">{{ item.quantity }}</td>
+                          <td class="py-3 px-4">
+                            <button (click)="RemoveItem($event,item)" class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-full py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none">Remove</button>
+                          </td>
+                        </tr>
+                      }
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-span-full">
+                    <button (click)="SaveTask()" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg transition w-full px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
+                      Submit
+                    </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr class="my-6">
+      <app-location-search-component (locationEmitter)="ReceiveLocation($event)" ></app-location-search-component>
+      <hr class="my-6">
+      @if(itemList.hasValue()) {
+        <app-good-types-search-component
+          [listItems]="itemList.value()"
+          [location]="0"
+          (selectItem)="AddItemToList($event)" ></app-good-types-search-component>
+      }
+    </div>
+  </div>
+</div>

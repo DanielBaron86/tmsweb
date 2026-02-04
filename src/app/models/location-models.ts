@@ -9,5 +9,7 @@ export interface LocationTypesModel extends BaseModel{
 export interface LocationUnitModel extends BaseModel{
   id: number;
   locationTypeID: number;
+  address: string;
   description: string;
+  locationTypesEntity?: LocationTypesModel | null;
 }

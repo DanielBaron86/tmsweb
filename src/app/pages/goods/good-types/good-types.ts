@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, contentChildren,
+  Component,
   ElementRef,
   inject,
   linkedSignal,

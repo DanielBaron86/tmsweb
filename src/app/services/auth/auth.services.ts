@@ -24,6 +24,10 @@ export class AuthServices {
     return this.#tokenString.asReadonly()
   }
 
+  get userProfile() {
+    return this.#userProfile.asReadonly()
+  }
+
   isAuthenticated = computed(() => this.#tokenString() !== null);
 
   logout() {
@@ -55,7 +59,7 @@ export class AuthServices {
       ).subscribe( (tokenString) => {
         const response = tokenString as LoginResponse;
         this.setLoginResponce(response)
-        this.router.navigate(['/main']);
+        this.router.navigate(['/main/add_procurement']);
       });
     }
 
