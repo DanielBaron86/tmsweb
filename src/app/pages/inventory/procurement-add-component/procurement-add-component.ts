@@ -10,6 +10,7 @@ import {LocationUnitModel} from '../../../models/location-models';
 import {FormsModule} from '@angular/forms';
 import {InputFieldComponent} from '../../../components/form/input/input-field-component/input-field-component';
 import {LabelComponent} from '../../../components/form/label/label-component';
+import {TaskServices} from '../../../services/tasks/task-services';
 
 @Component({
   selector: 'app-procurement-add-component',
@@ -24,8 +25,10 @@ import {LabelComponent} from '../../../components/form/label/label-component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProcurementAddComponent {
+
   readonly auth = inject(AuthServices)
   readonly goodTypesService = inject(GoodsTypesService)
+  readonly taskServices = inject(TaskServices)
 
    obj : LocationUnitModel = {
     id: 0,
@@ -35,7 +38,7 @@ export class ProcurementAddComponent {
      locationTypesEntity: null
   }
 
-  readonly userProfile = computed(() => this.auth.userProfile());
+  readonly userProfile = this.auth.userProfile()
  itemsTobeAdded = signal<GoodsOrder[]>([])
   taskDescription ='';
 
@@ -64,6 +67,14 @@ export class ProcurementAddComponent {
   }
 
   protected SaveTask() {
-
+    const obj : CreateProcurement ={
+      creatorId: this.userProfile.id,
+      userName: this.userProfile.username,
+      description: this.taskDescription,
+      goodsOrder: this.itemsTobeAdded()
+    }
+    this.taskServices.createProcurementTask(obj).subscribe( (data) => {
+      console.log(data);
+    })
   }
 }

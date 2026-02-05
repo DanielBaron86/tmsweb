@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import {LoginResponse, UserResource} from '../../models/user-models';
@@ -17,7 +17,16 @@ export class AuthServices {
   readonly router = inject(Router);
   readonly #tokenString = signal<string | null>(null);
   readonly #reshTokenString = signal<string | null>(null);
-  readonly #userProfile = signal<UserResource | null>(null);
+  readonly #userProfile = signal<UserResource>({
+    email: '',
+    firstName: '',
+    lastName: '',
+    userTypeId: 0,
+    username: '',
+    id: 0,
+    createdDate: null,
+    updatedDate: null,
+  });
 
   keepLoggeddIn= false;
   get tokenString() {

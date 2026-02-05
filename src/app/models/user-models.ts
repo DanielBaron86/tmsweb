@@ -1,12 +1,12 @@
 export interface UserResource {
     id: number;
-    Username: string;
-    Email: string;
-    FirstName: string;
-    LastName: string;
-    UserTypeId: number;
-    CreatedDate: Date | null;
-    UpdatedDate: Date | null;
+    username: string;
+     email: string;
+    firstName: string;
+    lastName: string;
+    userTypeId: number;
+    createdDate: Date | null;
+    updatedDate: Date | null;
 }
 
 export interface LoginResponse{
