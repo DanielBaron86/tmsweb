@@ -1,4 +1,4 @@
-import {BaseItem} from './goods-models';
+import {BaseItem, GoodsTypesModel} from './goods-models';
 
 export  interface  BaseModel {
   createdDate?: Date | null;
@@ -10,9 +10,14 @@ export interface paginatedResult<T> {
   paginationHeader: PaginationHeader;
 }
 
-export interface CollectionName {
+export interface BaseCollectionName {
   pageNumber: number;
   collectionName: BaseItem[];
+}
+
+export interface TypesCollectionName {
+  pageNumber: number;
+  collectionName: GoodsTypesModel[];
 }
 
 export interface PaginationHeader {

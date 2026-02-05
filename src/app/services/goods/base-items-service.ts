@@ -1,7 +1,7 @@
 import {inject, Injectable, linkedSignal, signal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {BaseItem} from '../../models/goods-models';
-import {CollectionName, paginatedResult} from '../../models/base-model';
+import {BaseCollectionName, paginatedResult} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {ConfigService} from '../config/config-service';
@@ -19,7 +19,7 @@ export default class BaseItemsService {
     return this.#baseTypes;
   }
 
-#cahedItems : CollectionName[] =[];
+#cahedItems : BaseCollectionName[] =[];
 clearCache(){
   this.#cahedItems=[];
 }
@@ -31,14 +31,14 @@ clearCache(){
         if (this.#baseTypes.hasValue()) {
           const headers = JSON.parse(this.#baseTypes.headers()?.get('X-Pagination') ?? '{}');
           this.#cahedItems[this.baseTypesPageNumber()]={pageNumber : this.baseTypesPageNumber(),collectionName : this.#baseTypes.value()}
-          const returnedObject: paginatedResult<CollectionName[]> = {
+          const returnedObject: paginatedResult<BaseCollectionName[]> = {
             result:  this.#cahedItems,
             paginationHeader: headers
           }
 
           return returnedObject;
         } else {
-          const returnedObject: paginatedResult<CollectionName[]> = {
+          const returnedObject: paginatedResult<BaseCollectionName[]> = {
             result: [{pageNumber : 0,collectionName : []}],
             paginationHeader: {
               TotalItemCount: 0,

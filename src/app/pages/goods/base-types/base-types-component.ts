@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component, computed, effect,
   ElementRef,
-  inject,
+  inject, linkedSignal,
   signal,
   viewChildren
 } from '@angular/core';
@@ -14,12 +14,13 @@ import {InputFieldComponent} from '../../../components/form/input/input-field-co
 import {HttpClient} from '@angular/common/http';
 import BaseItemsService from '../../../services/goods/base-items-service';
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
+import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
 
 
 
 @Component({
   selector: 'app-base-types',
-  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent],
+  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
   templateUrl: './base-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,19 +33,10 @@ export class BaseTypesComponent {
       this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
     } )
   }
-
-
-
-
-
-  operation =signal<string>('edit');
-
-
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
 
   baseTypesList =this.goodService.getbaseTypesList();
-
-
+  operation =signal<string>('edit');
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
   activePage = signal<number>(1);
@@ -61,6 +53,7 @@ export class BaseTypesComponent {
   })
 
 
+
   protected changePage(pageNumber: number) {
     this.activePage.set(pageNumber);
     if (!this.goodService.cachedPages().includes(this.activePage())) {
@@ -71,13 +64,11 @@ export class BaseTypesComponent {
   }
 
   protected decreasePage() {
-
     this.activePage() < 2 ? this.activePage.set(this.baseTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
     if (!this.goodService.cachedPages().includes(this.activePage())) {
       this.goodService.baseTypesPageNumber.set(this.activePage());
       this.goodService.cachedPages().push(this.activePage()) ;
     }
-   console.log(this.goodService.cachedPages());
   }
 
   protected increasePage(){
@@ -86,7 +77,7 @@ export class BaseTypesComponent {
       this.goodService.baseTypesPageNumber.set(this.activePage());
       this.goodService.cachedPages().push(this.activePage()) ;
     }
-    console.log(this.goodService.cachedPages());
+
   }
 
   protected EditBase(baseItem: BaseItem) {
