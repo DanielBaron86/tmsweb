@@ -147,7 +147,7 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-        @if (goodService.baseTypes.hasValue()){
+        @if (baseItemsService.baseTypes.hasValue()){
           @for (baseItem of baseTypesList().result[this.activePage()].collectionName; track baseItem.id) {
             <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #baseList>
               <td class="lg:w-14 px-5 py-4 whitespace-nowrap">

@@ -29,8 +29,8 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
 export class GoodTypes {
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
 
-  goodService = inject(GoodsTypesService);
-  goodTypesList = this.goodService.getTypesList()
+  goodsTypesService = inject(GoodsTypesService);
+  goodTypesList = this.goodsTypesService.getTypesList()
   activePage = signal<number>(1);
   pageNumbers = computed(() =>
     Array.from({ length: this.goodTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)
@@ -57,14 +57,27 @@ export class GoodTypes {
   protected readonly InventoryKey = InventoryKey;
 
   protected decreasePage() {
+    this.activePage() < 2 ? this.activePage.set(this.goodTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
+    if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
+      this.goodsTypesService.typesPageSize.set(this.activePage());
+      this.goodsTypesService.cachedPages().push(this.activePage()) ;
+    }
 
   }
 
   protected increasePage() {
-
+    this.activePage() > this.goodTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
+    if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
+      this.goodsTypesService.typesPageSize.set(this.activePage());
+      this.goodsTypesService.cachedPages().push(this.activePage()) ;
+    }
   }
 
-  protected changePage($event: number) {
-
+  protected changePage(pageNumber: number) {
+    this.activePage.set(pageNumber);
+    if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
+      this.goodsTypesService.cachedPages().push(this.activePage()) ;
+      this.goodsTypesService.typesPageNumber.set(pageNumber);
+    }
   }
 }

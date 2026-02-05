@@ -25,7 +25,7 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-  goodService = inject(BaseItemsService);
+  baseItemsService = inject(BaseItemsService);
   location = inject(LocationStrategy);
   http = inject(HttpClient)
   constructor() {
@@ -35,7 +35,7 @@ export class BaseTypesComponent {
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
 
-  baseTypesList =this.goodService.getbaseTypesList();
+  baseTypesList =this.baseItemsService.getbaseTypesList();
   operation =signal<string>('edit');
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
@@ -56,26 +56,26 @@ export class BaseTypesComponent {
 
   protected changePage(pageNumber: number) {
     this.activePage.set(pageNumber);
-    if (!this.goodService.cachedPages().includes(this.activePage())) {
-      this.goodService.cachedPages().push(this.activePage()) ;
-      this.goodService.baseTypesPageNumber.set(pageNumber);
+    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
+      this.baseItemsService.cachedPages().push(this.activePage()) ;
+      this.baseItemsService.baseTypesPageNumber.set(pageNumber);
     }
 
   }
 
   protected decreasePage() {
     this.activePage() < 2 ? this.activePage.set(this.baseTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
-    if (!this.goodService.cachedPages().includes(this.activePage())) {
-      this.goodService.baseTypesPageNumber.set(this.activePage());
-      this.goodService.cachedPages().push(this.activePage()) ;
+    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
+      this.baseItemsService.baseTypesPageNumber.set(this.activePage());
+      this.baseItemsService.cachedPages().push(this.activePage()) ;
     }
   }
 
   protected increasePage(){
     this.activePage() > this.baseTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
-    if (!this.goodService.cachedPages().includes(this.activePage())) {
-      this.goodService.baseTypesPageNumber.set(this.activePage());
-      this.goodService.cachedPages().push(this.activePage()) ;
+    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
+      this.baseItemsService.baseTypesPageNumber.set(this.activePage());
+      this.baseItemsService.cachedPages().push(this.activePage()) ;
     }
 
   }
@@ -97,14 +97,14 @@ export class BaseTypesComponent {
     let results;
     if(this.operation() == 'new'){
 
-      results= this.goodService.createBaseItem(this.editableItem())
+      results= this.baseItemsService.createBaseItem(this.editableItem())
       results.subscribe( (data) => {
         this.baseTypesList().result[this.activePage()].collectionName.push(data);
         this.disabled.set(false);
       })
 
     }else{
-      results= this.goodService.updateBaseItem(this.editableItem())
+      results= this.baseItemsService.updateBaseItem(this.editableItem())
       results.subscribe( (data) => {
         this.disabled.set(false);
       })
@@ -136,7 +136,7 @@ export class BaseTypesComponent {
   }
 
   protected Export() {
-    console.log(this.goodService.cachedPages());
+    console.log(this.baseItemsService.cachedPages());
     console.log(this.baseTypesList());
   }
 }

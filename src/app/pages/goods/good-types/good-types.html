@@ -1,22 +1,3 @@
-<!--
-
-<div>
-  <div class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
-    <div class="mx-auto w-full text-center">
-      @if (goodService.goodstypes.hasValue()){
-        @for (goodType of goodService.goodstypes.value(); track goodType.id ) {
-          <li>{{ goodType.name }} {{ goodType.description }}</li>
-        }
-      }
-
-      @if (goodService.goodstypes.isLoading()){
-        <p>Loading</p>
-      }
-    </div>
-  </div>
-</div>
--->
-
 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
   <div class="flex flex-col justify-between gap-5 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center dark:border-gray-800">
     <div>
@@ -159,7 +140,7 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-      @if(goodService.goodstypes.hasValue()){
+      @if(goodsTypesService.goodstypes.hasValue()){
         @for (item of goodTypesList().result[this.activePage()].collectionName ; track  item.id){
           <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #goodTypeList>
             <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
