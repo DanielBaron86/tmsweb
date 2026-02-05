@@ -11,6 +11,7 @@
         [class]="inputClasses"
         [value]="value()"
         (input)="onInputEntered($event)"
+        [readonly]="inputReadonly()"
       />
 
       @if (hint()) {

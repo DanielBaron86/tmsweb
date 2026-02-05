@@ -1,67 +1,77 @@
 <div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
+  <div class="px-6 py-5">
+    <h3 class="text-base font-medium text-gray-800 dark:text-white/90"> Items added to procurement form for location :  {{selectedLocation().address}}  {{selectedLocation().description}} </h3>
+  </div>
   <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
     <div class="space-y-6">
-      <div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
-        <div class="px-6 py-5">
-          <h3 class="text-base font-medium text-gray-800 dark:text-white/90"> Items added to procurement form for location :  {{selectedLocation().address}} - {{selectedLocation().description}} </h3>
-        </div>
+      <form>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div class="col-span-2">
+          <div>
+            <app-label>Task Desciption</app-label>
+            <app-input-field [(value)]="taskDescription" id="1" name="taskDescription" type="text" placeholder="Task Description">
+            </app-input-field>
+          </div>
+        </div>
+        <hr class="my-6">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
+          <div>
+            <app-label>Good Type Id</app-label>
+          </div>
+          <div>
+            <app-label>	Good Type</app-label>
+          </div>
+          <div>
+            <app-label>Location</app-label>
+          </div>
+          <div>
+            <app-label>Quantity</app-label>
+          </div>
+          <div>
+          </div>
+        </div>
+        @for (item of itemsTobeAdded(); track $index ){
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
             <div>
-              <app-label for="taskDescription">Task Description <span class="text-error-500">*</span></app-label>
-              <app-input-field
-                type="text"
-                placeholder="Gett some items"
-                name="taskDescription"
-                class="form-input"
-                required
-                id="taskDescription"
-                [(value)]="taskDescription"
-              />
+              <app-input-field [inputReadonly]="true"  value="{{item.goodTypeId}}" id="1" name="goodId" type="text" placeholder="Good Type Id">
+              </app-input-field>
+            </div>
+            <div>
+              <app-input-field [inputReadonly]="true" value="{{item.goodType}}" id="2" name="goodType" type="text" placeholder="Good Type">
+              </app-input-field>
+            </div>
+            <div>
+              <app-input-field [inputReadonly]="true" value="{{item.location}}"  id="3" name="location" type="text" placeholder="Location">
+              </app-input-field>
+            </div>
+            <div>
+              <app-input-field [(value)]="item.quantity" id="3" name="quantity" type="number" min="1" placeholder="Quantity">
+              </app-input-field>
+            </div>
+            <div>
+              <button  (click)="RemoveItem($event,item)" class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-full py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none">Remove</button>
+            </div>
+          </div>
+          <hr class="my-2">
+        }
+
+        <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+          <div class="space-y-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-1">
+              <div class="col-span-full">
+                <button (click)="SaveTask()"  type="submit" class="inline-flex items-center justify-center gap-2 rounded-lg transition w-full px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300"><!----> Create Task <svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-5"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.98481 2.44399C3.11333 1.57147 1.15325 3.46979 1.96543 5.36824L3.82086 9.70527C3.90146 9.89367 3.90146 10.1069 3.82086 10.2953L1.96543 14.6323C1.15326 16.5307 3.11332 18.4291 4.98481 17.5565L16.8184 12.0395C18.5508 11.2319 18.5508 8.76865 16.8184 7.961L4.98481 2.44399ZM3.34453 4.77824C3.0738 4.14543 3.72716 3.51266 4.35099 3.80349L16.1846 9.32051C16.762 9.58973 16.762 10.4108 16.1846 10.68L4.35098 16.197C3.72716 16.4879 3.0738 15.8551 3.34453 15.2223L5.19996 10.8853C5.21944 10.8397 5.23735 10.7937 5.2537 10.7473L9.11784 10.7473C9.53206 10.7473 9.86784 10.4115 9.86784 9.99726C9.86784 9.58304 9.53206 9.24726 9.11784 9.24726L5.25157 9.24726C5.2358 9.20287 5.2186 9.15885 5.19996 9.11528L3.34453 4.77824Z" fill="currentColor"></path></svg><!----></button>
+              </div>
             </div>
           </div>
         </div>
-        <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
-          <div class="space-y-6">
-            <form novalidate="" class="ng-untouched ng-pristine ng-valid">
-              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div class="col-span-full">
-                  <table class="min-w-full bg-white shadow-md rounded-xl">
-                    <thead>
-                    <tr class="text-gray-400">
-                      <th class="  text-left">Good Type Id</th>
-                      <th class="py-3 px-4 text-left">Good Type</th>
-                      <th class="py-3 px-4 text-left">Location</th>
-                      <th class="py-3 px-4 text-left">Quantity</th>
-                      <th class="py-3 px-4 text-left">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-blue-gray-900">
-                      @for (item of itemsTobeAdded(); track $index ){
-                        <tr class="border-b border-blue-gray-200">
-                          <td class="py-3 px-4">{{ item.goodTypeId }}</td>
-                          <td class="py-3 px-4">{{ item.goodType }}</td>
-                          <td class="py-3 px-4">{{ item.location }}</td>
-                          <td class="py-3 px-4">{{ item.quantity }}</td>
-                          <td class="py-3 px-4">
-                            <button (click)="RemoveItem($event,item)" class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-full py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none">Remove</button>
-                          </td>
-                        </tr>
-                      }
 
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-span-full">
-                    <button (click)="SaveTask()" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg transition w-full px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">
-                      Submit
-                    </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
+  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+    <div class="space-y-6">
       <hr class="my-6">
       <app-location-search-component (locationEmitter)="ReceiveLocation($event)" ></app-location-search-component>
       <hr class="my-6">

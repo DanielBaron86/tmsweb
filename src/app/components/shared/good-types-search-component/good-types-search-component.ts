@@ -29,16 +29,10 @@ export class GoodTypesSearchComponent {
 
   listItems = input<GoodsTypesModel[]>();
  location = input<number>(0);
-  selectItem = output<GoodsOrder>();
+  selectItem = output<GoodsTypesModel>();
 
-  protected EmitItem(item: GoodsTypesModel, value: string) {
-    if (value === '') {return;}
-  let obj : GoodsOrder = {
-    goodTypeId: item.id,
-    goodType: item.name,
-    location: this.location(),
-    quantity: parseInt(value)
-  }
-    this.selectItem.emit( obj );
+  protected EmitItem(item: GoodsTypesModel) {
+    if (!item) {return;}
+    this.selectItem.emit( item );
   }
 }

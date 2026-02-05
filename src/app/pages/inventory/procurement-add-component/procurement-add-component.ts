@@ -10,8 +10,8 @@ import {LocationUnitModel} from '../../../models/location-models';
 import {FormsModule} from '@angular/forms';
 import {InputFieldComponent} from '../../../components/form/input/input-field-component/input-field-component';
 import {LabelComponent} from '../../../components/form/label/label-component';
-import {TaskServices} from '../../../services/tasks/task-services';
-
+import {GoodsTypesModel} from '../../../models/goods-models';
+import {InventoryService} from '../../../services/inventory/inventory.service';
 @Component({
   selector: 'app-procurement-add-component',
   imports: [
@@ -19,7 +19,7 @@ import {TaskServices} from '../../../services/tasks/task-services';
     LocationSearchComponent,
     FormsModule,
     InputFieldComponent,
-    LabelComponent
+    LabelComponent,
   ],
   templateUrl: './procurement-add-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,28 +28,33 @@ export class ProcurementAddComponent {
 
   readonly auth = inject(AuthServices)
   readonly goodTypesService = inject(GoodsTypesService)
-  readonly taskServices = inject(TaskServices)
+  readonly inventoryService = inject(InventoryService)
+  readonly userProfile = this.auth.userProfile()
+  itemList = this.goodTypesService.goodstypes;
+ itemsTobeAdded = signal<GoodsOrder[]>([])
+ taskDescription = signal('')
 
-   obj : LocationUnitModel = {
+
+
+  selectedLocation = signal<LocationUnitModel>({
     id: 0,
     locationTypeID: 0,
     address: '',
     description: '',
-     locationTypesEntity: null
-  }
-
-  readonly userProfile = this.auth.userProfile()
- itemsTobeAdded = signal<GoodsOrder[]>([])
-  taskDescription ='';
-
-  itemList = this.goodTypesService.goodstypes;
-  selectedLocation = signal<LocationUnitModel>(this.obj);
-  protected AddItemToList($event: GoodsOrder) {
-  if (this.itemsTobeAdded().find( (item) => item.goodTypeId === $event.goodTypeId)){
+    locationTypesEntity: null
+  });
+  protected AddItemToList($event: GoodsTypesModel) {
+    const itemToBeAdded: GoodsOrder = {
+      goodTypeId: $event.id,
+      goodType: $event.name,
+      location: this.selectedLocation()?.id,
+      quantity: 1
+    }
+  if (this.itemsTobeAdded().find( (item) => item.goodTypeId === itemToBeAdded.goodTypeId)){
     return;
   }else{
-    $event.location = this.selectedLocation()?.id;
-    this.itemsTobeAdded.update( (items) => [...items, $event])
+    itemToBeAdded.location = this.selectedLocation()?.id;
+    this.itemsTobeAdded.update( (items) => [...items, itemToBeAdded])
   }
 
   }
@@ -67,13 +72,14 @@ export class ProcurementAddComponent {
   }
 
   protected SaveTask() {
-    const obj : CreateProcurement ={
+    const createProcurement : CreateProcurement ={
       creatorId: this.userProfile.id,
       userName: this.userProfile.username,
-      description: this.taskDescription,
+      description: this.taskDescription(),
       goodsOrder: this.itemsTobeAdded()
     }
-    this.taskServices.createProcurementTask(obj).subscribe( (data) => {
+    console.log(createProcurement);
+    this.inventoryService.createProcurementTask(createProcurement).subscribe( (data) => {
       console.log(data);
     })
   }

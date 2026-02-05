@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
-import {TasksService} from '../../../services/inventory/tasks-service';
+import {InventoryService} from '../../../services/inventory/inventory.service';
 import {DatePipe} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {TaskTypes, TaskTypesStatus} from '../../../models/status-enums';
@@ -22,7 +22,7 @@ import {Router} from '@angular/router';
 })
 export class TasksListComponent{
   router = inject(Router);
-  tasksService = inject(TasksService);
+  tasksService = inject(InventoryService);
   protected readonly TaskTypes = TaskTypes;
   protected readonly TaskTypesStatus = TaskTypesStatus;
 

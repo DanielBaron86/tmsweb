@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import {readonly} from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-field',
@@ -10,7 +11,7 @@ import { FormsModule} from '@angular/forms';
 export class InputFieldComponent {
 
 
-  value = model('');
+  value = model<number | string>('');
   type = model('');
 
   id =input.required<string>();
@@ -24,7 +25,7 @@ export class InputFieldComponent {
   error: boolean = false;
   hint = input<string>('');
   className = input<string>('');
-
+  inputReadonly = input(false);
   readonly inputValueChange =  output<Event>();
 
    get inputClasses(): string {
@@ -42,10 +43,11 @@ export class InputFieldComponent {
     return inputClasses;
   }
 
-  
+
   onInputEntered($event: Event): void {
     const input = $event.target as HTMLInputElement;
     this.value.set(input.value);
   }
 
+  protected readonly readonly = readonly;
 }
