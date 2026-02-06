@@ -1,5 +1,5 @@
 <div class="flex items-center flex-col sm:flex-row justify-between border-t border-gray-200 px-5 py-4 dark:border-gray-800" [style]="disabled() ? 'display: none;' : ''">
-  <div class="pb-3 sm:pb-0"><span class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Showing   <span class="text-gray-800 dark:text-white/90">{{pageLength()}}</span> of <span class="text-gray-800 dark:text-white/90">{{totalItemCount()}}</span></span>
+  <div class="pb-3 sm:pb-0"><span class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Showing <span class="text-gray-800 dark:text-white/90">{{dataService.activePage()}}</span> of <span class="text-gray-800 dark:text-white/90">{{TotalPageCount()}}</span></span>
   </div>
   <div class="flex w-full items-center justify-between gap-2 rounded-lg bg-gray-50 p-4 sm:w-auto sm:justify-normal sm:rounded-none sm:bg-transparent sm:p-0 dark:bg-gray-900 dark:sm:bg-transparent">
     <button (click)="decreasePage()" class="shadow-sm flex items-center gap-2 rounded-lg border border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-50 hover:text-gray-800 disabled:cursor-not-allowed disabled:opacity-50 sm:p-2.5 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-200"
@@ -13,7 +13,7 @@
       @for (pageNumber of pageNumbers(); track pageNumber){
         <li (click)="changePage(pageNumber)" class="cursor-pointer ">
           <a class="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium text-white"
-             [class]=" pageNumber == activePage() ? 'bg-amber-500' : 'bg-blue-500 hover:bg-gray-500'"
+             [class]=" pageNumber == dataService.activePage() ? 'bg-amber-500' : 'bg-blue-500 hover:bg-gray-500'"
           >
             <span>{{pageNumber}}</span></a>
         </li>

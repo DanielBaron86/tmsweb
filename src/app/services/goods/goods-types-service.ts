@@ -1,16 +1,24 @@
-import {inject, Injectable, linkedSignal, signal} from '@angular/core';
+import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {GoodsModels, GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../models/base-model';
-import DataService from '../../models/data-service';
+import DataService from '../data-service';
+import {Observable} from "rxjs";
 
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsTypesService implements DataService {
+export default class GoodsTypesService extends DataService {
 
+   updateItem(item: any): Observable<any> {
+      throw new Error("Method not implemented.");
+  }
+   createItem(item: any): Observable<any> {
+      throw new Error("Method not implemented.");
+  }
+  activePage = signal(1);
   http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
@@ -51,8 +59,10 @@ export default class GoodsTypesService implements DataService {
   }
 
 
-  get goodstypes(){
-    return this.#goodstypes.asReadonly()
+
+
+  itemTypes(){
+    return !!this.#goodstypes.hasValue();
   }
 
   readonly #goodstypes = httpResource<GoodsTypesModel[]>(() => ({

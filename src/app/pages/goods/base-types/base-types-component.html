@@ -147,8 +147,8 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-        @if (baseItemsService.baseTypes.hasValue()){
-          @for (baseItem of baseTypesList().result[this.activePage()].collectionName; track baseItem.id) {
+        @if (dataService.itemTypes()){
+          @for (baseItem of baseTypesList().result[dataService.activePage()].collectionName; track baseItem.id) {
             <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #baseList>
               <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
                 <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
@@ -191,13 +191,8 @@
     </table>
   </div>
   <app-pagination-component
-    [(pageLength)]="activePage"
-    [totalItemCount]="baseTypesList().paginationHeader.TotalPageCount"
     [pageNumbers]="pageNumbers()"
-    [activePage]="activePage()"
-    (decrease)="decreasePage()"
-    (increase)="increasePage()"
-    (chagePage)="changePage($event)"
+    [TotalPageCount]="baseTypesList().paginationHeader.TotalPageCount"
   >
   </app-pagination-component>
 </div>

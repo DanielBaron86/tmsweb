@@ -1,23 +1,27 @@
-import {inject, Injectable, linkedSignal, signal} from '@angular/core';
+import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {BaseItem} from '../../models/goods-models';
 import {BaseCollectionName, paginatedResult} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {ConfigService} from '../config/config-service';
-import DataService from '../../models/data-service';
+import DataService from '../data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class BaseItemsService implements DataService{
+export default class BaseItemsService extends DataService {
+  activePage = signal(1);
+
+  testNumber = signal<number>(0);
+
   http = inject(HttpClient);
 
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
-  get baseTypes(){
-    return this.#baseTypes;
+   itemTypes(){
+    return !!this.#baseTypes.hasValue();
   }
 
 #cahedItems : BaseCollectionName[] =[];
@@ -69,7 +73,7 @@ clearCache(){
 
 
 
-  updateBaseItem(baseItem: BaseItem) {
+  updateItem(baseItem: BaseItem) {
     return this.http.put<BaseItem>(`${this.apiUrl}/v1/goods_base/${baseItem.id}`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);
@@ -77,7 +81,7 @@ clearCache(){
     )
   }
 
-  createBaseItem(baseItem: BaseItem) {
+  createItem(baseItem: BaseItem) {
     return this.http.post<BaseItem>(`${this.apiUrl}/v1/goods_base`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);

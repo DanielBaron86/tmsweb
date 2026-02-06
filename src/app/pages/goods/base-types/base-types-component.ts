@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component, computed, effect,
   ElementRef,
-  inject, linkedSignal,
+  inject,
   signal,
-  viewChildren
+  viewChildren, WritableSignal
 } from '@angular/core';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe, LocationStrategy} from '@angular/common';
@@ -15,6 +15,8 @@ import {HttpClient} from '@angular/common/http';
 import BaseItemsService from '../../../services/goods/base-items-service';
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
+import DataService from '../../../services/data-service';
+import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
 
 
 
@@ -22,63 +24,35 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
   selector: 'app-base-types',
   imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
   templateUrl: './base-types-component.html',
+  providers: [
+    {provide: DataService, useClass: BaseItemsService}
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-  baseItemsService = inject(BaseItemsService);
+  dataService = inject(DataService);
   location = inject(LocationStrategy);
   http = inject(HttpClient)
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
+      this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
     } )
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
-
-  baseTypesList =this.baseItemsService.getCollectionList();
+  baseTypesList : WritableSignal<paginatedResult<BaseCollectionName[]>> =this.dataService.getCollectionList();
   operation =signal<string>('edit');
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
-  activePage = signal<number>(1);
-
   pageNumbers = computed(() =>
     Array.from({ length: this.baseTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)
   );
   editableItem =computed( ()=> {
     if(this.baseId() != 0){
-      return this.baseTypesList().result[this.activePage()].collectionName.filter(b => b.id == this.baseId())[0]
+      return this.baseTypesList().result[this.dataService.activePage()].collectionName.filter(b => b.id == this.baseId())[0]
     }
     let obj: BaseItem= {  id :0 ,description:'' , manufacturer: ''}
     return obj;
   })
-
-
-
-  protected changePage(pageNumber: number) {
-    this.activePage.set(pageNumber);
-    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
-      this.baseItemsService.cachedPages().push(this.activePage()) ;
-      this.baseItemsService.pageNumber.set(pageNumber);
-    }
-
-  }
-
-  protected decreasePage() {
-    this.activePage() < 2 ? this.activePage.set(this.baseTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
-    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
-      this.baseItemsService.pageNumber.set(this.activePage());
-      this.baseItemsService.cachedPages().push(this.activePage()) ;
-    }
-  }
-
-  protected increasePage(){
-    this.activePage() > this.baseTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
-    if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
-      this.baseItemsService.pageNumber.set(this.activePage());
-      this.baseItemsService.cachedPages().push(this.activePage()) ;
-    }
-
-  }
 
   protected EditBase(baseItem: BaseItem) {
     this.operation.set('edit')
@@ -97,14 +71,14 @@ export class BaseTypesComponent {
     let results;
     if(this.operation() == 'new'){
 
-      results= this.baseItemsService.createBaseItem(this.editableItem())
+      results= this.dataService.createItem(this.editableItem())
       results.subscribe( (data) => {
-        this.baseTypesList().result[this.activePage()].collectionName.push(data);
+        this.baseTypesList().result[this.dataService.activePage()].collectionName.push(data);
         this.disabled.set(false);
       })
 
     }else{
-      results= this.baseItemsService.updateBaseItem(this.editableItem())
+      results= this.dataService.updateItem(this.editableItem())
       results.subscribe( (data) => {
         this.disabled.set(false);
       })
@@ -117,14 +91,14 @@ export class BaseTypesComponent {
     this.filterTableByString($event.target.value);
   }
   protected filterTableByString(filterValue: string) {
-    this.baseTypesList().result[this.activePage()]?.collectionName.forEach( (val,index) => {
+    this.baseTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val, index) => {
       const isMatch =val.description.toLowerCase().includes(filterValue.toLowerCase()) || val.manufacturer.toLowerCase().includes(filterValue.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
 
   protected filterTableById(filterValue: number) {
-    this.baseTypesList().result[this.activePage()]?.collectionName.forEach( (val,index) => {
+    this.baseTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val, index) => {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
@@ -136,7 +110,7 @@ export class BaseTypesComponent {
   }
 
   protected Export() {
-    console.log(this.baseItemsService.cachedPages());
-    console.log(this.baseTypesList());
+     console.log(this.dataService.cachedPages());
+     console.log(this.baseTypesList());
   }
 }

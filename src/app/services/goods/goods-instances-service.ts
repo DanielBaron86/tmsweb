@@ -6,13 +6,13 @@ import {
   ItemInstanceCollectionName,
   paginatedResult,
 } from '../../models/base-model';
-import DataService from '../../models/data-service';
+import DataService from '../data-service';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsInstancesService implements DataService {
+export default class GoodsInstancesService  {
 
   http = inject(HttpClient);
   readonly config = inject(ConfigService);

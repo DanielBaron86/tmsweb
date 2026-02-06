@@ -30,7 +30,6 @@ export class ProcurementAddComponent {
   readonly goodTypesService = inject(GoodsTypesService)
   readonly inventoryService = inject(InventoryService)
   readonly userProfile = this.auth.userProfile()
-  itemList = this.goodTypesService.goodstypes;
  itemsTobeAdded = signal<GoodsOrder[]>([])
  taskDescription = signal('')
 

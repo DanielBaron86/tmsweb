@@ -230,13 +230,8 @@
     </table>
   </div>
   <app-pagination-component
-    [(pageLength)]="activePage"
-    [totalItemCount]="goodsListInstances().paginationHeader.TotalPageCount"
     [pageNumbers]="pageNumbers()"
-    [activePage]="activePage()"
-    (decrease)="decreasePage()"
-    (increase)="increasePage()"
-    (chagePage)="changePage($event)"
+    [TotalPageCount]="goodsListInstances().paginationHeader.TotalPageCount"
   >
   </app-pagination-component>
 </div>
