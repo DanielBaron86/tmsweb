@@ -26,13 +26,11 @@ import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../..
     EnumToStringPipe,
     PaginationComponent
   ],
-  providers: [
-    {provide: DataService, useClass: GoodsTypesService}
-  ],
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypes {
+  dataService = inject(DataService);
   location = inject(LocationStrategy);
   constructor() {
     effect( () =>{
@@ -43,7 +41,7 @@ export class GoodTypes {
 
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
 
-  dataService = inject(DataService);
+
   goodTypesList: WritableSignal<paginatedResult<TypesCollectionName[]>> = this.dataService.getCollectionList()
   activePage = signal<number>(1);
   pageNumbers = computed(() =>

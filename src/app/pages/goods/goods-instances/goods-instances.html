@@ -169,8 +169,8 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-      @if(goodsInstancesService.itemList.hasValue()){
-        @for(itemInstance of goodsListInstances().result[this.activePage()].collectionName; track  itemInstance.id){
+      @if(dataService.itemTypes()){
+        @for(itemInstance of goodsListInstances().result[dataService.activePage()].collectionName; track  itemInstance.id){
           <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #instancesList>
             <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
               <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">

@@ -1,4 +1,4 @@
-import {inject, Injectable, linkedSignal, signal} from '@angular/core';
+import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {GoodsModels, GoodsTypesModel, v_GoodsTypesInstances} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
@@ -7,19 +7,27 @@ import {
   paginatedResult,
 } from '../../models/base-model';
 import DataService from '../data-service';
+import {Observable} from "rxjs";
 
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsInstancesService  {
+export default class GoodsInstancesService extends DataService<ItemInstanceCollectionName> {
+   updateItem(item: any): Observable<any> {
+      throw new Error("Method not implemented.");
+  }
+   createItem(item: any): Observable<any> {
+      throw new Error("Method not implemented.");
+  }
+  activePage = signal(1);
 
   http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
-  get itemList(){
-    return this.#itemList.asReadonly()
+  itemTypes(){
+    return !!this.#itemList.hasValue();
   }
 
   cachedPages = signal<number[]>([1]);

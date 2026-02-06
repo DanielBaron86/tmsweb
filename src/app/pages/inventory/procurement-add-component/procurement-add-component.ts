@@ -1,11 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
-import {GoodTypesSearchComponent} from '../../../components/shared/good-types-search-component/good-types-search-component';
 import {AuthServices} from '../../../services/auth/auth.services';
 import GoodsTypesService from '../../../services/goods/goods-types-service';
 import {CreateProcurement, GoodsOrder} from '../../../models/inventory-model';
-import {
-  LocationSearchComponent
-} from '../../../components/shared/location-search-component/location-search-component';
 import {LocationUnitModel} from '../../../models/location-models';
 import {FormsModule} from '@angular/forms';
 import {InputFieldComponent} from '../../../components/form/input/input-field-component/input-field-component';
@@ -15,8 +11,6 @@ import {InventoryService} from '../../../services/inventory/inventory.service';
 @Component({
   selector: 'app-procurement-add-component',
   imports: [
-    GoodTypesSearchComponent,
-    LocationSearchComponent,
     FormsModule,
     InputFieldComponent,
     LabelComponent,

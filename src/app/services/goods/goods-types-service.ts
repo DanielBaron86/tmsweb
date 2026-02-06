@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsTypesService extends DataService {
+export default class GoodsTypesService extends DataService<TypesCollectionName> {
 
    updateItem(item: any): Observable<any> {
       throw new Error("Method not implemented.");

@@ -10,7 +10,7 @@ import DataService from '../data-service';
 @Injectable({
   providedIn: 'root',
 })
-export default class BaseItemsService extends DataService {
+export default class BaseItemsService extends DataService<BaseCollectionName> {
   activePage = signal(1);
 
   testNumber = signal<number>(0);

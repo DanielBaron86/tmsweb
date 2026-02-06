@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed, effect,
+  Component, computed, DestroyRef, effect,
   ElementRef,
   inject,
   signal,
@@ -17,6 +17,7 @@ import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
 import DataService from '../../../services/data-service';
 import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 
 
@@ -24,15 +25,13 @@ import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
   selector: 'app-base-types',
   imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
   templateUrl: './base-types-component.html',
-  providers: [
-    {provide: DataService, useClass: BaseItemsService}
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
   dataService = inject(DataService);
   location = inject(LocationStrategy);
   http = inject(HttpClient)
+  private destroyRef = inject(DestroyRef);
   constructor() {
     effect( () =>{
       this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
@@ -68,23 +67,20 @@ export class BaseTypesComponent {
 
 
   protected Save() {
-    let results;
-    if(this.operation() == 'new'){
+    const operation = this.operation() === 'new'
+      ? this.dataService.createItem(this.editableItem())
+      : this.dataService.updateItem(this.editableItem());
 
-      results= this.dataService.createItem(this.editableItem())
-      results.subscribe( (data) => {
-        this.baseTypesList().result[this.dataService.activePage()].collectionName.push(data);
+    operation.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (data) => {
+        if (this.operation() === 'new') {
+          this.baseTypesList().result[this.dataService.activePage()].collectionName.push(data);
+        }
         this.disabled.set(false);
-      })
-
-    }else{
-      results= this.dataService.updateItem(this.editableItem())
-      results.subscribe( (data) => {
-        this.disabled.set(false);
-      })
-    }
-
-    this.filterTableByString('');
+        this.filterTableByString('');
+      },
+      error: (err) => console.error('Save failed', err)
+    });
   }
 
   protected onSearchInput($event: any) {
