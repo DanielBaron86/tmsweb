@@ -1,4 +1,4 @@
-import {BaseItem, GoodsTypesModel} from './goods-models';
+import {BaseItem, GoodsTypesModel, v_GoodsTypesInstances} from './goods-models';
 
 export  interface  BaseModel {
   createdDate?: Date | null;
@@ -18,6 +18,11 @@ export interface BaseCollectionName {
 export interface TypesCollectionName {
   pageNumber: number;
   collectionName: GoodsTypesModel[];
+}
+
+export interface ItemInstanceCollectionName {
+  pageNumber: number;
+  collectionName: v_GoodsTypesInstances[];
 }
 
 export interface PaginationHeader {
