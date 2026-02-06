@@ -3,9 +3,7 @@ import {
   Component, computed,
   ElementRef,
   inject,
-  linkedSignal,
-  signal,
-  viewChildren, WritableSignal
+  viewChildren
 } from '@angular/core';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe} from '@angular/common';
@@ -15,7 +13,6 @@ import GoodsInstancesService from '../../../services/goods/goods-instances-servi
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
 import DataService from '../../../services/data-service';
-import {ItemInstanceCollectionName, paginatedResult, TypesCollectionName} from '../../../models/base-model';
 
 @Component({
   selector: 'app-goods-instances',
@@ -27,10 +24,10 @@ import {ItemInstanceCollectionName, paginatedResult, TypesCollectionName} from '
 })
 export class GoodsInstances {
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
-  dataService = inject(DataService);
+  dataService = inject(DataService) as GoodsInstancesService;
   protected readonly GoodsStatusEnum = GoodsStatusEnum;
 
-  goodsListInstances:WritableSignal<paginatedResult<ItemInstanceCollectionName[]>> = this.dataService.getCollectionList();
+  goodsListInstances  = this.dataService.getCollectionList();
   pageNumbers = computed(() =>
     Array.from({ length: this.goodsListInstances().paginationHeader.TotalPageCount }, (_, i) => i + 1)
   );

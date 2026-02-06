@@ -3,8 +3,8 @@ import {
   Component, computed, effect,
   ElementRef,
   inject,
-  linkedSignal, signal,
-  viewChildren, WritableSignal
+  signal,
+  viewChildren,
 } from '@angular/core';
 import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
@@ -14,8 +14,6 @@ import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {InventoryKey} from '../../../models/status-enums';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
 import DataService from '../../../services/data-service';
-import BaseItemsService from '../../../services/goods/base-items-service';
-import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../../models/base-model';
 
 @Component({
   selector: 'app-good-types',
@@ -30,7 +28,7 @@ import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../..
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypes {
-  dataService = inject(DataService);
+  dataService = inject(DataService) as GoodsTypesService;
   location = inject(LocationStrategy);
   constructor() {
     effect( () =>{
@@ -42,7 +40,7 @@ export class GoodTypes {
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
 
 
-  goodTypesList: WritableSignal<paginatedResult<TypesCollectionName[]>> = this.dataService.getCollectionList()
+  goodTypesList = this.dataService.getCollectionList()
   activePage = signal<number>(1);
   pageNumbers = computed(() =>
     Array.from({ length: this.goodTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)

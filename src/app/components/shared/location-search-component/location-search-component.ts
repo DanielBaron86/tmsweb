@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, computed,
   contentChild,
   effect,
   ElementRef,
@@ -10,10 +10,18 @@ import {
 } from '@angular/core';
 import {LocationService} from '../../../services/location/location-service';
 import {LocationUnitModel} from '../../../models/location-models';
+import DataService from '../../../services/data-service';
+import GoodsTypesService from '../../../services/goods/goods-types-service';
+import {PaginationComponent} from '../pagination-component/pagination-component';
 
 @Component({
   selector: 'app-location-search-component',
-  imports: [],
+  imports: [
+    PaginationComponent
+  ],
+  providers: [
+    {provide: DataService, useClass: LocationService}
+  ],
   templateUrl: './location-search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -30,9 +38,13 @@ export class LocationSearchComponent {
 
   }
 
-  locationService = inject(LocationService);
-
+  dataService = inject(DataService) as LocationService;
+  listItems = this.dataService.getCollectionList();
+  pageNumbers = computed(() =>
+    Array.from({ length: this.listItems().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+  );
   isOpen = signal(false)
+  toggleText = computed(() => this.isOpen() ? 'Close' : 'Open');
   dropdownMenu = viewChild<ElementRef<HTMLElement>>("dropdownMenu");
   locationEmitter = output<LocationUnitModel>();
   protected Toogle() {

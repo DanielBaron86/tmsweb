@@ -1,15 +1,32 @@
-import {ChangeDetectionStrategy, Component, effect, ElementRef, input, output, signal, viewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component, computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild
+} from '@angular/core';
 import {GoodsTypesModel} from '../../../models/goods-models';
 import {GoodsOrder} from '../../../models/inventory-model';
+import DataService from '../../../services/data-service';
+import GoodsTypesService from '../../../services/goods/goods-types-service';
+import {PaginationComponent} from '../pagination-component/pagination-component';
 
 @Component({
   selector: 'app-good-types-search-component',
-  imports: [],
+  imports: [
+    PaginationComponent
+  ],
   templateUrl: './good-types-search-component.html',
+  providers: [
+    {provide: DataService, useClass: GoodsTypesService}
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypesSearchComponent {
-
   constructor() {
     effect(() => {
       const menuEl = this.dropdownMenu()?.nativeElement;
@@ -18,16 +35,23 @@ export class GoodTypesSearchComponent {
       }
     });
   }
-  isOpen = signal(false)
+  dataService = inject(DataService) as GoodsTypesService;
 
+  isOpen = signal(false)
+  toggleText = computed(() => this.isOpen() ? 'Close' : 'Open');
   dropdownMenu = viewChild<ElementRef<HTMLElement>>("dropdownMenu");
+  listItems = this.dataService.getCollectionList();
+  pageNumbers = computed(() =>
+    Array.from({ length: this.listItems().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+  );
+
 
   protected Toogle() {
     this.isOpen.set(!this.isOpen());
   }
 
 
-  listItems = input<GoodsTypesModel[]>();
+
  location = input<number>(0);
   selectItem = output<GoodsTypesModel>();
 

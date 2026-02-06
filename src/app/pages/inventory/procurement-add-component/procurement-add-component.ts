@@ -8,21 +8,28 @@ import {InputFieldComponent} from '../../../components/form/input/input-field-co
 import {LabelComponent} from '../../../components/form/label/label-component';
 import {GoodsTypesModel} from '../../../models/goods-models';
 import {InventoryService} from '../../../services/inventory/inventory.service';
+import {LocationSearchComponent} from '../../../components/shared/location-search-component/location-search-component';
+import {
+  GoodTypesSearchComponent
+} from '../../../components/shared/good-types-search-component/good-types-search-component';
+import DataService from '../../../services/data-service';
 @Component({
   selector: 'app-procurement-add-component',
   imports: [
     FormsModule,
     InputFieldComponent,
     LabelComponent,
+    LocationSearchComponent,
+    GoodTypesSearchComponent,
   ],
   templateUrl: './procurement-add-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProcurementAddComponent {
 
-  readonly auth = inject(AuthServices)
-  readonly goodTypesService = inject(GoodsTypesService)
   readonly inventoryService = inject(InventoryService)
+  readonly auth = inject(AuthServices)
+
   readonly userProfile = this.auth.userProfile()
  itemsTobeAdded = signal<GoodsOrder[]>([])
  taskDescription = signal('')

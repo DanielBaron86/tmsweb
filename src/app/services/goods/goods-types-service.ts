@@ -1,8 +1,8 @@
 import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {GoodsModels, GoodsTypesModel} from '../../models/goods-models';
+import { GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
-import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../models/base-model';
+import { paginatedResult, TypesCollectionName} from '../../models/base-model';
 import DataService from '../data-service';
 import {Observable} from "rxjs";
 

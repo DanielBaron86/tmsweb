@@ -13,3 +13,7 @@ export interface LocationUnitModel extends BaseModel{
   description: string;
   locationTypesEntity?: LocationTypesModel | null;
 }
+export interface LocationCollectionName {
+  pageNumber: number;
+  collectionName: LocationUnitModel[];
+}
