@@ -3,12 +3,13 @@ import {GoodsModels, GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../models/base-model';
+import DataService from '../../models/data-service';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsTypesService {
+export default class GoodsTypesService implements DataService {
 
   http = inject(HttpClient);
   readonly config = inject(ConfigService);
@@ -20,13 +21,13 @@ export default class GoodsTypesService {
     this.#cahedItems=[];
   }
 
-  getTypesList() {
+  getCollectionList() {
     return   linkedSignal({
       source: () => this.#goodstypes.value(),
       computation: () => {
         if (this.#goodstypes.hasValue()) {
           const headers = JSON.parse(this.#goodstypes.headers()?.get('X-Pagination') ?? '{}');
-          this.#cahedItems[this.typesPageNumber()]={pageNumber : this.typesPageNumber(),collectionName : this.#goodstypes.value()}
+          this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#goodstypes.value()}
           const returnedObject: paginatedResult<TypesCollectionName[]> = {
             result:  this.#cahedItems,
             paginationHeader: headers
@@ -56,14 +57,14 @@ export default class GoodsTypesService {
 
   readonly #goodstypes = httpResource<GoodsTypesModel[]>(() => ({
     params: {
-      pageNumber: this.typesPageNumber(),
-      pageSize: this.typesPageSize()
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize()
     },
     url: `${this.apiUrl}/v1/goods_type`,
     method: 'GET',
     defaultValue:  signal<GoodsTypesModel[]>([])
   }));
 
-  typesPageNumber =signal<number>(1);
-  typesPageSize =signal<number>(20);
+  pageNumber =signal<number>(1);
+  pageSize =signal<number>(20);
 }

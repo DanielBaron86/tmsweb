@@ -35,7 +35,7 @@ export class BaseTypesComponent {
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
 
-  baseTypesList =this.baseItemsService.getbaseTypesList();
+  baseTypesList =this.baseItemsService.getCollectionList();
   operation =signal<string>('edit');
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
@@ -58,7 +58,7 @@ export class BaseTypesComponent {
     this.activePage.set(pageNumber);
     if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
       this.baseItemsService.cachedPages().push(this.activePage()) ;
-      this.baseItemsService.baseTypesPageNumber.set(pageNumber);
+      this.baseItemsService.pageNumber.set(pageNumber);
     }
 
   }
@@ -66,7 +66,7 @@ export class BaseTypesComponent {
   protected decreasePage() {
     this.activePage() < 2 ? this.activePage.set(this.baseTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
     if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
-      this.baseItemsService.baseTypesPageNumber.set(this.activePage());
+      this.baseItemsService.pageNumber.set(this.activePage());
       this.baseItemsService.cachedPages().push(this.activePage()) ;
     }
   }
@@ -74,7 +74,7 @@ export class BaseTypesComponent {
   protected increasePage(){
     this.activePage() > this.baseTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
     if (!this.baseItemsService.cachedPages().includes(this.activePage())) {
-      this.baseItemsService.baseTypesPageNumber.set(this.activePage());
+      this.baseItemsService.pageNumber.set(this.activePage());
       this.baseItemsService.cachedPages().push(this.activePage()) ;
     }
 

@@ -29,7 +29,7 @@ export class GoodsInstances {
   protected readonly GoodsStatusEnum = GoodsStatusEnum;
   activePage = signal<number>(1);
 
-  goodsListInstances = this.goodsInstancesService.getInstancesList();
+  goodsListInstances = this.goodsInstancesService.getCollectionList();
   pageNumbers = computed(() =>
     Array.from({ length: this.goodsListInstances().paginationHeader.TotalPageCount }, (_, i) => i + 1)
   );
@@ -54,7 +54,7 @@ export class GoodsInstances {
   protected decreasePage() {
     this.activePage() < 2 ? this.activePage.set(this.goodsListInstances().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
     if (!this.goodsInstancesService.cachedPages().includes(this.activePage())) {
-      this.goodsInstancesService.instanceTypesPageNumber.set(this.activePage());
+      this.goodsInstancesService.pageNumber.set(this.activePage());
       this.goodsInstancesService.cachedPages().push(this.activePage()) ;
     }
 
@@ -63,7 +63,7 @@ export class GoodsInstances {
   protected increasePage() {
     this.activePage() > this.goodsListInstances().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
     if (!this.goodsInstancesService.cachedPages().includes(this.activePage())) {
-      this.goodsInstancesService.instanceTypesPageNumber.set(this.activePage());
+      this.goodsInstancesService.pageNumber.set(this.activePage());
       this.goodsInstancesService.cachedPages().push(this.activePage()) ;
     }
   }
@@ -72,7 +72,7 @@ export class GoodsInstances {
     this.activePage.set(pageNumber);
     if (!this.goodsInstancesService.cachedPages().includes(this.activePage())) {
       this.goodsInstancesService.cachedPages().push(this.activePage()) ;
-      this.goodsInstancesService.instanceTypesPageNumber.set(pageNumber);
+      this.goodsInstancesService.pageNumber.set(pageNumber);
     }
 
   }

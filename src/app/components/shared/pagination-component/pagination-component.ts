@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, input, model, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, model, OnInit, output, signal} from '@angular/core';
+import DataService from '../../../models/data-service';
 
 @Component({
   selector: 'app-pagination-component',
@@ -6,12 +7,14 @@ import {ChangeDetectionStrategy, Component, input, model, output, signal} from '
   templateUrl: './pagination-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationComponent {
+export class PaginationComponent  {
+
   pageNumbers =input<number[]>([1]);
   disabled = input(false);
   pageLength = model<number | null>(0);
   totalItemCount = input(9);
   activePage = input<number>(1);
+
 
   decrease = output<void>();
   increase = output<void>();

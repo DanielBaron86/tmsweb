@@ -5,11 +5,12 @@ import {BaseCollectionName, paginatedResult} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {ConfigService} from '../config/config-service';
+import DataService from '../../models/data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class BaseItemsService {
+export default class BaseItemsService implements DataService{
   http = inject(HttpClient);
 
   readonly config = inject(ConfigService);
@@ -24,13 +25,13 @@ clearCache(){
   this.#cahedItems=[];
 }
 
-  getbaseTypesList() {
+  getCollectionList() {
     return   linkedSignal({
       source: () => this.#baseTypes.value(),
       computation: () => {
         if (this.#baseTypes.hasValue()) {
           const headers = JSON.parse(this.#baseTypes.headers()?.get('X-Pagination') ?? '{}');
-          this.#cahedItems[this.baseTypesPageNumber()]={pageNumber : this.baseTypesPageNumber(),collectionName : this.#baseTypes.value()}
+          this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#baseTypes.value()}
           const returnedObject: paginatedResult<BaseCollectionName[]> = {
             result:  this.#cahedItems,
             paginationHeader: headers
@@ -57,8 +58,8 @@ clearCache(){
 
   readonly #baseTypes = httpResource <BaseItem[]>(() => ({
     params: {
-      pageNumber: this.baseTypesPageNumber(),
-      pageSize: this.baseTypesPageSize()
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize()
     },
     url: `${this.apiUrl}/v1/goods_base`,
     method: 'GET',
@@ -84,6 +85,6 @@ clearCache(){
     )
   }
 
-  baseTypesPageNumber =signal<number>(1);
-  baseTypesPageSize =signal<number>(20);
+  pageNumber =signal<number>(1);
+  pageSize =signal<number>(20);
 }

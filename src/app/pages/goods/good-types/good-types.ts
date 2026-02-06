@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component, computed, effect,
   ElementRef,
   inject,
   linkedSignal, signal,
@@ -9,7 +9,7 @@ import {
 import GoodsTypesService from '../../../services/goods/./goods-types-service';
 import {ButtonComponent} from "../../../components/ui/button-component/button-component";
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
-import {DatePipe} from '@angular/common';
+import {DatePipe, LocationStrategy} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {InventoryKey} from '../../../models/status-enums';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
@@ -27,10 +27,18 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypes {
+  location = inject(LocationStrategy);
+  constructor() {
+    effect( () =>{
+      this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.activePage()}&pageSize=${this.goodTypesList().paginationHeader.PageSize}`);
+    } )
+  }
+
+
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
 
   goodsTypesService = inject(GoodsTypesService);
-  goodTypesList = this.goodsTypesService.getTypesList()
+  goodTypesList = this.goodsTypesService.getCollectionList()
   activePage = signal<number>(1);
   pageNumbers = computed(() =>
     Array.from({ length: this.goodTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)
@@ -58,17 +66,20 @@ export class GoodTypes {
 
   protected decreasePage() {
     this.activePage() < 2 ? this.activePage.set(this.goodTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.activePage() - 1);
+    console.log(this.activePage() );
     if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
-      this.goodsTypesService.typesPageSize.set(this.activePage());
+      this.goodsTypesService.pageNumber.set(this.activePage());
       this.goodsTypesService.cachedPages().push(this.activePage()) ;
     }
 
   }
 
   protected increasePage() {
+
     this.activePage() > this.goodTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.activePage() + 1);
+    console.log(this.activePage() );
     if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
-      this.goodsTypesService.typesPageSize.set(this.activePage());
+      this.goodsTypesService.pageNumber.set(this.activePage());
       this.goodsTypesService.cachedPages().push(this.activePage()) ;
     }
   }
@@ -77,7 +88,7 @@ export class GoodTypes {
     this.activePage.set(pageNumber);
     if (!this.goodsTypesService.cachedPages().includes(this.activePage())) {
       this.goodsTypesService.cachedPages().push(this.activePage()) ;
-      this.goodsTypesService.typesPageNumber.set(pageNumber);
+      this.goodsTypesService.pageNumber.set(pageNumber);
     }
   }
 }
