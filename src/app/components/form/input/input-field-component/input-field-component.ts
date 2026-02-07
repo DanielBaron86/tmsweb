@@ -1,26 +1,49 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
-import { FormsModule} from '@angular/forms';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {readonly} from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-field',
   imports: [],
+  providers: [ {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: InputFieldComponent,
+    multi: true
+  }],
   templateUrl: './input-field-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputFieldComponent {
+export class InputFieldComponent implements ControlValueAccessor {
+  writeValue(val: string): void {
+    this.value.set(val);
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled.set(isDisabled);
+  }
 
+  onInputEntered($event: Event): void {
+    const input = $event.target as HTMLInputElement;
+    this.value.set(input.value);
+    this.onChange(this.value);
+  }
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   value = model<number | string>('');
   type = model('');
-
   id =input.required<string>();
   name = input.required<string>();
   placeholder = input<string>('');
   min =input<string>('')
   max =input<string>('');
   step = input<number>();
-  disabled = input(false);
+  disabled = signal(false);
   success = input(false);
   error: boolean = false;
   hint = input<string>('');
@@ -41,12 +64,6 @@ export class InputFieldComponent {
       inputClasses += ` bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:text-white/90  dark:focus:border-brand-800`;
     }
     return inputClasses;
-  }
-
-
-  onInputEntered($event: Event): void {
-    const input = $event.target as HTMLInputElement;
-    this.value.set(input.value);
   }
 
   protected readonly readonly = readonly;

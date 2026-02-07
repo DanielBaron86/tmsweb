@@ -1,6 +1,9 @@
 <div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
   <div class="px-6 py-5">
     <h3 class="text-base font-medium text-gray-800 dark:text-white/90"> Items added to procurement form for location :  {{selectedLocation().address}}  {{selectedLocation().description}} </h3>
+    @if (showAlert()){
+      <app-alert [variant]="'error'"  [message]="'Task description cannot be empty'" ></app-alert>
+    }
   </div>
   <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
     <div class="space-y-6">
@@ -8,7 +11,7 @@
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <app-label>Task Desciption</app-label>
-            <app-input-field [(value)]="taskDescription" id="1" name="taskDescription" type="text" placeholder="Task Description">
+            <app-input-field [(value)]="taskDescription"  id="1" name="taskDescription" type="text" placeholder="Task Description">
             </app-input-field>
           </div>
         </div>

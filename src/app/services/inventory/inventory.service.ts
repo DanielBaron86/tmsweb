@@ -27,6 +27,7 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
   cachedPages = signal<number[]>([1]);
   clearCache(){
     this.#cahedItems=[];
+    this.#taskList.reload();
   }
   override updateItem(item: any): Observable<any> {
       throw new Error("Method not implemented.");
@@ -69,6 +70,10 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
 
   #taskList = httpResource<TaskModels[]>( () => ({
     url: `${this.apiUrl}/v1/tasks`,
+    params: {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+    },
     method: 'GET',
     defaultValue:signal<TaskModels[]>([])
   }))

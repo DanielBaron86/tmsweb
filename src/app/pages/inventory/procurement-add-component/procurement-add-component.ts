@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AuthServices} from '../../../services/auth/auth.services';
-import GoodsTypesService from '../../../services/goods/goods-types-service';
 import {CreateProcurement, GoodsOrder} from '../../../models/inventory-model';
 import {LocationUnitModel} from '../../../models/location-models';
 import {FormsModule} from '@angular/forms';
@@ -12,7 +11,8 @@ import {LocationSearchComponent} from '../../../components/shared/location-searc
 import {
   GoodTypesSearchComponent
 } from '../../../components/shared/good-types-search-component/good-types-search-component';
-import DataService from '../../../services/data-service';
+import {Router} from '@angular/router';
+import {AlertComponent} from '../../../components/ui/alert-component/alert-component';
 @Component({
   selector: 'app-procurement-add-component',
   imports: [
@@ -21,21 +21,21 @@ import DataService from '../../../services/data-service';
     LabelComponent,
     LocationSearchComponent,
     GoodTypesSearchComponent,
+    AlertComponent,
   ],
   templateUrl: './procurement-add-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProcurementAddComponent {
 
+  readonly router = inject(Router)
   readonly inventoryService = inject(InventoryService)
   readonly auth = inject(AuthServices)
-
   readonly userProfile = this.auth.userProfile()
+
+  showAlert = signal(false)
  itemsTobeAdded = signal<GoodsOrder[]>([])
  taskDescription = signal('')
-
-
-
   selectedLocation = signal<LocationUnitModel>({
     id: 0,
     locationTypeID: 0,
@@ -72,15 +72,25 @@ export class ProcurementAddComponent {
   }
 
   protected SaveTask() {
+    if (this.taskDescription() === '') {
+      this.showAlert.set(true);
+      return;
+    }
+
     const createProcurement : CreateProcurement ={
       creatorId: this.userProfile.id,
       userName: this.userProfile.username,
       description: this.taskDescription(),
       goodsOrder: this.itemsTobeAdded()
     }
-    console.log(createProcurement);
-    this.inventoryService.createProcurementTask(createProcurement).subscribe( (data) => {
-      console.log(data);
+    this.inventoryService.createProcurementTask(createProcurement).subscribe({
+      next: (res) =>  {
+        this.inventoryService.clearCache();
+        this.router.navigate(['/inventory/tasks']);
+      },
+      error: (err) => {
+        console.log(err)
+      }
     })
   }
 }
