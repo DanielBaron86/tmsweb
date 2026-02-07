@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         TMS Web Admin
       </h3>
       <p class="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        UI for TMS API
+        <a href="https://github.com/DanielBaron86/tmsapi" target="_blank" >UI for TMS API</a>
       </p>
 
     </div>

@@ -18,12 +18,13 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
 import DataService from '../../../services/data-service';
 import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {PageBreadcrumbComponent} from '../../../components/shared/page-breadcrumb-component/page-breadcrumb-component';
 
 
 
 @Component({
   selector: 'app-base-types',
-  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
+  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent, PageBreadcrumbComponent],
   templateUrl: './base-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

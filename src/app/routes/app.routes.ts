@@ -3,6 +3,11 @@ import { CanActivateAuthGuard } from '../components/auth/guards/can-activate';
 import {goodsRoutes} from './goods.routes';
 import {userRoutes} from './user.routes';
 import {inventoryRoutes} from './inventory.routes';
+import {locationRoutes} from './location.routes';
+import {clientsRoutes} from './clients.routes';
+import { tasksRoutes} from './tasks.routes';
+import {storesRoutes} from './stores.routes';
+import {reportsRoutes} from './reports.routes';
 
 
 export const routes: Routes = [
@@ -16,6 +21,11 @@ export const routes: Routes = [
       path: 'main', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
       canActivate: [CanActivateAuthGuard],
      children: [
+       ...reportsRoutes,
+       ...storesRoutes,
+       ...tasksRoutes,
+       ...clientsRoutes,
+       ...locationRoutes,
        ...inventoryRoutes,
        ...goodsRoutes,
        ...userRoutes
