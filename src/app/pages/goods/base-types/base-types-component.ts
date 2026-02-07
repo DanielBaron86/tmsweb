@@ -24,18 +24,18 @@ import {PageBreadcrumbComponent} from '../../../components/shared/page-breadcrum
 
 @Component({
   selector: 'app-base-types',
-  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent, PageBreadcrumbComponent],
+  imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
   templateUrl: './base-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-  dataService = inject(DataService);
+  dataService = inject(DataService) as BaseItemsService;
   location = inject(LocationStrategy);
   http = inject(HttpClient)
   private destroyRef = inject(DestroyRef);
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
+      this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
     } )
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');

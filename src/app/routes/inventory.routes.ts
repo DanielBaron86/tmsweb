@@ -6,7 +6,7 @@ import {InventoryService} from '../services/inventory/inventory.service';
 
 export const inventoryRoutes: Routes  =[
   {
-    path: 'itasks', loadComponent: () =>  import('../pages/inventory/tasks-list-component/tasks-list-component').then(m => m.TasksListComponent),
+    path: 'tasks', loadComponent: () =>  import('../pages/inventory/tasks-list-component/tasks-list-component').then(m => m.TasksListComponent),
     providers: [{provide: DataService, useClass: InventoryService}]
   },
   {

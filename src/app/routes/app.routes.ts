@@ -18,20 +18,61 @@ export const routes: Routes = [
     path: 'login', loadComponent: () => import('../components/auth/sign-in-component/sign-in-component').then(m => m.SignInComponent),
    },
    {
-      path: 'main', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+      path: 'users', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
       canActivate: [CanActivateAuthGuard],
      children: [
-       ...reportsRoutes,
-       ...storesRoutes,
-       ...tasksRoutes,
-       ...clientsRoutes,
-       ...locationRoutes,
-       ...inventoryRoutes,
-       ...goodsRoutes,
        ...userRoutes
      ]
-   }
-  ,
+   },
+  {
+    path: 'inventory', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...inventoryRoutes,
+    ]
+  },
+  {
+    path: 'locations', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...locationRoutes,
+    ]
+  },
+  {
+    path: 'clients', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...clientsRoutes,
+    ]
+  },
+  {
+    path: 'tasks', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...tasksRoutes,
+    ]
+  },
+  {
+    path: 'stores', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...storesRoutes,
+    ]
+  },
+  {
+    path: 'reports', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...reportsRoutes,
+    ]
+  },
+  {
+    path: 'goods', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [
+      ...goodsRoutes,
+    ]
+  },
   {
     path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
   },

@@ -32,7 +32,7 @@ export class GoodTypes {
   location = inject(LocationStrategy);
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','main/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.goodTypesList().paginationHeader.PageSize}`);
+      this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.goodTypesList().paginationHeader.PageSize}`);
     } )
   }
 

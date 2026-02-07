@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component, computed, effect,
   ElementRef,
   inject,
   viewChildren
 } from '@angular/core';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
-import {DatePipe} from '@angular/common';
+import {DatePipe, LocationStrategy} from '@angular/common';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {GoodsStatusEnum} from '../../../models/status-enums';
 import GoodsInstancesService from '../../../services/goods/goods-instances-service';
@@ -23,8 +23,16 @@ import DataService from '../../../services/data-service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodsInstances {
+
+  constructor() {
+    effect( () =>{
+      this.location.replaceState(null, '','/goods/item_list/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.goodsListInstances().paginationHeader.PageSize}`);
+    } )
+  }
+
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
   dataService = inject(DataService) as GoodsInstancesService;
+  location = inject(LocationStrategy);
   protected readonly GoodsStatusEnum = GoodsStatusEnum;
 
   goodsListInstances  = this.dataService.getCollectionList();
