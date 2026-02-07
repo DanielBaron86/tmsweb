@@ -1,4 +1,5 @@
 import {BaseItem, GoodsTypesModel, v_GoodsTypesInstances} from './goods-models';
+import {TaskModels} from './tasks-models';
 
 export  interface  BaseModel {
   createdDate?: Date | null;
@@ -24,6 +25,11 @@ export interface ItemInstanceCollectionName {
   pageNumber: number;
   collectionName: v_GoodsTypesInstances[];
 }
+export interface TaskModelsCollectionName {
+  pageNumber: number;
+  collectionName: TaskModels[];
+}
+
 
 export interface PaginationHeader {
   TotalItemCount: number;

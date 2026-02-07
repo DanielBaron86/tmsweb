@@ -1,12 +1,13 @@
 import { Routes} from '@angular/router';
 import DataService from '../services/data-service';
 import GoodsTypesService from '../services/goods/goods-types-service';
+import {InventoryService} from '../services/inventory/inventory.service';
 
 
 export const inventoryRoutes: Routes  =[
   {
     path: 'itasks', loadComponent: () =>  import('../pages/inventory/tasks-list-component/tasks-list-component').then(m => m.TasksListComponent),
-    providers: [{provide: DataService, useClass: GoodsTypesService}]
+    providers: [{provide: DataService, useClass: InventoryService}]
   },
   {
     path: 'add_procurement' , loadComponent: () => import('../pages/inventory/procurement-add-component/procurement-add-component').then(m => m.ProcurementAddComponent),
