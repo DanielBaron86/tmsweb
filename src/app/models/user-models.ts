@@ -1,7 +1,7 @@
 export interface UserResource {
     id: number;
     username: string;
-     email: string;
+    email: string;
     firstName: string;
     lastName: string;
     userTypeId: number;

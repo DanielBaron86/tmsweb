@@ -76,7 +76,7 @@ export const routes: Routes = [
   {
     path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
   },
-  {
-    path: '**', redirectTo: '/404'
-  },
+  // {
+  //   path: '**', redirectTo: '/404'
+  // },
 ];

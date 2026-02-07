@@ -37,3 +37,11 @@ export enum InventoryKey {
   Quantity,
   Serial
 }
+
+export enum UserTypeEnum {
+  NONE,
+  NOTUSABLE,
+  CLIENT,
+  CLERK,
+  SUPERVISOR,
+}

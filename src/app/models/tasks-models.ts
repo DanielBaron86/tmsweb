@@ -7,6 +7,19 @@ export interface TaskModels extends BaseModel {
   taskType: number;
   taskStatus: number;
   description: string;
-  userId: number;
+  creatorId: number;
   userName?: string
+}
+
+export  interface ProcurementsSubtaskModel {
+  id: number;
+  taskId: number;
+  goodTypeId: number;
+  goodType: string;
+  location: number;
+  quantity: number;
+  remainingQuantity: number;
+}
+export interface ProcurementsModel extends TaskModels{
+  TasksEntitiesProcurements: ProcurementsSubtaskModel[];
 }

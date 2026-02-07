@@ -39,4 +39,12 @@ export class TasksListComponent{
     console.log(s);
     this.router.navigate([s]);
   }
+
+  protected DeleteTask(id: number) {
+    this.dataService.deleteItem(id);
+  }
+
+  protected ViewTask(id: number, taskType: number) {
+    taskType == 1 ? this.router.navigate([`/inventory/view_task/procurement/${id}`]) : this.router.navigate([`/inventory/view_task/transfer/${id}`]);
+  }
 }

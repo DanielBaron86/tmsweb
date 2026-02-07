@@ -1,12 +1,14 @@
 import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
-import {TaskModels} from '../../models/tasks-models';
+import {ProcurementsModel, TaskModels} from '../../models/tasks-models';
 import {ConfigService} from '../config/config-service';
 import {CreateProcurement} from '../../models/inventory-model';
 import {catchError} from 'rxjs/operators';
 import DataService from '../data-service';
 import {BaseCollectionName, paginatedResult, TaskModelsCollectionName} from '../../models/base-model';
 import {Observable} from "rxjs";
+import * as url from 'node:url';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 
 @Injectable({
@@ -43,6 +45,7 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
     return   linkedSignal({
       source: () => this.#taskList.value(),
       computation: () => {
+        console.log('computing task list');
         if (this.#taskList.hasValue()) {
           const headers = JSON.parse(this.#taskList.headers()?.get('X-Pagination') ?? '{}');
           this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#taskList.value()}
@@ -87,4 +90,16 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
     );
   }
 
+  deleteItem(id: number) {
+    this.http.delete(`${this.apiUrl}/v1/tasks/${id}`).pipe(
+      catchError((error) => {
+        console.error('Error deleting task:', error);
+        throw error;
+      })
+    ).subscribe( () => this.#taskList.reload());
+  }
+
+  getProcurementTaskById(id: number){
+    return   httpResource<ProcurementsModel>( ()=> `${this.apiUrl}/v1/tasks/procurement/${id}`)
+  }
 }
