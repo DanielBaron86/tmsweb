@@ -14,8 +14,8 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
   stupid = new BehaviorSubject(0);
   activePage = signal(1);
   cachedPages = signal<number[]>([]);
-  testNumber = signal<number>(0);
 
+  testCaheP : number[] = [];
 
   http = inject(HttpClient);
 
@@ -59,7 +59,6 @@ clearCache(){
       }
     })
   }
- // testChache = computed(() => this.#baseTypes.hasValue() ? this.#baseTypes.value() :  [])
 
 
   cache = linkedSignal({
@@ -69,32 +68,25 @@ clearCache(){
     }),
     computation: (source, previous) => {
       const currentList = (previous?.value ?? []) as BaseItem[];
-      console.log(this.cachedPages())
-      console.log('this active page',source.activePage);
-      this.stupid.next(source.activePage);
-      if (source.data && !this.cachedPages().includes(source.activePage)) {
+      if (source.data && !this.testCaheP.includes(source.activePage)) {
+        this.testCaheP.push(source.activePage);
         return {
           ...currentList,
           [source.activePage]: source.data // Store data under its page number key
         };
       }
-      return [];
+      return currentList;
     }
   });
 
   displayItems = computed(() => {
     const pagedData = this.cache() as BaseItem[][];
-   //  console.log(pagedData);
     const currentPage = this.activePage();
-    // console.log(currentPage);
-    // Check if we have the data in cache first
     if (pagedData[currentPage]) {
-     // console.log(' cache',pagedData[currentPage]);
       return pagedData[currentPage];
     }
 
     // Fallback: If not in cache, show the live resource value
-    // (This handles the "first visit" to a page)
     return this.#baseTypes.value() ?? [];
   });
 
@@ -132,5 +124,5 @@ clearCache(){
   }
 
   pageNumber =signal<number>(1);
-  pageSize =signal<number>(10);
+  pageSize =signal<number>(20);
 }

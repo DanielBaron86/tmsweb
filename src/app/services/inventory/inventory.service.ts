@@ -16,7 +16,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 })
 export class InventoryService extends DataService<TaskModelsCollectionName> {
   stupid: BehaviorSubject<number> = new BehaviorSubject(0);
-
+  testCaheP: number[]=[];
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

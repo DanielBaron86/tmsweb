@@ -11,6 +11,7 @@ export default abstract class DataService<T> {
   abstract createItem(item: any): Observable<any>
   abstract activePage : WritableSignal<number>
   abstract stupid: BehaviorSubject<number>
+  abstract testCaheP : number[]
 
 
 }

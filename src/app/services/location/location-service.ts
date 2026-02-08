@@ -10,6 +10,7 @@ import {BehaviorSubject, Observable} from "rxjs";
   providedIn: 'root',
 })
 export class LocationService extends DataService<LocationCollectionName> {
+  testCaheP: number[]=[];
    stupid: BehaviorSubject<number> = new BehaviorSubject(0);
 
   readonly  http = inject(HttpClient);

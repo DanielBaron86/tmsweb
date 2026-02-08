@@ -12,7 +12,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 })
 export default class GoodsTypesService extends DataService<TypesCollectionName> {
   stupid: BehaviorSubject<number> = new BehaviorSubject(0);
-
+  testCaheP: number[]=[];
    updateItem(item: any): Observable<any> {
       throw new Error("Method not implemented.");
   }
