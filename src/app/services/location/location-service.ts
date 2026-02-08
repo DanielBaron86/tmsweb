@@ -4,12 +4,13 @@ import {ConfigService} from '../config/config-service';
 import {LocationCollectionName, LocationUnitModel} from '../../models/location-models';
 import DataService from '../data-service';
 import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../models/base-model';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService extends DataService<LocationCollectionName> {
+   stupid: BehaviorSubject<number> = new BehaviorSubject(0);
 
   readonly  http = inject(HttpClient);
   readonly config = inject(ConfigService);

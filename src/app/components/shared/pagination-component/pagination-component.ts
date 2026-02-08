@@ -7,12 +7,18 @@ import DataService from '../../../services/data-service';
   templateUrl: './pagination-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationComponent implements OnInit {
-  ngOnInit(): void {
-      console.log(this.pageNumbers());
-    console.log(this.TotalPageCount());
+export class PaginationComponent {
+  constructor() {
+    this.dataService.stupid.subscribe((value) => {
+      console.log('Stupid value changed:', value);
+       if (value !==0 && !this.dataService.cachedPages().includes(value)) {
+         this.dataService.cachedPages().push(this.dataService.activePage())
+       }
+    });
   }
   dataService = inject(DataService);
+
+
 
   pageNumbers =input<number[]>([1]);
   disabled = input(false);
@@ -22,7 +28,7 @@ export class PaginationComponent implements OnInit {
   protected changePage(pageNumber: number) {
     this.dataService.activePage.set(pageNumber);
     if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
+      // this.dataService.cachedPages().push(this.dataService.activePage()) ;
       this.dataService.pageNumber.set(pageNumber);
     }
 
@@ -32,7 +38,7 @@ export class PaginationComponent implements OnInit {
     this.dataService.activePage() < 2 ? this.dataService.activePage.set(this.TotalPageCount()) : this.dataService.activePage.set(this.dataService.activePage() - 1);
     if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
       this.dataService.pageNumber.set(this.dataService.activePage());
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
+      // this.dataService.cachedPages().push(this.dataService.activePage()) ;
     }
   }
 
@@ -40,8 +46,8 @@ export class PaginationComponent implements OnInit {
     this.dataService.activePage() > this.TotalPageCount()-1 ? this.dataService.activePage.set(1) : this.dataService.activePage.set(this.dataService.activePage() + 1);
     if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
       this.dataService.pageNumber.set(this.dataService.activePage());
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
     }
+
 
   }
 }

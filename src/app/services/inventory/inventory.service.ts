@@ -6,7 +6,7 @@ import {CreateProcurement} from '../../models/inventory-model';
 import {catchError} from 'rxjs/operators';
 import DataService from '../data-service';
 import {BaseCollectionName, paginatedResult, TaskModelsCollectionName} from '../../models/base-model';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import * as url from 'node:url';
 import {toObservable} from '@angular/core/rxjs-interop';
 
@@ -15,6 +15,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class InventoryService extends DataService<TaskModelsCollectionName> {
+  stupid: BehaviorSubject<number> = new BehaviorSubject(0);
 
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
@@ -45,7 +46,6 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
     return   linkedSignal({
       source: () => this.#taskList.value(),
       computation: () => {
-        console.log('computing task list');
         if (this.#taskList.hasValue()) {
           const headers = JSON.parse(this.#taskList.headers()?.get('X-Pagination') ?? '{}');
           this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#taskList.value()}

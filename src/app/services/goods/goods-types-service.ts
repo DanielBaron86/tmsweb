@@ -4,13 +4,14 @@ import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import { paginatedResult, TypesCollectionName} from '../../models/base-model';
 import DataService from '../data-service';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export default class GoodsTypesService extends DataService<TypesCollectionName> {
+  stupid: BehaviorSubject<number> = new BehaviorSubject(0);
 
    updateItem(item: any): Observable<any> {
       throw new Error("Method not implemented.");

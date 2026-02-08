@@ -1,6 +1,6 @@
 import {WritableSignal} from '@angular/core';
 import { paginatedResult} from '../models/base-model';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 export default abstract class DataService<T> {
   abstract itemTypes(): any;
@@ -10,5 +10,7 @@ export default abstract class DataService<T> {
   abstract updateItem(item: any): Observable<any>
   abstract createItem(item: any): Observable<any>
   abstract activePage : WritableSignal<number>
+  abstract stupid: BehaviorSubject<number>
+
 
 }

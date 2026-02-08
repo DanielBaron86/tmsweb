@@ -7,14 +7,16 @@ import {
   paginatedResult,
 } from '../../models/base-model';
 import DataService from '../data-service';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export default class GoodsInstancesService extends DataService<ItemInstanceCollectionName> {
-   updateItem(item: any): Observable<any> {
+  stupid: BehaviorSubject<number> = new BehaviorSubject(0);
+
+  updateItem(item: any): Observable<any> {
       throw new Error("Method not implemented.");
   }
    createItem(item: any): Observable<any> {

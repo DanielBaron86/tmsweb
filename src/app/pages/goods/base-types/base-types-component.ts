@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component, computed, DestroyRef, effect,
   ElementRef,
-  inject,
+  inject, linkedSignal,
   signal,
   viewChildren, WritableSignal
 } from '@angular/core';
@@ -18,7 +18,6 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
 import DataService from '../../../services/data-service';
 import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {PageBreadcrumbComponent} from '../../../components/shared/page-breadcrumb-component/page-breadcrumb-component';
 
 
 
@@ -29,13 +28,18 @@ import {PageBreadcrumbComponent} from '../../../components/shared/page-breadcrum
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-  dataService = inject(DataService) as BaseItemsService;
-  location = inject(LocationStrategy);
-  http = inject(HttpClient)
-  private destroyRef = inject(DestroyRef);
+  readonly dataService = inject(DataService) as BaseItemsService;
+  readonly location = inject(LocationStrategy);
+  readonly http = inject(HttpClient)
+  private readonly destroyRef = inject(DestroyRef);
+
+  cachedItems = this.dataService.cache as WritableSignal<BaseItem[][]>;
+  headerInfo =this.dataService.header
+
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
+      //console.log(this.dataService.activePage(), this.dataService.cachedPages());
+        this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
     } )
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
