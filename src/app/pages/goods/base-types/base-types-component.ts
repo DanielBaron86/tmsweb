@@ -38,7 +38,7 @@ export class BaseTypesComponent {
 
   constructor() {
     effect( () =>{
-        this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
+        this.location.replaceState(null, '','/goods/base_types',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');

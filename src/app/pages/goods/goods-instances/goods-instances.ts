@@ -26,7 +26,7 @@ export class GoodsInstances {
 
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','/goods/item_list/',`pageNumber=${this.dataService.activePage()}&pageSize=${ this.headerInfo().PageSize}`);
+      this.location.replaceState(null, '','/goods/item_list',`pageNumber=${this.dataService.activePage()}&pageSize=${ this.headerInfo().PageSize}`);
     } )
   }
 

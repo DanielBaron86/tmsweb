@@ -85,7 +85,7 @@ export class ProcurementAddComponent {
     }
     this.inventoryService.createProcurementTask(createProcurement).subscribe({
       next: (res) =>  {
-        this.inventoryService.clearCache();
+        this.inventoryService.refresh();
         this.router.navigate(['/inventory/tasks']);
       },
       error: (err) => {

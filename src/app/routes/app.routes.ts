@@ -8,6 +8,9 @@ import {clientsRoutes} from './clients.routes';
 import { tasksRoutes} from './tasks.routes';
 import {storesRoutes} from './stores.routes';
 import {reportsRoutes} from './reports.routes';
+import {procurementTaskResolver} from '../resolvers/procurement-item-resolver';
+import {InventoryService} from '../services/inventory/inventory.service';
+import DataService from '../services/data-service';
 
 
 export const routes: Routes = [
