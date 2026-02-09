@@ -140,8 +140,8 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-      @if(dataService.itemTypes()){
-        @for (item of goodTypesList().result[dataService.activePage()].collectionName ; track  item.id){
+      @if(dataService.cache()){
+        @for (item of dataService.displayItems() ; track  item.id){
           <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #goodTypeList>
             <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
               <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
@@ -192,7 +192,7 @@
   </div>
     <app-pagination-component
       [pageNumbers]="pageNumbers()"
-      [TotalPageCount]="goodTypesList().paginationHeader.TotalPageCount"
+      [TotalPageCount]="headerInfo().TotalPageCount"
     >
     </app-pagination-component>
 </div>

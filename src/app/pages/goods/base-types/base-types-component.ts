@@ -33,12 +33,11 @@ export class BaseTypesComponent {
   readonly http = inject(HttpClient)
   private readonly destroyRef = inject(DestroyRef);
 
-  cachedItems = this.dataService.cache as WritableSignal<BaseItem[][]>;
+
   headerInfo =this.dataService.header
 
   constructor() {
     effect( () =>{
-      //console.log(this.dataService.activePage(), this.dataService.cachedPages());
         this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }

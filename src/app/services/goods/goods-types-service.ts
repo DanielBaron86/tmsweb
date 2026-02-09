@@ -1,8 +1,8 @@
-import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import { GoodsTypesModel} from '../../models/goods-models';
+import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
+import {BaseItem, GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
-import { paginatedResult, TypesCollectionName} from '../../models/base-model';
+import {paginatedResult, PaginationHeader, TypesCollectionName} from '../../models/base-model';
 import DataService from '../data-service';
 import {BehaviorSubject, Observable} from "rxjs";
 
@@ -11,59 +11,52 @@ import {BehaviorSubject, Observable} from "rxjs";
   providedIn: 'root',
 })
 export default class GoodsTypesService extends DataService<TypesCollectionName> {
-  stupid: BehaviorSubject<number> = new BehaviorSubject(0);
-  testCaheP: number[]=[];
-   updateItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
-  }
-   createItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
-  }
-  activePage = signal(1);
-  http = inject(HttpClient);
+
+  readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
+  activePage = signal(1);
+  pageNumber =signal<number>(1);
+  pageSize =signal<number>(20);
   cachedPages: number[]=[];
-  #cahedItems : TypesCollectionName[] =[];
-  clearCache(){
-    this.#cahedItems=[];
-  }
 
-  getCollectionList() {
-    return   linkedSignal({
-      source: () => this.#goodstypes.value(),
-      computation: () => {
-        if (this.#goodstypes.hasValue()) {
-          const headers = JSON.parse(this.#goodstypes.headers()?.get('X-Pagination') ?? '{}');
-          this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#goodstypes.value()}
-          const returnedObject: paginatedResult<TypesCollectionName[]> = {
-            result:  this.#cahedItems,
-            paginationHeader: headers
-          }
 
-          return returnedObject;
-        } else {
-          const returnedObject: paginatedResult<TypesCollectionName[]> = {
-            result: [{pageNumber : 0,collectionName : []}],
-            paginationHeader: {
-              TotalItemCount: 0,
-              TotalPageCount: 0,
-              PageSize: 0,
-              CurrentPage:0
-            }
-          }
-          return returnedObject;
-        }
+
+  cache = linkedSignal({
+    source: () => ({
+      data: this.#goodstypes.value(),
+      activePage: this.activePage(),
+    }),
+    computation: (source, previous) => {
+      const currentList = (previous?.value ?? []) as GoodsTypesModel[];
+      if (source.data && !this.cachedPages.includes(source.activePage)) {
+        this.cachedPages.push(source.activePage);
+        return {
+          ...currentList,
+          [source.activePage]: source.data // Store data under its page number key
+        };
       }
-    })
-  }
+      return currentList;
+    }
+  });
 
+  displayItems = computed(() => {
+    const pagedData = this.cache() as GoodsTypesModel[][];
+    const currentPage = this.activePage();
+    if (pagedData[currentPage]) {
+      return pagedData[currentPage];
+    }
+    return this.#goodstypes.value() ?? [];
+  });
 
+  header = computed<PaginationHeader>(
+    () => this.#goodstypes.hasValue() ? JSON.parse(this.#goodstypes.headers()?.get('X-Pagination') ?? '{}'): {}
+  )
 
-
-  itemTypes(){
-    return !!this.#goodstypes.hasValue();
+  refresh(){
+    this.#goodstypes.reload();
+    this.cachedPages=[];
   }
 
   readonly #goodstypes = httpResource<GoodsTypesModel[]>(() => ({
@@ -76,6 +69,11 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
     defaultValue:  signal<GoodsTypesModel[]>([])
   }));
 
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
+  updateItem(item: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+  createItem(item: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+
 }

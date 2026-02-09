@@ -32,18 +32,16 @@ export class GoodTypes {
   location = inject(LocationStrategy);
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.goodTypesList().paginationHeader.PageSize}`);
+      this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }
 
 
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
-
-
-  goodTypesList = this.dataService.getCollectionList()
+  headerInfo =this.dataService.header
   activePage = signal<number>(1);
   pageNumbers = computed(() =>
-    Array.from({ length: this.goodTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );
 
 
@@ -51,14 +49,14 @@ export class GoodTypes {
   this.filterTableByString($event.target.value);
   }
   protected filterTableByString(filterValue: string) {
-    this.goodTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val,index) => {
+    this.dataService.displayItems().forEach( (val,index) => {
       const isMatch =val.description.toLowerCase().includes(filterValue.toLowerCase()) || val.goodModelBaseTypeEntity?.manufacturer.toLowerCase().includes(filterValue.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
 
   protected filterTableById(filterValue: number) {
-    this.goodTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val,index) => {
+    this.dataService.displayItems().forEach( (val,index) => {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
@@ -66,6 +64,6 @@ export class GoodTypes {
 
   protected readonly InventoryKey = InventoryKey;
   protected exportExcel() {
-    console.log(this.goodTypesList());
+    console.log(this.dataService.displayItems());
   }
 }

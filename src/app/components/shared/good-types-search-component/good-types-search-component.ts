@@ -36,13 +36,13 @@ export class GoodTypesSearchComponent {
     });
   }
   dataService = inject(DataService) as GoodsTypesService;
+  headerInfo =this.dataService.header
 
   isOpen = signal(false)
   toggleText = computed(() => this.isOpen() ? 'Close' : 'Open');
   dropdownMenu = viewChild<ElementRef<HTMLElement>>("dropdownMenu");
-  listItems = this.dataService.getCollectionList();
   pageNumbers = computed(() =>
-    Array.from({ length: this.listItems().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );
 
 
