@@ -11,55 +11,14 @@ import DataService from '../data-service';
   providedIn: 'root',
 })
 export default class BaseItemsService extends DataService<BaseCollectionName> {
-  stupid = new BehaviorSubject(0);
-  activePage = signal(1);
-  cachedPages = signal<number[]>([]);
-
-  testCaheP : number[] = [];
-
-  http = inject(HttpClient);
-
+  readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
-   itemTypes(){
-    return !!this.#baseTypes.hasValue();
-  }
-
-#cahedItems : BaseCollectionName[] =[];
-clearCache(){
-  this.#cahedItems=[];
-}
-
-  getCollectionList() {
-    return   linkedSignal({
-      source: () => this.#baseTypes.value(),
-      computation: () => {
-        if (this.#baseTypes.hasValue()) {
-          const headers = JSON.parse(this.#baseTypes.headers()?.get('X-Pagination') ?? '{}');
-          this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#baseTypes.value()}
-          const returnedObject: paginatedResult<BaseCollectionName[]> = {
-            result:  this.#cahedItems,
-            paginationHeader: headers
-          }
-
-          return returnedObject;
-        } else {
-          const returnedObject: paginatedResult<BaseCollectionName[]> = {
-            result: [{pageNumber : 0,collectionName : []}],
-            paginationHeader: {
-              TotalItemCount: 0,
-              TotalPageCount: 0,
-              PageSize: 0,
-              CurrentPage:0
-            }
-          }
-          return returnedObject;
-        }
-      }
-    })
-  }
-
+  activePage = signal(1);
+  pageNumber =signal<number>(1);
+  pageSize =signal<number>(20);
+  cachedPages: number[]=[];
 
   cache = linkedSignal({
     source: () => ({
@@ -68,8 +27,8 @@ clearCache(){
     }),
     computation: (source, previous) => {
       const currentList = (previous?.value ?? []) as BaseItem[];
-      if (source.data && !this.testCaheP.includes(source.activePage)) {
-        this.testCaheP.push(source.activePage);
+      if (source.data && !this.cachedPages.includes(source.activePage)) {
+        this.cachedPages.push(source.activePage);
         return {
           ...currentList,
           [source.activePage]: source.data // Store data under its page number key
@@ -85,8 +44,6 @@ clearCache(){
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-
-    // Fallback: If not in cache, show the live resource value
     return this.#baseTypes.value() ?? [];
   });
 
@@ -105,7 +62,10 @@ clearCache(){
     defaultValue: []
   }));
 
-
+refresh(){
+  this.#baseTypes.reload();
+  this.cachedPages=[];
+}
 
   updateItem(baseItem: BaseItem) {
     return this.http.put<BaseItem>(`${this.apiUrl}/v1/goods_base/${baseItem.id}`, baseItem).pipe(
@@ -123,6 +83,4 @@ clearCache(){
     )
   }
 
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
 }

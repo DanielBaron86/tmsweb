@@ -39,20 +39,19 @@ export class BaseTypesComponent {
   constructor() {
     effect( () =>{
       //console.log(this.dataService.activePage(), this.dataService.cachedPages());
-        this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.baseTypesList().paginationHeader.PageSize}`);
+        this.location.replaceState(null, '','/goods/base_types/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('baseList');
-  baseTypesList : WritableSignal<paginatedResult<BaseCollectionName[]>> =this.dataService.getCollectionList();
   operation =signal<string>('edit');
   disabled = signal<boolean>(false);
   baseId = signal<number>(0);
   pageNumbers = computed(() =>
-    Array.from({ length: this.baseTypesList().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );
   editableItem =computed( ()=> {
     if(this.baseId() != 0){
-      return this.baseTypesList().result[this.dataService.activePage()].collectionName.filter(b => b.id == this.baseId())[0]
+      return this.dataService.displayItems().filter(b => b.id == this.baseId())[0]
     }
     let obj: BaseItem= {  id :0 ,description:'' , manufacturer: ''}
     return obj;
@@ -79,7 +78,7 @@ export class BaseTypesComponent {
     operation.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         if (this.operation() === 'new') {
-          this.baseTypesList().result[this.dataService.activePage()].collectionName.push(data);
+          this.dataService.refresh();
         }
         this.disabled.set(false);
         this.filterTableByString('');
@@ -92,14 +91,14 @@ export class BaseTypesComponent {
     this.filterTableByString($event.target.value);
   }
   protected filterTableByString(filterValue: string) {
-    this.baseTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val, index) => {
+    this.dataService.displayItems().forEach( (val, index) => {
       const isMatch =val.description.toLowerCase().includes(filterValue.toLowerCase()) || val.manufacturer.toLowerCase().includes(filterValue.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
 
   protected filterTableById(filterValue: number) {
-    this.baseTypesList().result[this.dataService.activePage()]?.collectionName.forEach( (val, index) => {
+    this.dataService.displayItems().forEach( (val, index) => {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
@@ -111,7 +110,7 @@ export class BaseTypesComponent {
   }
 
   protected Export() {
-     console.log(this.dataService.cachedPages());
-     console.log(this.baseTypesList());
+     console.log(this.dataService.cachedPages);
+
   }
 }

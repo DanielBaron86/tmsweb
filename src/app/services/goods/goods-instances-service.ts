@@ -32,7 +32,7 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
     return !!this.#itemList.hasValue();
   }
 
-  cachedPages = signal<number[]>([1]);
+  cachedPages: number[]=[];
   #cahedItems : ItemInstanceCollectionName[] =[];
   clearCache(){
     this.#cahedItems=[];

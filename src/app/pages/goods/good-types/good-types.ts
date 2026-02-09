@@ -65,35 +65,6 @@ export class GoodTypes {
   }
 
   protected readonly InventoryKey = InventoryKey;
-
-  protected decreasePage() {
-    this.dataService.activePage() < 2 ? this.activePage.set(this.goodTypesList().paginationHeader.TotalPageCount) : this.activePage.set(this.dataService.activePage() - 1);
-    console.log(this.dataService.activePage() );
-    if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
-      this.dataService.pageNumber.set(this.dataService.activePage());
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
-    }
-
-  }
-
-  protected increasePage() {
-
-    this.dataService.activePage() > this.goodTypesList().paginationHeader.TotalPageCount-1 ? this.activePage.set(1) : this.activePage.set(this.dataService.activePage() + 1);
-    console.log(this.dataService.activePage() );
-    if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
-      this.dataService.pageNumber.set(this.dataService.activePage());
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
-    }
-  }
-
-  protected changePage(pageNumber: number) {
-    this.activePage.set(pageNumber);
-    if (!this.dataService.cachedPages().includes(this.dataService.activePage())) {
-      this.dataService.cachedPages().push(this.dataService.activePage()) ;
-      this.dataService.pageNumber.set(pageNumber);
-    }
-  }
-
   protected exportExcel() {
     console.log(this.goodTypesList());
   }

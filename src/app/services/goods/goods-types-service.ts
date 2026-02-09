@@ -24,7 +24,7 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
-  cachedPages = signal<number[]>([1]);
+  cachedPages: number[]=[];
   #cahedItems : TypesCollectionName[] =[];
   clearCache(){
     this.#cahedItems=[];

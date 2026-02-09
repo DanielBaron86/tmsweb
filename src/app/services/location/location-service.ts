@@ -10,8 +10,8 @@ import {BehaviorSubject, Observable} from "rxjs";
   providedIn: 'root',
 })
 export class LocationService extends DataService<LocationCollectionName> {
-  testCaheP: number[]=[];
-   stupid: BehaviorSubject<number> = new BehaviorSubject(0);
+  cachedPages: number[]=[];
+
 
   readonly  http = inject(HttpClient);
   readonly config = inject(ConfigService);
@@ -19,7 +19,6 @@ export class LocationService extends DataService<LocationCollectionName> {
 
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
-  cachedPages = signal<number[]>([1]);
   activePage = signal(1);
   #cahedItems : LocationCollectionName[] =[];
 

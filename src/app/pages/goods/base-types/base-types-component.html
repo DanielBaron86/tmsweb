@@ -146,7 +146,7 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-        @if (dataService.itemTypes()){
+        @if (dataService.cache()){
           @for (baseItem of dataService.displayItems(); track baseItem.id) {
             <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #baseList>
               <td class="lg:w-14 px-5 py-4 whitespace-nowrap">

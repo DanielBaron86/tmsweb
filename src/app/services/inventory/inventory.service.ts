@@ -27,7 +27,7 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
   itemTypes() {
     return !!this.#taskList.hasValue();
   }
-  cachedPages = signal<number[]>([1]);
+  cachedPages: number[]=[];
   clearCache(){
     this.#cahedItems=[];
     this.#taskList.reload();
