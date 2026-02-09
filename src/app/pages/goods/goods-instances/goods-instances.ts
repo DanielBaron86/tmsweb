@@ -26,7 +26,7 @@ export class GoodsInstances {
 
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','/goods/item_list/',`pageNumber=${this.dataService.activePage()}&pageSize=${this.goodsListInstances().paginationHeader.PageSize}`);
+      this.location.replaceState(null, '','/goods/item_list/',`pageNumber=${this.dataService.activePage()}&pageSize=${ this.headerInfo().PageSize}`);
     } )
   }
 
@@ -34,24 +34,24 @@ export class GoodsInstances {
   dataService = inject(DataService) as GoodsInstancesService;
   location = inject(LocationStrategy);
   protected readonly GoodsStatusEnum = GoodsStatusEnum;
+  headerInfo =this.dataService.header
 
-  goodsListInstances  = this.dataService.getCollectionList();
   pageNumbers = computed(() =>
-    Array.from({ length: this.goodsListInstances().paginationHeader.TotalPageCount }, (_, i) => i + 1)
+    Array.from({ length:  this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );
   protected onSearchInput($event: any) {
     this.filterTableByString($event.target.value);
   }
 
   protected filterTableByString(filterValue: string) {
-    this.goodsListInstances().result[this.dataService.activePage()]?.collectionName.forEach( (val,index) => {
+    this.dataService.displayItems().forEach( (val,index) => {
       const isMatch =val.serialNumber.toLowerCase().includes(filterValue.toLowerCase()) || val.manufacturer.toLowerCase().includes(filterValue.toLowerCase())
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
 
   protected filterTableById(filterValue: number) {
-    this.goodsListInstances().result[this.dataService.activePage()]?.collectionName.forEach( (val,index) => {
+    this.dataService.displayItems().forEach( (val,index) => {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
