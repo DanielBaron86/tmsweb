@@ -3,6 +3,7 @@ import DataService from '../services/data-service';
 import GoodsTypesService from '../services/goods/goods-types-service';
 import {InventoryService} from '../services/inventory/inventory.service';
 import {procurementTaskResolver} from '../resolvers/procurement-item-resolver';
+import {LocationService} from '../services/location/location-service';
 
 
 export const inventoryRoutes: Routes  =[

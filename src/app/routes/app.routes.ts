@@ -11,6 +11,8 @@ import {reportsRoutes} from './reports.routes';
 import {procurementTaskResolver} from '../resolvers/procurement-item-resolver';
 import {InventoryService} from '../services/inventory/inventory.service';
 import DataService from '../services/data-service';
+import {LocationService} from '../services/location/location-service';
+import GoodsTypesService from '../services/goods/goods-types-service';
 
 
 export const routes: Routes = [
