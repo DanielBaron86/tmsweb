@@ -22,7 +22,7 @@ import {PaginationComponent} from '../pagination-component/pagination-component'
   ],
   templateUrl: './good-types-search-component.html',
   providers: [
-    {provide: DataService, useClass: GoodsTypesService}
+    {provide: DataService, useExisting: GoodsTypesService}
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

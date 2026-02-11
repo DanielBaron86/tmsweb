@@ -20,7 +20,7 @@ import {PaginationComponent} from '../pagination-component/pagination-component'
     PaginationComponent
   ],
   providers: [
-    {provide: DataService, useClass: LocationService}
+    {provide: DataService, useExisting: LocationService}
   ],
   templateUrl: './location-search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
