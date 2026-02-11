@@ -9,6 +9,7 @@ import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner
 import {Router} from '@angular/router';
 import DataService from '../../../services/data-service';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
+import {SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
 
 @Component({
   selector: 'app-tasks-list-component',
@@ -18,7 +19,7 @@ import {PaginationComponent} from '../../../components/shared/pagination-compone
     DropdownDirective,
     SpinnerComponent,
     ButtonComponent,
-    PaginationComponent
+    PaginationComponent,
   ],
   templateUrl: './tasks-list-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

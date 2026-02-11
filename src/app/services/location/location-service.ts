@@ -1,10 +1,12 @@
-import {inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {LocationCollectionName, LocationUnitModel} from '../../models/location-models';
 import DataService from '../data-service';
-import {BaseCollectionName, paginatedResult, TypesCollectionName} from '../../models/base-model';
+import {BaseCollectionName, paginatedResult, PaginationHeader, TypesCollectionName} from '../../models/base-model';
 import {BehaviorSubject, Observable} from "rxjs";
+import {QueryFilters} from '../../models/query-models';
+import {BaseItem} from '../../models/goods-models';
 
 @Injectable({
   providedIn: 'root',
@@ -75,4 +77,25 @@ export class LocationService extends DataService<LocationCollectionName> {
     method: 'GET',
     defaultValue: signal<Location[]>([])
   }));
+
+  getLocationsWithFilters(queryFilters:QueryFilters){
+    const locations= httpResource<LocationUnitModel[]>( () => ({
+      url: `${this.apiUrl}/v1/locations/query`,
+      method: 'POST',
+      body: queryFilters,
+    }))
+    const header = computed<PaginationHeader>(
+      () => locations.hasValue() ? JSON.parse(locations.headers()?.get('X-Pagination') ?? '{}'): {}
+    )
+    const displayItems = computed(() => {
+      const pagedData = locations.value() as LocationUnitModel[];
+      if (pagedData) {
+        return pagedData;
+      }
+      return locations.value() ?? [];
+    });
+
+    return {header,displayItems}
+  }
+
 }

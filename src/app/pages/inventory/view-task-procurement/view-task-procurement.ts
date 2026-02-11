@@ -25,6 +25,7 @@ import DataService from '../../../services/data-service';
     DatePipe,
     EnumToStringPipe
   ],
+  providers: [{provide: DataService, useClass: InventoryService}],
   templateUrl: './view-task-procurement.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
