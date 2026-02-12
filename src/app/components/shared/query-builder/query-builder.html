@@ -43,9 +43,9 @@
               <div>
                 <div class="relative">
                   <select formControlName="keyField"  class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
-                    <option value="" disabled="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"> Select Option </option>
-                    <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="address"> Address </option>
-                    <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="description"> Description </option>
+                    @for( option of selectOptions(); track $index; let i = $index){
+                      <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="{{option.value}}"> {{option.text}} </option>
+                    }
                   </select>
                 </div>
               </div>

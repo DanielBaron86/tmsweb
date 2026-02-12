@@ -12,6 +12,7 @@ import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from
 import {toSignal} from '@angular/core/rxjs-interop';
 import {QueryFilters} from '../../../models/query-models';
 import {DropdownDirective} from '../../../directives/dropdown-directive';
+import {SelectedOption} from '../../form/select-with-search/select-with-search';
 
 
 @Component({
@@ -76,5 +77,5 @@ export class QueryBuilder {
     this.emitQueryFilter.emit(this.formValue() as QueryFilters);
     this.Toogle();
   }
-
+  selectOptions= input<SelectedOption[]>([]);
 }

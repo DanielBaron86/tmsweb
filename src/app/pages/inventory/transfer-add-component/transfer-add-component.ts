@@ -4,12 +4,14 @@ import {SelectedOption, SelectWithSearch} from '../../../components/form/select-
 import {LocationService} from '../../../services/location/location-service';
 import {QueryFilters} from '../../../models/query-models';
 import {QueryBuilder} from '../../../components/shared/query-builder/query-builder';
+import {GoodsInstanceSearch} from '../../../components/shared/goods-instance-search/goods-instance-search';
 
 @Component({
   selector: 'app-transfer-add-component',
   imports: [
     SelectWithSearch,
     QueryBuilder,
+    GoodsInstanceSearch,
   ],
   templateUrl: './transfer-add-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +39,10 @@ locationOption =signal<SelectedOption>({"value":"0",  "text":''})
       console.log($event)
   }
 
+  availableOptions :SelectedOption[] =[
+    {value: 'Address', text: 'Address'},
+    {value: 'Description', text: 'Description'}
+  ]
 
   protected ReceiveFilters($event: any) {
     this.locationService.queryFilters.set($event)
