@@ -1,30 +1,33 @@
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit} from '@angular/core';
 import {AuthServices} from '../../../services/auth/auth.services';
 import {Option, SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
-import {LocationSearchComponent} from '../../../components/shared/location-search-component/location-search-component';
 import {LocationService} from '../../../services/location/location-service';
 import {QueryFilters} from '../../../models/query-models';
+import {QueryBuilder} from '../../../components/shared/query-builder/query-builder';
 
 @Component({
   selector: 'app-transfer-add-component',
   imports: [
-    SelectWithSearch
+    SelectWithSearch,
+    QueryBuilder,
   ],
   templateUrl: './transfer-add-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferAddComponent implements OnInit {
+
   ngOnInit(): void {
       console.log(this.locationOptions.displayItems())
   }
 
+
 queryFilter: QueryFilters={
     pageNumber: 1,
     pageSize: 100,
-   queryFields : [
-     {keyField: 'Address', keyValue: "Suceava"},
-     {keyField: 'Description', keyValue: "item"}
-   ]
+   // queryFields : [
+   //   {keyField: 'Address', keyValue: "Suceava"},
+   //   {keyField: 'Description', keyValue: "item"}
+   // ]
 }
   readonly auth = inject(AuthServices)
   readonly locationService = inject(LocationService)
@@ -42,4 +45,6 @@ queryFilter: QueryFilters={
   protected ReceiveLocation($event: any) {
       console.log($event)
   }
+
+
 }
