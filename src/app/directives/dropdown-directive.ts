@@ -24,7 +24,7 @@ export class DropdownDirective {
 
 
   protected toggleDropdown(event: Event) {
-    //console.log('clicked DropdownDirective',this.menu()?.nativeElement);
+    console.log('clicked DropdownDirective',this.menu()?.nativeElement);
     event.stopPropagation(); // Stop click from bubbling up
     this.service.toggle(this)
   }

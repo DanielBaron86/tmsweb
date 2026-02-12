@@ -10,4 +10,5 @@ export  interface QueryFields
 {
 keyField : string;
 keyValue : string| number;
+method: string;
 }

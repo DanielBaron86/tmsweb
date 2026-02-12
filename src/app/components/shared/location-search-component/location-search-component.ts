@@ -34,8 +34,6 @@ export class LocationSearchComponent {
         menuEl.style.display = this.isOpen() ? 'block' : 'none';
       }
     });
-
-
   }
 
   dataService = inject(DataService) as LocationService;

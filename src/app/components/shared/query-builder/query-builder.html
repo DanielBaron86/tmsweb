@@ -1,33 +1,39 @@
 <div class="bg-white border border-gray-200 dark:bg-white/[0.03] dark:border-gray-800 rounded-2xl">
-  <div class="px-6 py-5">
-    <h3 class="text-base font-medium text-gray-800 dark:text-white/90"> Query Form </h3>
+  <div class="px-6 py-5" >
+    <button (click)="Toogle()" class="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300">{{queryTitle()}}</button>
   </div>
-  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6"  #dropdownMenu >
     <div class="space-y-6">
-      <form [formGroup]="queryFilterForm" (ngSubmit)="onSubmit()">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <div>
+      <form [formGroup]="queryFilterForm" (ngSubmit)="onSubmit()" >
+        <div class="grid grid-cols-2 gap-6 sm:grid-cols-3" >
+          <div class="col-span-2 sm:col-span-1">
+              <label for="page-number" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Page Number</label>
             <div class="relative">
               <input [formControl]="queryFilterForm.controls.pageNumber" type="number" id="page-number" name="page-number" placeholder="Page number" min="undefined" max="undefined" step="undefined" class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800">
             </div>
           </div>
-          <div>
+          <div class="col-span-2 sm:col-span-1">
+            <label for="page-size" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Page Size</label>
             <div class="relative">
               <input [formControl]="queryFilterForm.controls.pageSize" type="number" id="page-size" name="page-size" placeholder="Page size" min="1" max="100" step="1" class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800">
             </div>
           </div>
-          <button (click)="addQueryFilter()" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300">
-            Add Fields
-          </button>
+          <div class="col-span-2 sm:col-span-1">
+            <label for="page-size" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Extra search fields</label>
+            <button (click)="addQueryFilter()" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300">
+              Add Fields
+            </button>
+          </div>
+
         </div>
         <hr class="my-6">
         <div formArrayName="queryFields">
-          @for (filter of queryFilterForm.controls.queryFields.controls; track $index) {
+          @for (filter of queryFields.controls; track $index; let i = $index) {
 
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-4 my-2" [formGroupName]="$index">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-4 my-2" [formGroupName]="i">
               <div>
                 <div class="relative">
-                  <select [formControl]="filter.controls.method" class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
+                  <select formControlName="method" class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
                     <option value="" disabled="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"> Select Option </option>
                     <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="where"> Where </option>
                     <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="or"> Or </option>
@@ -36,7 +42,7 @@
               </div>
               <div>
                 <div class="relative">
-                  <select [formControl]="filter.controls.keyField" class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
+                  <select formControlName="keyField"  class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
                     <option value="" disabled="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"> Select Option </option>
                     <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="address"> Address </option>
                     <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="description"> Description </option>
@@ -45,7 +51,7 @@
               </div>
               <div>
                 <div class="relative">
-                  <input  [formControl]="filter.controls.keyValue" type="text"  name="" placeholder="Key Value" min="undefined" max="undefined" step="undefined" class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800">
+                  <input  formControlName="keyValue"  type="text"  name="" placeholder="Key Value" min="undefined" max="undefined" step="undefined" class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800">
                 </div>
               </div>
               <div>

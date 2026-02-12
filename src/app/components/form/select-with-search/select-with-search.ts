@@ -1,14 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  contentChildren,
   ElementRef,
   input,
-  model,
   output,
-  signal, viewChildren
+  viewChildren
 } from '@angular/core';
-export interface Option {
+export interface SelectedOption {
   value: string;
   text: string;
 }
@@ -27,7 +25,7 @@ emitSelected = output<any>();
 
 placeholder = input('Search...')
 label = input('')
-options = input<Option[]>([]);
+options = input<SelectedOption[]>([]);
 defaultSelected = input<string[]>([]);
 disabled =input(false);
 selectionChange =output<string[]>();
@@ -44,9 +42,9 @@ selectionChange =output<string[]>();
     if (!this.disabled()) this.isOpen = !this.isOpen;
   }
 
-  handleSelect(optionValue: string) {
+  handleSelect(options: SelectedOption) {
     this.isOpen = false;
-    this.emitSelected.emit(optionValue);
+    this.emitSelected.emit(options);
   }
 
   protected handleSearch($event: any) {

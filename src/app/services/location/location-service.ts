@@ -82,7 +82,7 @@ export class LocationService extends DataService<LocationCollectionName> {
     const locations= httpResource<LocationUnitModel[]>( () => ({
       url: `${this.apiUrl}/v1/locations/query`,
       method: 'POST',
-      body: queryFilters,
+      body: this.queryFilters(),
     }))
     const header = computed<PaginationHeader>(
       () => locations.hasValue() ? JSON.parse(locations.headers()?.get('X-Pagination') ?? '{}'): {}
@@ -97,5 +97,12 @@ export class LocationService extends DataService<LocationCollectionName> {
 
     return {header,displayItems}
   }
+  queryFilters =signal<QueryFilters>(
+    {
+      pageNumber: 1,
+      pageSize: 100,
+      queryFields: []
+    }
+  )
 
 }
