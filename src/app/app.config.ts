@@ -11,11 +11,7 @@ import GoodsTypesService from './services/goods/goods-types-service';
 import {LocationService} from './services/location/location-service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [LocationService,GoodsTypesService,
-    provideAppInitializer(() => {
-      const configService = inject(ConfigService);
-      return configService.loadConfig();
-    }),
+  providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes,withComponentInputBinding()),
     provideHttpClient(withInterceptors([authInterceptor,refreshTokenInterceptor]), withFetch()),

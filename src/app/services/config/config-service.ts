@@ -17,21 +17,21 @@ export class ConfigService {
 
   private config: any = this.DEFAULT_CONFIG;
 
-  async loadConfig() {
-    if (isDevMode()) {
-      this.config = this.DEFAULT_CONFIG;
-      return;
-    }
-
-    try {
-      this.config = await lastValueFrom(
-        this.http.get('/assets/config.json').pipe(timeout(2000))
-      );
-    } catch (err) {
-      console.error('Could not load config, falling back to defaults', err);
-      this.config = this.DEFAULT_CONFIG;
-    }
-  }
+  // async loadConfig() {
+  //   if (isDevMode()) {
+  //     this.config = this.DEFAULT_CONFIG;
+  //     return;
+  //   }
+  //
+  //   try {
+  //     this.config = await lastValueFrom(
+  //       this.http.get('/assets/config.json').pipe(timeout(2000))
+  //     );
+  //   } catch (err) {
+  //     console.error('Could not load config, falling back to defaults', err);
+  //     this.config = this.DEFAULT_CONFIG;
+  //   }
+  // }
 
   get apiUrl(): string {
     return this.config.apiUrl;
