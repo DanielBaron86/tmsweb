@@ -25,7 +25,7 @@ export class ConfigService {
 
     try {
       this.config = await lastValueFrom(
-        this.http.get('/assets/config.json').pipe(timeout(5000))
+        this.http.get('/assets/config.json').pipe(timeout(2000))
       );
     } catch (err) {
       console.error('Could not load config, falling back to defaults', err);
