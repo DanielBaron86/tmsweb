@@ -8,6 +8,8 @@ import {
 } from '../../models/base-model';
 import DataService from '../data-service';
 import {BehaviorSubject, Observable} from "rxjs";
+import {QueryFilters} from '../../models/query-models';
+import {LocationUnitModel} from '../../models/location-models';
 
 
 @Injectable({
@@ -72,6 +74,33 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   createItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");
   }
+
+  getGoodsWithFilters(queryFilters:QueryFilters){
+    const locations= httpResource<v_GoodsTypesInstances[]>( () => ({
+      url: `${this.apiUrl}/v1/goods_instance/query`,
+      method: 'POST',
+      body: this.queryFilters(),
+    }))
+    const header = computed<PaginationHeader>(
+      () => locations.hasValue() ? JSON.parse(locations.headers()?.get('X-Pagination') ?? '{}'): {}
+    )
+    const displayItems = computed(() => {
+      const pagedData = locations.value() as v_GoodsTypesInstances[];
+      if (pagedData) {
+        return pagedData;
+      }
+      return locations.value() ?? [];
+    });
+
+    return {header,displayItems}
+  }
+  queryFilters =signal<QueryFilters>(
+    {
+      pageNumber: 1,
+      pageSize: 100,
+      queryFields: []
+    }
+  )
 
 
 }

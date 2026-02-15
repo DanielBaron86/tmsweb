@@ -1,10 +1,11 @@
 <app-query-builder (emitQueryFilter)="ReceiveFilters($event)"
                    [queryTitle]="'Location Query Filters'"
+                   [selectOptions]="availableOptions"
+
 >
 
 </app-query-builder>
 <app-select-with-search [options]="options()" (emitSelected)="ReceiveLocation($event)" ></app-select-with-search>
 
 Transfering items to {{locationOption().text}}
-
-
+<app-goods-instance-search></app-goods-instance-search>
