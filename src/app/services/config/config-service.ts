@@ -9,30 +9,32 @@ import {lastValueFrom, timeout} from 'rxjs';
 export class ConfigService {
 
   readonly http = inject(HttpClient);
-  private config: any;
+
   private readonly DEFAULT_CONFIG = {
     apiUrl: 'https://localhost:7220/api',
     apStr: 'Default App String'
   };
 
+  private config: any = this.DEFAULT_CONFIG;
+
   async loadConfig() {
     if (isDevMode()) {
       this.config = this.DEFAULT_CONFIG;
-    }else{
-      try {
-        this.config = await lastValueFrom(this.http.get('/assets/config.json').pipe( timeout(5000) ) );
-      } catch (err) {
-        this.config = this.DEFAULT_CONFIG;
-        console.error('Could not load config, falling back to defaults', err);
-      }
+      return;
     }
 
-
+    try {
+      this.config = await lastValueFrom(
+        this.http.get('/assets/config.json').pipe(timeout(5000))
+      );
+    } catch (err) {
+      console.error('Could not load config, falling back to defaults', err);
+      this.config = this.DEFAULT_CONFIG;
+    }
   }
 
-  get apiUrl() {
-    return  this.config.apiUrl;
+  get apiUrl(): string {
+    return this.config.apiUrl;
   }
-
 
 }
