@@ -11,7 +11,7 @@ export class ConfigService {
   readonly http = inject(HttpClient);
 
   private readonly DEFAULT_CONFIG = {
-    apiUrl: 'https://localhost:7220/api',
+    apiUrl: 'https://tmsapi.danielsplaygrounds.com/api',
     apStr: 'Default App String'
   };
 
