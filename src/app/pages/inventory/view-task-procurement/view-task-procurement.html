@@ -7,12 +7,8 @@
       <p
         class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Create date:&nbsp; {{task().createdDate | date:'medium'}} </p>
     </div>
-    <div class="flex gap-3">
-      <button class="bg-brand-500 shadow-theme-xs hover:bg-brand-600 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition"> View Receipt </button>
-      <button class="shadow-theme-xs inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-700 ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03]">
-        Refund </button>
-    </div>
   </div>
+  <div class="my-4"></div>
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
     <div class="lg:col-span-8 2xl:col-span-9">
       <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3">
@@ -22,47 +18,27 @@
             <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
               <thead class="bg-gray-50 dark:bg-gray-900">
               <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> S. No. </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Products </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Task Id </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Good Type Id </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Good Type </th>
                 <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Quantity </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Unit Cost </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Discount </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Total </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Remaining Quantity </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Id </th>
+                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Address </th>
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-              <tr>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 1 </td>
-                <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> Macbook pro 13” </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 1 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $1200 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 0% </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $1200 </td>
-              </tr>
-              <tr>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 2 </td>
-                <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> Apple Watch Ultra </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 1 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $300 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 50% </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $150 </td>
-              </tr>
-              <tr>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 3 </td>
-                <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> iPhone 15 Pro Max </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 2 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $800 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 0% </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $1600 </td>
-              </tr>
-              <tr>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 4 </td>
-                <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> iPad Pro 3rd Gen </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 1 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $900 </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> 0% </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> $900 </td>
-              </tr>
+              @for ( order of task().tasksEntitiesProcurements; track  order.id){
+                <tr>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.taskId}} </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.goodTypeId}} </td>
+                  <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{order.goodType}} </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.quantity}} </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.remainingQuantity}} </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.location}} </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.locationTypesInstances.address}} - {{order.locationTypesInstances.description}} </td>
+                </tr>
+              }
               </tbody>
             </table>
           </div>
@@ -71,9 +47,8 @@
           <div class="mt-6 w-full space-y-1 text-right sm:w-[220px]">
             <p class="mb-4 text-left text-sm font-medium text-gray-800 dark:text-white/90"> Order summary </p>
             <ul class="space-y-2">
-              <li class="flex justify-between gap-5"><span class="text-sm text-gray-500 dark:text-gray-400"> Sub Total </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> $3,850 </span></li>
-              <li class="flex items-center justify-between"><span class="text-sm text-gray-500 dark:text-gray-400"> Vat (10%): </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> $385 </span></li>
-              <li class="flex items-center justify-between"><span class="font-medium text-gray-700 dark:text-gray-400"> Total </span><span class="text-lg font-semibold text-gray-800 dark:text-white/90"> $4,235 </span></li>
+              <li class="flex justify-between gap-5"><span class="text-sm text-gray-500 dark:text-gray-400">Total Items </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{summary().total}} </span></li>
+              <li class="flex items-center justify-between"><span class="text-sm text-gray-500 dark:text-gray-400"> Remaining </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{summary().remaining}} </span></li>
             </ul>
           </div>
         </div>
@@ -99,7 +74,48 @@
           <div>
           </div>
         </div>
-
   </div>
+<div class="my-4"></div>
+  <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
+    <div class="space-y-6">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
+          <div>
+            <app-label>Good Type</app-label>
+          </div>
+          <div>
+            <app-label>Price</app-label>
+          </div>
+          <div>
+            <app-label>	Serial Number</app-label>
+          </div>
+          <div>
+            <app-label>Quantity</app-label>
+          </div>
+          <div>
+          </div>
+        </div>
 
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
+          <div>
+            <select (change)="OnChange(godType.value)"  #godType class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
+              @for(item of goodsOptions(); track $index; let i = $index) {
+                <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="{{item.itemValue}}">{{item.itemText}}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <input [field]="fulfillGoodsForm.price" type="number" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+          </div>
+          <div>
+            <input [field]="fulfillGoodsForm.serialNumber" type="text" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+          </div>
+          <div>
+            <input [field]="fulfillGoodsForm.quantity" type="number"  class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+          </div>
+          <div class="px-2 py-3 font-normal text-theme-sm dark:text-white/90 whitespace-nowrap">
+            <button class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-current"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z" fill=""></path></svg></span></button>
+          </div>
+        </div>
+    </div>
+  </div>
 

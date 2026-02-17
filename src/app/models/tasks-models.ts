@@ -1,4 +1,6 @@
 import {BaseModel} from './base-model';
+import {LocationUnitModel} from './location-models';
+import {exec} from 'node:child_process';
 
 
 
@@ -19,7 +21,21 @@ export  interface ProcurementsSubtaskModel {
   location: number;
   quantity: number;
   remainingQuantity: number;
+  locationTypesInstances : LocationUnitModel;
 }
 export interface ProcurementsModel extends TaskModels{
-  TasksEntitiesProcurements: ProcurementsSubtaskModel[];
+  tasksEntitiesProcurements: ProcurementsSubtaskModel[];
+}
+export interface FulfillGoodsModel {
+  price: number;
+  serialNumber: string;
+  quantity: number;
+
+}
+
+export interface FulfilmentModel {
+  supplier: number;
+  subTaskId: number;
+  userId: number;
+  fulfillmentGoods: FulfillGoodsModel[];
 }

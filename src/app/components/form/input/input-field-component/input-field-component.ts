@@ -38,7 +38,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   value = model<number | string>('');
   type = model('');
   id =input.required<string>();
-  name = input.required<string>();
+  name = input<string>();
   placeholder = input<string>('');
   min =input<string>('')
   max =input<string>('');

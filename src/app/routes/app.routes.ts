@@ -32,6 +32,7 @@ export const routes: Routes = [
   {
     path: 'inventory', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
     canActivate: [CanActivateAuthGuard],
+    providers: [{provide: DataService, useClass: InventoryService}],
     children: [
       ...inventoryRoutes,
     ]
@@ -81,7 +82,7 @@ export const routes: Routes = [
   {
     path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
   },
-  // {
-  //   path: '**', redirectTo: '/404'
-  // },
+  {
+    path: '**', redirectTo: '/404'
+  },
 ];
