@@ -5,7 +5,7 @@ import {
   input, linkedSignal, OnInit,
   signal,
 } from '@angular/core';
-import {FulfillGoodsModel,  ProcurementsModel} from '../../../models/tasks-models';
+import {FulfillGoodsModel, FulfilmentModel, ProcurementsModel} from '../../../models/tasks-models';
 import {DatePipe} from '@angular/common';
 import {TaskTypesStatus, UserTypeEnum} from '../../../models/status-enums';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
@@ -42,7 +42,10 @@ export class ViewTaskProcurement {
   readonly locationService = inject(LocationService)
   readonly auth = inject(AuthServices)
 
+  protected readonly TaskTypesStatus = TaskTypesStatus;
+  protected readonly UserTypeEnum = UserTypeEnum;
 
+  showForm = signal(false);
   queryFilters =signal<QueryFilters>(
     {
       pageNumber: 1,
@@ -57,7 +60,6 @@ export class ViewTaskProcurement {
     }
   )
   locationOptions = this.locationService.getLocationsWithFilters(this.queryFilters)
-
   options = linkedSignal({
     source: () =>this.locationOptions.value(),
     computation : () => {
@@ -71,6 +73,7 @@ export class ViewTaskProcurement {
       return options
     }
     })
+
   id = input.required<number>();
   task = input.required<ProcurementsModel>();
   userProfile = this.userService.getUserById(( () =>this.task().creatorId));
@@ -89,15 +92,30 @@ export class ViewTaskProcurement {
       userId: profile.id
     }));
   });
-  goodsBySubTask = signal<Record<number, any[]>>({});
+  goodsBySubTask = signal<Record<number, FulfillGoodsModel[]>>({});
   itemsToCreate = computed(() => {
     const goodsMap = this.goodsBySubTask();
 
     return this.baseItems().map(item => ({
       ...item,
       fulfillmentGoods: goodsMap[item.subTaskId] ?? []
-    }));
+    })) as FulfilmentModel[];
   });
+
+  subTaskId =signal<number>(0)
+  addFulfillmentGood(subTaskId: number, good: any) {
+    const findSubTask = this.task().tasksEntitiesProcurements.find(item => item.id === subTaskId);
+   if (!findSubTask) return;
+   if (this.goodsBySubTask()[findSubTask.id] !== undefined && this.goodsBySubTask()[findSubTask.id].length > findSubTask.remainingQuantity-1){
+     return
+   }else {
+     this.goodsBySubTask.update(map => ({
+       ...map,
+       [subTaskId]: [...(map[subTaskId] ?? []), good]
+     }));
+   }
+  }
+
   removeFulfillmentGood(subTaskId: number, index: number) {
     this.goodsBySubTask.update(map => ({
       ...map,
@@ -118,7 +136,7 @@ export class ViewTaskProcurement {
 
   goodsOptions = computed( () => {
     const mappedItems =  this.task()?.tasksEntitiesProcurements
-        .map( (item) => ({itemValue: item.goodTypeId, itemText: item.goodType})) ?? []
+        .map( (item) => ({itemValue: item.id, itemText: item.goodType})) ?? []
 
     return [
       { itemValue: null, itemText: 'Select a good...' },
@@ -142,33 +160,38 @@ export class ViewTaskProcurement {
     })
   })
 
-  queryFilter: QueryFilters={
-    pageNumber: 1,
-    pageSize: 100,
-  }
 
-
+  serialNumbers = new Set<string>();
   onSubmit(event: Event) {
     event.preventDefault();
     if (this.fulfillGoodsForm().invalid()) {
       this.fulfillGoodsForm().markAsTouched();
       return;
     }
+    if(this.serialNumbers.has(this.fulfillGoodsModel().serialNumber)){
+      return
+    }else{
+      this.serialNumbers.add(this.fulfillGoodsModel().serialNumber)
+    }
     submit(this.fulfillGoodsForm, async () => {
       const itemModel = this.fulfillGoodsModel();
-      console.log('Adding :', itemModel,this.itemsToCreate());
+      this.addFulfillmentGood(this.subTaskId(),itemModel);
     });
+    // console.log(this.itemsToCreate())
+
   }
 
   protected OnChangeItemType(value: string) {
-    console.log(this.itemsToCreate())
+    this.subTaskId.set(parseInt(value));
+    // console.log(this.baseItems())
+    // console.log(this.task())
+
   }
 
-  protected readonly TaskTypesStatus = TaskTypesStatus;
-  protected readonly UserTypeEnum = UserTypeEnum;
+
 
   protected ReceiveLocation(value: any) {
     this.supplierId.set(value.value);
-   console.log(this.itemsToCreate())
+    this.showForm.set(true);
   }
 }
