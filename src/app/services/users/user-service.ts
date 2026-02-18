@@ -1,4 +1,4 @@
-import {inject, Injectable, Injector} from '@angular/core';
+import {inject, Injectable, Injector, signal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {UserResource} from '../../models/user-models';
@@ -13,11 +13,23 @@ export class UserService {
   readonly apiUrl = this.config.apiUrl;
 
 
-
-  getUserById(id: number){
-    return httpResource<UserResource>( () => `${this.apiUrl}/v1/users/${id}`, {
-      injector: this.injector
+  defaultprofile =signal<UserResource>({
+    email: '',
+    firstName: '',
+    lastName: '',
+    userTypeId: 0,
+    username: '',
+    id: 0,
+    createdDate: null,
+    updatedDate: null,
+  });
+  getUserById(idFactory: () => number) {
+    return httpResource<UserResource>(() => {
+      const id = idFactory();
+      return `${this.apiUrl}/v1/users/${id}`;
+    }, {
+      injector: this.injector,
+      defaultValue: this.defaultprofile()
     });
-
   }
 }

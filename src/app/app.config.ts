@@ -4,11 +4,8 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 
 import { routes } from './routes/app.routes';
-import {authInterceptor, loggingInterceptor, refreshTokenInterceptor} from './interceptors/http-interceptors';
-import {ConfigService} from './services/config/config-service';
-import {inventoryRoutes} from './routes/inventory.routes';
-import GoodsTypesService from './services/goods/goods-types-service';
-import {LocationService} from './services/location/location-service';
+import {authInterceptor, refreshTokenInterceptor} from './interceptors/http-interceptors';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [

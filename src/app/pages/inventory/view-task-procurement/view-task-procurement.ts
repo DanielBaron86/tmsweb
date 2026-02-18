@@ -2,21 +2,23 @@ import {
   ChangeDetectionStrategy,
   Component, computed,
   inject,
-  input, linkedSignal,
-  OnInit, signal,
+  input, linkedSignal, OnInit,
+  signal,
 } from '@angular/core';
-import {FulfillGoodsModel, ProcurementsModel} from '../../../models/tasks-models';
+import {FulfillGoodsModel,  ProcurementsModel} from '../../../models/tasks-models';
 import {DatePipe} from '@angular/common';
 import {TaskTypesStatus, UserTypeEnum} from '../../../models/status-enums';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {UserService} from '../../../services/users/user-service';
-import {HttpResourceRef} from '@angular/common/http';
-import {UserResource} from '../../../models/user-models';
 import {InventoryService} from '../../../services/inventory/inventory.service';
 import DataService from '../../../services/data-service';
 import {LabelComponent} from '../../../components/form/label/label-component';
 import {FormsModule} from '@angular/forms';
 import {form, Field, required, min, submit, validate, customError} from '@angular/forms/signals';
+import {QueryFilters} from '../../../models/query-models';
+import {LocationService} from '../../../services/location/location-service';
+import {SelectedOption, SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
+import {AuthServices} from '../../../services/auth/auth.services';
 
 
 
@@ -27,25 +29,82 @@ import {form, Field, required, min, submit, validate, customError} from '@angula
     EnumToStringPipe,
     LabelComponent,
     FormsModule,
-    Field
+    Field,
+    SelectWithSearch
   ],
   templateUrl: './view-task-procurement.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewTaskProcurement implements OnInit {
-  dataService = inject(DataService) as InventoryService;
-  userService = inject(UserService)
+export class ViewTaskProcurement {
 
-  userProfile: HttpResourceRef<UserResource | undefined> | undefined;
+  readonly dataService = inject(DataService) as InventoryService;
+  readonly userService = inject(UserService)
+  readonly locationService = inject(LocationService)
+  readonly auth = inject(AuthServices)
 
-  ngOnInit(): void {
-    this.userProfile = this.userService.getUserById(this.task().creatorId)
-    console.log(this.task())
 
-  }
+  queryFilters =signal<QueryFilters>(
+    {
+      pageNumber: 1,
+      pageSize: 100,
+      queryFields: [
+        {
+          "method": "where",
+          "keyField": "LocationTypeID",
+          "keyValue": "4"
+        }
+      ]
+    }
+  )
+  locationOptions = this.locationService.getLocationsWithFilters(this.queryFilters)
 
+  options = linkedSignal({
+    source: () =>this.locationOptions.value(),
+    computation : () => {
+      const options: SelectedOption[] = [];
+      if (this.locationOptions.hasValue()) {
+        this.locationOptions.value().forEach((item) => {
+          options.push({value: item.id.toString(), text: item.address+' - '+ item.description})
+        })
+        return options
+      }
+      return options
+    }
+    })
   id = input.required<number>();
   task = input.required<ProcurementsModel>();
+  userProfile = this.userService.getUserById(( () =>this.task().creatorId));
+
+  supplierId = signal<number>(0);
+  baseItems = computed(() => {
+    const profile = this.auth.userProfile();
+    const task = this.task();
+    const supplierId = this.supplierId();
+
+    if (!profile || !task || supplierId === null) return [];
+
+    return task.tasksEntitiesProcurements.map(i => ({
+      supplier: supplierId,
+      subTaskId: i.id,
+      userId: profile.id
+    }));
+  });
+  goodsBySubTask = signal<Record<number, any[]>>({});
+  itemsToCreate = computed(() => {
+    const goodsMap = this.goodsBySubTask();
+
+    return this.baseItems().map(item => ({
+      ...item,
+      fulfillmentGoods: goodsMap[item.subTaskId] ?? []
+    }));
+  });
+  removeFulfillmentGood(subTaskId: number, index: number) {
+    this.goodsBySubTask.update(map => ({
+      ...map,
+      [subTaskId]: map[subTaskId].filter((_, i) => i !== index)
+    }));
+  }
+
   summary = linkedSignal({
     source: () => this.task(),
     computation: () => {
@@ -54,6 +113,9 @@ export class ViewTaskProcurement implements OnInit {
       return {total, remaining}
     }
   })
+
+
+
   goodsOptions = computed( () => {
     const mappedItems =  this.task()?.tasksEntitiesProcurements
         .map( (item) => ({itemValue: item.goodTypeId, itemText: item.goodType})) ?? []
@@ -80,12 +142,11 @@ export class ViewTaskProcurement implements OnInit {
     })
   })
 
-  protected readonly TaskTypesStatus = TaskTypesStatus;
-  protected readonly UserTypeEnum = UserTypeEnum;
-
-  protected OnChange(value: string) {
-    console.log(value)
+  queryFilter: QueryFilters={
+    pageNumber: 1,
+    pageSize: 100,
   }
+
 
   onSubmit(event: Event) {
     event.preventDefault();
@@ -93,10 +154,21 @@ export class ViewTaskProcurement implements OnInit {
       this.fulfillGoodsForm().markAsTouched();
       return;
     }
-
     submit(this.fulfillGoodsForm, async () => {
       const itemModel = this.fulfillGoodsModel();
-      console.log('Adding :', itemModel);
+      console.log('Adding :', itemModel,this.itemsToCreate());
     });
+  }
+
+  protected OnChangeItemType(value: string) {
+    console.log(this.itemsToCreate())
+  }
+
+  protected readonly TaskTypesStatus = TaskTypesStatus;
+  protected readonly UserTypeEnum = UserTypeEnum;
+
+  protected ReceiveLocation(value: any) {
+    this.supplierId.set(value.value);
+   console.log(this.itemsToCreate())
   }
 }
