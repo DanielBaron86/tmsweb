@@ -155,40 +155,34 @@
   <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
     <div class="space-y-6">
       <p class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Items added to list </p>
-      @for( items of this.itemsToCreate(); track $index) {
-        @for (item of items.fulfillmentGoods; track $index) {
+      <button (click)="SaveTask()" type="button" class="' 'inline-flex bg-brand-500 disabled:bg-brand-300 gap-2 hover:bg-brand-600 items-center justify-center px-5 py-3.5 rounded-lg shadow-theme-xs text-sm text-white transition">
+        Save and Create
+      </button>
+      @for( items of this.itemsToCreate(); track items.subTaskId) {
+        @for (item of items.fulfillGoodsModels; track $index) {
           <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
             <thead class="bg-gray-50 dark:bg-gray-900">
             <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Task Id </th>
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Good Type Id </th>
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Good Type </th>
+              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Supplier </th>
+              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Subtask Id </th>
+              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Price </th>
+              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Serial Number </th>
               <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Quantity </th>
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Remaining Quantity </th>
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Id </th>
-              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Address </th>
+              <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Action </th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-              @for ( order of task().tasksEntitiesProcurements; track  order.id){
-                <tr>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.taskId}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.goodTypeId}} </td>
-                  <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{order.goodType}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.quantity}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.remainingQuantity}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.location}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.locationTypesInstances.address}} - {{order.locationTypesInstances.description}} </td>
-                </tr>
-              }
+            <tr>
+              <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.supplier}} </td>
+              <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.subTaskId}} </td>
+              <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{item.price}} </td>
+              <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{item.serialNumber}} </td>
+              <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{item.quantity}} </td>
+              <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                <button (click)="removeFulfillmentGood(items.subTaskId,$index,item.serialNumber)" class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>              </td>
+            </tr>
             </tbody>
           </table>
-          <div class="flex items-center justify-between gap-5">
-            <span class="text-sm text-gray-500 dark:text-gray-400"> {{items.subTaskId}} </span>
-            <span class="text-sm text-gray-500 dark:text-gray-400"> {{item.price}} </span>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{item.serialNumber}} </span>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{item.quantity}} </span>
-          </div>
         }
       }
     </div>

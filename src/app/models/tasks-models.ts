@@ -37,5 +37,5 @@ export interface FulfilmentModel {
   supplier: number;
   subTaskId: number;
   userId: number;
-  fulfillmentGoods: FulfillGoodsModel[];
+  fulfillGoodsModels: FulfillGoodsModel[];
 }

@@ -1,7 +1,9 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, httpResource} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
-import {ProcurementsModel} from '../../models/tasks-models';
+import {FulfilmentModel, ProcurementsModel} from '../../models/tasks-models';
+import {catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,4 +15,14 @@ export class TaskServices {
   getProcurementTaskById(id: number){
     return   httpResource<ProcurementsModel>( ()=> `${this.apiUrl}/v1/tasks/procurement/${id}`)
   }
+
+  fullfillProcurementTask(taskId: number,taskBody: FulfilmentModel[]){
+    console.log(taskId,taskBody);
+    return this.http.post(`${this.apiUrl}/v1/operations/procurements/${taskId}`,taskBody).pipe(
+      catchError((error) => {
+        return   throwError(() => new Error(error.error.message))
+      })
+    )
+  }
+
 }

@@ -19,6 +19,7 @@ import {QueryFilters} from '../../../models/query-models';
 import {LocationService} from '../../../services/location/location-service';
 import {SelectedOption, SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
 import {AuthServices} from '../../../services/auth/auth.services';
+import {TaskServices} from '../../../services/tasks/task-services';
 
 
 
@@ -41,6 +42,7 @@ export class ViewTaskProcurement {
   readonly userService = inject(UserService)
   readonly locationService = inject(LocationService)
   readonly auth = inject(AuthServices)
+  readonly taskService =inject(TaskServices)
 
   protected readonly TaskTypesStatus = TaskTypesStatus;
   protected readonly UserTypeEnum = UserTypeEnum;
@@ -98,7 +100,7 @@ export class ViewTaskProcurement {
 
     return this.baseItems().map(item => ({
       ...item,
-      fulfillmentGoods: goodsMap[item.subTaskId] ?? []
+      fulfillGoodsModels: goodsMap[item.subTaskId] ?? []
     })) as FulfilmentModel[];
   });
 
@@ -116,7 +118,8 @@ export class ViewTaskProcurement {
    }
   }
 
-  removeFulfillmentGood(subTaskId: number, index: number) {
+  removeFulfillmentGood(subTaskId: number, index: number,serialNumber: string) {
+    this.serialNumbers.delete(serialNumber);
     this.goodsBySubTask.update(map => ({
       ...map,
       [subTaskId]: map[subTaskId].filter((_, i) => i !== index)
@@ -175,16 +178,13 @@ export class ViewTaskProcurement {
     }
     submit(this.fulfillGoodsForm, async () => {
       const itemModel = this.fulfillGoodsModel();
+      itemModel.serialNumber = itemModel.serialNumber.toUpperCase();
       this.addFulfillmentGood(this.subTaskId(),itemModel);
     });
-    // console.log(this.itemsToCreate())
-
   }
 
   protected OnChangeItemType(value: string) {
     this.subTaskId.set(parseInt(value));
-    // console.log(this.baseItems())
-    // console.log(this.task())
 
   }
 
@@ -193,5 +193,9 @@ export class ViewTaskProcurement {
   protected ReceiveLocation(value: any) {
     this.supplierId.set(value.value);
     this.showForm.set(true);
+  }
+
+  protected SaveTask() {
+      this.taskService.fullfillProcurementTask(this.id(),this.itemsToCreate()).subscribe( (data) => console.log(data) )
   }
 }
