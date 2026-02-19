@@ -11,10 +11,33 @@ export function loggingInterceptor(
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   return next(req).pipe(
-    tap((event) => {
-      if (event.type === HttpEventType.Response) {
-        console.log(req.url, 'returned a response with status', event.status);
+    // tap((event) => {
+    //   if (event.type === HttpEventType.Response) {
+    //     console.log(req.url, 'returned a response with status', event.status);
+    //   }
+    // }),
+    catchError((error: unknown) => {
+      if (error instanceof HttpErrorResponse) {
+        console.error(
+          'HTTP Error:',
+          req.method,
+          req.url,
+          'Error:',
+          error.error,
+        );
+        switch (error.status) {
+          case 401:
+            console.warn('Unauthorized - maybe redirect to login');
+            break;
+          case 403:
+            console.warn('Forbidden');
+            break;
+          case 500:
+            console.error('Server error');
+            break;
+        }
       }
+      return throwError(() => error);
     }),
   );
 }

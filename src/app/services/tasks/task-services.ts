@@ -18,11 +18,7 @@ export class TaskServices {
 
   fullfillProcurementTask(taskId: number,taskBody: FulfilmentModel[]){
     console.log(taskId,taskBody);
-    return this.http.post(`${this.apiUrl}/v1/operations/procurements/${taskId}`,taskBody).pipe(
-      catchError((error) => {
-        return   throwError(() => new Error(error.error.message))
-      })
-    )
+    return this.http.post(`${this.apiUrl}/v1/operations/procurements/${taskId}`,taskBody)
   }
 
 }
