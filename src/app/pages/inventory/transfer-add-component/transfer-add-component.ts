@@ -7,6 +7,9 @@ import {QueryBuilder} from '../../../components/shared/query-builder/query-build
 import {GoodsInstanceSearch} from '../../../components/shared/goods-instance-search/goods-instance-search';
 import {PaginationHeader} from '../../../models/base-model';
 import {LocationUnitModel} from '../../../models/location-models';
+import {v_GoodsTypesInstances} from '../../../models/goods-models';
+import {TransferTask} from '../../../models/tasks-models';
+import {TaskServices} from '../../../services/tasks/task-services';
 
 @Component({
   selector: 'app-transfer-add-component',
@@ -22,6 +25,7 @@ export class TransferAddComponent {
   readonly auth = inject(AuthServices)
   readonly locationService = inject(LocationService)
   readonly userProfile = this.auth.userProfile();
+  readonly taskService = inject(TaskServices)
 
   queryFilters =signal<QueryFilters>(
     {
@@ -40,7 +44,6 @@ export class TransferAddComponent {
     source: () => this.locationOptions.value(),
     computation : () => {
       const pagedData = this.locationOptions.value() as LocationUnitModel[];
-      console.log(pagedData)
       if (pagedData) {
         return pagedData;
       }
@@ -57,16 +60,62 @@ export class TransferAddComponent {
   })
 
 locationOption =signal<SelectedOption>({"value":"0",  "text":''})
-  protected ReceiveLocation($event: any) {
-    this.locationOption.update( val =>$event);
-  }
+
 
   availableOptions :SelectedOption[] =[
     {value: 'Address', text: 'Address'},
-    {value: 'Description', text: 'Description'}
+    {value: 'Description', text: 'Description'},
+    {value: 'locationTypeId', text: 'Location Type'},
   ]
 
   protected ReceiveFilters($event: any) {
    this.queryFilters.update(val => $event);
+  }
+  transferTask =signal<TransferTask>({
+    creatorId: this.userProfile?.id,
+    userName: this.userProfile?.username,
+    description: '',
+    goodsTransfer: {
+      goodId: [],
+      toLocation: 0
+    }
+  })
+
+  /**
+   * TO DO - change selectedItems to avoid duplicate obejcts info
+   */
+  selectedItems = signal<v_GoodsTypesInstances[]>([])
+  existing = new Set<number>();
+  protected ReceiveItem(receivedItem: v_GoodsTypesInstances) {
+    if (this.existing.has(receivedItem.id)) return;
+    this.existing.add(receivedItem.id);
+    this.selectedItems.update( items => [...items, receivedItem])
+    this.transferTask.update(  task => ({
+      ...task,   /// clone the object with spread operator , creatorId, userName , description
+      goodsTransfer: {  ///clone the object with spread operator ,toLocation
+        ...task.goodsTransfer,
+        goodId: [...task.goodsTransfer.goodId, receivedItem.id] /// avoid push, use spread to add
+      }
+    }) )
+  }
+
+  protected ReceiveLocation($event: any) {
+    this.locationOption.update( val =>$event);
+    this.transferTask.update( task => ({...task, goodsTransfer: {...task.goodsTransfer, toLocation: $event.value}}))
+    console.log(this.transferTask())
+  }
+
+  protected RemoveItem(id: number) {
+
+      this.selectedItems.update( items => items.filter( item => item.id !== id))
+      this.existing.delete(id);
+  }
+
+  protected SetDescription(value: string) {
+    this.transferTask.update( task => ({...task, description: value}))
+  }
+
+  protected SaveTask() {
+    this.taskService.createTransferTask(this.transferTask()).subscribe( (data)=> {console.log('saved',data)})
   }
 }

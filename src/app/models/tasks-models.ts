@@ -54,3 +54,14 @@ export interface RejectedProcurementTransfer {
   serialNumber: string
   reason: string
 }
+
+export interface TransferTask {
+  creatorId: number,
+  userName: string,
+  description:string,
+  goodsTransfer: {
+    goodId: number[],
+    toLocation: number
+  }
+}
+

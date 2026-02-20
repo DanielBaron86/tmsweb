@@ -1,7 +1,7 @@
 import {inject, Injectable, Injector} from '@angular/core';
 import {HttpClient, HttpErrorResponse, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
-import {FulfilmentModel, ProcurementsModel} from '../../models/tasks-models';
+import {FulfilmentModel, ProcurementsModel, TransferTask} from '../../models/tasks-models';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 
@@ -34,4 +34,7 @@ export class TaskServices {
     return this.http.post(`${this.apiUrl}/v1/operations/procurements/${taskId}`,taskBody)
   }
 
+  createTransferTask(taskBody: TransferTask) {
+    return this.http.post(`${this.apiUrl}/v1/tasks/transfer`,taskBody)
+  }
 }

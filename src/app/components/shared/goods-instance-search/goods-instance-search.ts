@@ -51,7 +51,7 @@ export class GoodsInstanceSearch {
   }
   queryFilter: QueryFilters={
     pageNumber: 1,
-    pageSize: 100,
+    pageSize: 10,
     queryFields: [
       {
         keyField: "Status",
@@ -71,7 +71,6 @@ export class GoodsInstanceSearch {
 
   selectItem = output<v_GoodsTypesInstances>();
   protected EmitItem(item: any) {
-    console.log(item)
     if (!item) {return;}
     this.selectItem.emit( item );
   }
