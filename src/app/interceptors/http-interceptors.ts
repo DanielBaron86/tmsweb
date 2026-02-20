@@ -3,6 +3,7 @@ import {Observable, switchMap, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {inject} from '@angular/core';
 import {AuthServices} from '../services/auth/auth.services';
+import {ToastData, ToastService} from '../services/toast.service';
 
 
 
@@ -10,6 +11,7 @@ export function loggingInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
+  const toast = inject(ToastService);
   return next(req).pipe(
     // tap((event) => {
     //   if (event.type === HttpEventType.Response) {
@@ -18,6 +20,8 @@ export function loggingInterceptor(
     // }),
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse) {
+        const errorData = error.error as ToastData;
+        toast.show(errorData);
         console.error(
           'HTTP Error:',
           req.method,
@@ -25,17 +29,6 @@ export function loggingInterceptor(
           'Error:',
           error.error,
         );
-        switch (error.status) {
-          case 401:
-            console.warn('Unauthorized - maybe redirect to login');
-            break;
-          case 403:
-            console.warn('Forbidden');
-            break;
-          case 500:
-            console.error('Server error');
-            break;
-        }
       }
       return throwError(() => error);
     }),

@@ -1,6 +1,7 @@
 import {BaseModel} from './base-model';
 import {LocationUnitModel} from './location-models';
 import {exec} from 'node:child_process';
+import {GoodsModels} from './goods-models';
 
 
 
@@ -38,4 +39,18 @@ export interface FulfilmentModel {
   subTaskId: number;
   userId: number;
   fulfillGoodsModels: FulfillGoodsModel[];
+}
+
+export interface ReturnFulfillTask {
+  goodsModels: GoodsModels[],
+  rejectedProcurementTransfer: RejectedProcurementTransfer[]
+}
+
+
+export interface RejectedProcurementTransfer {
+  location: number
+  supplier: number
+  subTaskId: number
+  serialNumber: string
+  reason: string
 }

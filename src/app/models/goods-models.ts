@@ -27,8 +27,9 @@ export interface GoodsModels extends BaseModel {
   status: number
   serialNumber: string;
   locationId: number;
-  goodsTypes?: GoodsTypesModel;
+  goodsTypes: GoodsTypesModel;
   locationTypesInstances?: LocationUnitModel;
+  quantity: number;
 }
 
 export interface v_GoodsTypesInstances extends BaseModel {

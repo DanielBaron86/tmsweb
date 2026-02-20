@@ -168,7 +168,7 @@
           Save and Create
         </button>
         @for( items of this.itemsToCreate(); track items.subTaskId) {
-          @for (item of items.fulfillGoodsModels; track $index) {
+
             <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
               <thead class="bg-gray-50 dark:bg-gray-900">
               <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
@@ -181,6 +181,7 @@
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
+                @for (item of items.fulfillGoodsModels; track $index) {
               <tr>
                 <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.supplier}} </td>
                 <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.subTaskId}} </td>
@@ -190,11 +191,70 @@
                 <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
                   <button (click)="removeFulfillmentGood(items.subTaskId,$index,item.serialNumber)" class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>              </td>
               </tr>
+                }
               </tbody>
             </table>
-          }
+
         }
       </div>
     </div>
   }
+  @if(responseMessage()){
+    <div class="my-4"></div>
+        <div class="text-center">
+          <p class="text-gray-500 dark:text-gray-400">Created items</p>
+        </div>
+        <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
+          <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Good Id </th>
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Description </th>
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Serial Number </th>
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Quantity </th>
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location </th>
+            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Status </th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
+            @for(message of responseMessage()?.goodsModels; track message) {
+          <tr>
+            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.id}} </td>
+            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.goodsTypes.description}} </td>
+            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{message.serialNumber}} </td>
+            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{message.quantity}} </td>
+            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.locationTypesInstances?.address}} </td>
+            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.status | enumToString: GoodsStatusEnum}} </td>
+          </tr>
+            }
+          </tbody>
+        </table>
 
+
+    <div class="my-4"></div>
+      <div class="text-center">
+        <p class="text-gray-500 dark:text-gray-400">Rejected items</p>
+      </div>
+      <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+        <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location </th>
+          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Supplier </th>
+          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> SubTask id </th>
+          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Serial Number </th>
+          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Reason </th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
+          @for (rejected of responseMessage()?.rejectedProcurementTransfer; track rejected ) {
+        <tr>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.location}} </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.supplier}} </td>
+          <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{rejected.subTaskId}} </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.serialNumber}} </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.reason}} </td>
+        </tr>
+          }
+        </tbody>
+      </table>
+
+    }

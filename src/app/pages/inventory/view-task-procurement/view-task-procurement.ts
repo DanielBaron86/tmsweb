@@ -5,9 +5,9 @@ import {
   input, linkedSignal, OnInit,
   signal,
 } from '@angular/core';
-import {FulfillGoodsModel, FulfilmentModel, ProcurementsModel} from '../../../models/tasks-models';
+import {FulfillGoodsModel, FulfilmentModel, ProcurementsModel, ReturnFulfillTask} from '../../../models/tasks-models';
 import {DatePipe} from '@angular/common';
-import {TaskTypesStatus, UserTypeEnum} from '../../../models/status-enums';
+import {GoodsStatusEnum, TaskTypesStatus, UserTypeEnum} from '../../../models/status-enums';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {UserService} from '../../../services/users/user-service';
 import {InventoryService} from '../../../services/inventory/inventory.service';
@@ -195,7 +195,15 @@ export class ViewTaskProcurement {
     this.showForm.set(true);
   }
 
+  showResponse = signal(false);
+  responseMessage = signal<ReturnFulfillTask | null>(null);
   protected SaveTask() {
-      this.taskService.fullfillProcurementTask(this.id(),this.itemsToCreate()).subscribe( (data) => console.log(data) )
+      this.taskService.fullfillProcurementTask(this.id(),this.itemsToCreate()).subscribe( (data) => {
+        this.goodsBySubTask.set({})
+        this.responseMessage.set(data as ReturnFulfillTask)
+        console.log(data)
+      } )
   }
+
+  protected readonly GoodsStatusEnum = GoodsStatusEnum;
 }
