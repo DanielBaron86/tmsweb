@@ -11,14 +11,12 @@ export interface ToastData {
 })
 export class ToastService {
   toastState = signal<ToastData | null>(null);
-
-  show(data: ToastData) {
-    console.log(data);
-    this.toastState.set(data);
-    setTimeout(() => this.clear(), 5000);
-    }
-
   clear() {
     this.toastState.set(null);
+  }
+
+  show(data : ToastData) {
+    this.toastState.set(data)
+    setTimeout(() => this.clear(), 5000);
   }
 }

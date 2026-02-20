@@ -3,7 +3,7 @@ import {Observable, switchMap, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {inject} from '@angular/core';
 import {AuthServices} from '../services/auth/auth.services';
-import {ToastData, ToastService} from '../services/toast.service';
+import { ToastService} from '../services/toast.service';
 
 
 
@@ -13,15 +13,12 @@ export function loggingInterceptor(
 ): Observable<HttpEvent<unknown>> {
   const toast = inject(ToastService);
   return next(req).pipe(
-    // tap((event) => {
-    //   if (event.type === HttpEventType.Response) {
-    //     console.log(req.url, 'returned a response with status', event.status);
-    //   }
-    // }),
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse) {
-        const errorData = error.error as ToastData;
-        toast.show(errorData);
+
+        if( error.error?.detail){
+          toast.show(error.error);
+        }
         console.error(
           'HTTP Error:',
           req.method,
@@ -45,9 +42,11 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authToken = inject(AuthServices);
+
   return next(req).pipe(
-    catchError( (error: HttpErrorResponse) => {
-      if(error.status == 401 && !(error.url?.includes('users/login') || error.url?.includes('users/refreshToken') )){
+    catchError((error: HttpErrorResponse) => {
+      const isAuthRequest = error.url?.includes('users/login') || error.url?.includes('users/refreshToken');
+      if (error.status === 401 && !isAuthRequest) {
         return authToken.refreshToken().pipe(
           switchMap(res => {
             authToken.setToken(res);
@@ -56,13 +55,12 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
             });
             return next(newReq);
           }),
-          catchError( (err) => {
-            return  throwError(() => new Error(err.error.message))
+          catchError((refreshErr) => {
+            return throwError(() => refreshErr);
           })
         );
-      }else{
-        return  throwError(() => new Error(error.error.message))
       }
+      return throwError(() => error);
     })
   );
 }
