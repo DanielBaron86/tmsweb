@@ -4,10 +4,11 @@ import { AppHeaderComponent } from '../shared/app-header-component/app-header-co
 import { BackdropComponent } from '../shared/backdrop-component/backdrop-component';
 import { SidebarService } from '../../services/sidebar/sidebar-service';
 import { RouterModule } from '@angular/router';
+import {ToastComponent} from '../shared/toast-component/toast-component';
 
 @Component({
   selector: 'app-main-page',
-  imports: [AppSidebarComponent, BackdropComponent, AppHeaderComponent, RouterModule],
+  imports: [AppSidebarComponent, BackdropComponent, AppHeaderComponent, RouterModule, ToastComponent],
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })

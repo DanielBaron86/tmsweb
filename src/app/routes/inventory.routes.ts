@@ -1,10 +1,6 @@
 import { Routes} from '@angular/router';
 import DataService from '../services/data-service';
-import GoodsTypesService from '../services/goods/goods-types-service';
 import {InventoryService} from '../services/inventory/inventory.service';
-import {procurementTaskResolver} from '../resolvers/procurement-item-resolver';
-import {LocationService} from '../services/location/location-service';
-
 
 export const inventoryRoutes: Routes  =[
   {
@@ -15,7 +11,6 @@ export const inventoryRoutes: Routes  =[
   },
   {
     path: 'view_task/procurement/:id', loadComponent: () => import('../pages/inventory/view-task-procurement/view-task-procurement').then(m => m.ViewTaskProcurement),
-    resolve: { task: procurementTaskResolver },
   },
   {
     path: 'view_task/transfer/:id', loadComponent: () => import('../pages/inventory/view-task-transfer/view-task-transfer').then(m => m.ViewTaskTransfer),

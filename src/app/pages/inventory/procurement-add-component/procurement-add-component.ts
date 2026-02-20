@@ -13,6 +13,7 @@ import {
 } from '../../../components/shared/good-types-search-component/good-types-search-component';
 import {Router} from '@angular/router';
 import {AlertComponent} from '../../../components/ui/alert-component/alert-component';
+import {catchError} from 'rxjs/operators';
 @Component({
   selector: 'app-procurement-add-component',
   imports: [
@@ -27,11 +28,10 @@ import {AlertComponent} from '../../../components/ui/alert-component/alert-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProcurementAddComponent {
-
-  readonly router = inject(Router)
   readonly inventoryService = inject(InventoryService)
   readonly auth = inject(AuthServices)
   readonly userProfile = this.auth.userProfile()
+  readonly router = inject(Router)
 
   showAlert = signal(false)
  itemsTobeAdded = signal<GoodsOrder[]>([])
@@ -83,14 +83,9 @@ export class ProcurementAddComponent {
       description: this.taskDescription(),
       goodsOrder: this.itemsTobeAdded()
     }
-    this.inventoryService.createProcurementTask(createProcurement).subscribe({
-      next: (res) =>  {
-        this.inventoryService.refresh();
-        this.router.navigate(['/inventory/tasks']);
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    })
+    this.inventoryService.createProcurementTask(createProcurement).subscribe( ()=> {
+      this.inventoryService.refresh();
+      this.router.navigate(['/inventory/tasks'])
+    });
   }
 }
