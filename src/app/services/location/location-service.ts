@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, Injector, linkedSignal, Signal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {LocationCollectionName, LocationUnitModel} from '../../models/location-models';
@@ -18,7 +18,7 @@ export class LocationService extends DataService<LocationCollectionName> {
   readonly  http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
-
+  readonly injector = inject(Injector);
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
   activePage = signal(1);
@@ -78,31 +78,11 @@ export class LocationService extends DataService<LocationCollectionName> {
     defaultValue: signal<Location[]>([])
   }));
 
-  getLocationsWithFilters(queryFilters:QueryFilters){
-    const locations= httpResource<LocationUnitModel[]>( () => ({
+  getLocationsWithFilters(queryFilters: Signal<QueryFilters>){
+    return httpResource<LocationUnitModel[]>( () => ({
       url: `${this.apiUrl}/v1/locations/query`,
       method: 'POST',
-      body: this.queryFilters(),
-    }))
-    const header = computed<PaginationHeader>(
-      () => locations.hasValue() ? JSON.parse(locations.headers()?.get('X-Pagination') ?? '{}'): {}
-    )
-    const displayItems = computed(() => {
-      const pagedData = locations.value() as LocationUnitModel[];
-      if (pagedData) {
-        return pagedData;
-      }
-      return locations.value() ?? [];
-    });
-
-    return {header,displayItems}
+      body: queryFilters(),
+    }), {injector: this.injector})
   }
-  queryFilters =signal<QueryFilters>(
-    {
-      pageNumber: 1,
-      pageSize: 100,
-      queryFields: []
-    }
-  )
-
 }

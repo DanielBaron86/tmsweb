@@ -68,7 +68,7 @@ export class AuthServices {
       ).subscribe( (tokenString) => {
         const response = tokenString as LoginResponse;
         this.setLoginResponce(response)
-        this.router.navigate(['/inventory/add_transfer']);
+        this.router.navigate(['/inventory/tasks']);
       });
     }
 

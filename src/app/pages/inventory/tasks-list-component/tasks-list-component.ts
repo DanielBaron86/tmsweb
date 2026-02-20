@@ -30,7 +30,7 @@ export class TasksListComponent{
 
   constructor() {
     effect( () =>{
-      this.location.replaceState(null, '','/inventory',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
+          this.location.replaceState(null, '','/inventory/tasks',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }
 
@@ -47,6 +47,7 @@ export class TasksListComponent{
 
   protected DeleteTask(id: number) {
     this.dataService.deleteItem(id);
+
   }
 
   protected ViewTask(id: number, taskType: number) {
