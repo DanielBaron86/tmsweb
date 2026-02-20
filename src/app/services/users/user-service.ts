@@ -23,13 +23,13 @@ export class UserService {
     createdDate: null,
     updatedDate: null,
   });
-  getUserById(idFactory: () => number) {
+  getUserById(idFactory: () => number | undefined) {
     return httpResource<UserResource>(() => {
       const id = idFactory();
+      if (id === undefined || id ==0) return undefined;
       return `${this.apiUrl}/v1/users/${id}`;
     }, {
       injector: this.injector,
-      defaultValue: this.defaultprofile()
     });
   }
 }

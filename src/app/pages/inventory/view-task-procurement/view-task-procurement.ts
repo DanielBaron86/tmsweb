@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component, computed,
   inject,
-  input, linkedSignal, OnInit,
+  input, linkedSignal,
   signal,
 } from '@angular/core';
-import {FulfillGoodsModel, FulfilmentModel, ProcurementsModel, ReturnFulfillTask} from '../../../models/tasks-models';
+import {FulfillGoodsModel, FulfilmentModel, ReturnFulfillTask} from '../../../models/tasks-models';
 import {DatePipe} from '@angular/common';
 import {GoodsStatusEnum, TaskTypesStatus, UserTypeEnum} from '../../../models/status-enums';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
@@ -14,7 +14,7 @@ import {InventoryService} from '../../../services/inventory/inventory.service';
 import DataService from '../../../services/data-service';
 import {LabelComponent} from '../../../components/form/label/label-component';
 import {FormsModule} from '@angular/forms';
-import {form, Field, required, min, submit, validate, customError} from '@angular/forms/signals';
+import {form, Field, required, min,max, submit, validate, customError} from '@angular/forms/signals';
 import {QueryFilters} from '../../../models/query-models';
 import {LocationService} from '../../../services/location/location-service';
 import {SelectedOption, SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
@@ -36,7 +36,7 @@ import {TaskServices} from '../../../services/tasks/task-services';
   templateUrl: './view-task-procurement.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewTaskProcurement {
+export class ViewTaskProcurement  {
 
   readonly dataService = inject(DataService) as InventoryService;
   readonly userService = inject(UserService)
@@ -46,6 +46,9 @@ export class ViewTaskProcurement {
 
   protected readonly TaskTypesStatus = TaskTypesStatus;
   protected readonly UserTypeEnum = UserTypeEnum;
+  protected readonly GoodsStatusEnum = GoodsStatusEnum;
+
+  id = input.required<number>();
 
   showForm = signal(false);
   queryFilters =signal<QueryFilters>(
@@ -61,6 +64,10 @@ export class ViewTaskProcurement {
       ]
     }
   )
+
+  /**
+  @summary Get locations of type Supplier and build dropdown options
+  **/
   locationOptions = this.locationService.getLocationsWithFilters(this.queryFilters)
   options = linkedSignal({
     source: () =>this.locationOptions.value(),
@@ -76,14 +83,33 @@ export class ViewTaskProcurement {
     }
     })
 
-  id = input.required<number>();
-  task = input.required<ProcurementsModel>();
-  userProfile = this.userService.getUserById(( () =>this.task().creatorId));
+
+  /**
+   @summary Get procurement task by id and build form fields
+   **/
+  receivedTask = this.taskService.getProcurementTaskByIdWithFactory(() =>this.id())
+
+
+
+  /**
+   @summary Get task creator profile to display creator name in the form
+   **/
+  userProfile = this.userService.getUserById(() => {
+    const task = this.receivedTask.value();
+    return task ? task.creatorId : undefined;
+  });
 
   supplierId = signal<number>(0);
+  subTaskId =signal<number>(0)
+  goodsBySubTask = signal<Record<number, FulfillGoodsModel[]>>({});
+
+
+  /**
+   @summary Create basic fulfillment items for each subtask
+   **/
   baseItems = computed(() => {
     const profile = this.auth.userProfile();
-    const task = this.task();
+    const task = this.receivedTask.value();
     const supplierId = this.supplierId();
 
     if (!profile || !task || supplierId === null) return [];
@@ -94,7 +120,11 @@ export class ViewTaskProcurement {
       userId: profile.id
     }));
   });
-  goodsBySubTask = signal<Record<number, FulfillGoodsModel[]>>({});
+
+
+  /**
+   @summary Add fulfillment goods to each item
+   **/
   itemsToCreate = computed(() => {
     const goodsMap = this.goodsBySubTask();
 
@@ -104,9 +134,9 @@ export class ViewTaskProcurement {
     })) as FulfilmentModel[];
   });
 
-  subTaskId =signal<number>(0)
+
   addFulfillmentGood(subTaskId: number, good: any) {
-    const findSubTask = this.task().tasksEntitiesProcurements.find(item => item.id === subTaskId);
+    const findSubTask = this.receivedTask.value().tasksEntitiesProcurements.find(item => item.id === subTaskId);
    if (!findSubTask) return;
    if (this.goodsBySubTask()[findSubTask.id] !== undefined && this.goodsBySubTask()[findSubTask.id].length > findSubTask.remainingQuantity-1){
      return
@@ -127,10 +157,10 @@ export class ViewTaskProcurement {
   }
 
   summary = linkedSignal({
-    source: () => this.task(),
+    source: () => this.receivedTask.value(),
     computation: () => {
-      const total = this.task().tasksEntitiesProcurements.reduce((acc, val) => acc + val.quantity, 0);
-      const remaining = this.task().tasksEntitiesProcurements.reduce((acc, val) => acc + val.remainingQuantity, 0);
+      const total = this.receivedTask.value().tasksEntitiesProcurements.reduce((acc, val) => acc + val.quantity, 0);
+      const remaining = this.receivedTask.value().tasksEntitiesProcurements.reduce((acc, val) => acc + val.remainingQuantity, 0);
       return {total, remaining}
     }
   })
@@ -138,7 +168,7 @@ export class ViewTaskProcurement {
 
 
   goodsOptions = computed( () => {
-    const mappedItems =  this.task()?.tasksEntitiesProcurements
+    const mappedItems =  this.receivedTask.value()?.tasksEntitiesProcurements
         .map( (item) => ({itemValue: item.id, itemText: item.goodType})) ?? []
 
     return [
@@ -156,6 +186,8 @@ export class ViewTaskProcurement {
     required(path.serialNumber, {message: 'Serial Number is required'});
     required(path.price, {message: 'Price is required'});
     min(path.price, 1, {message: 'Price cannot be less than 1'});
+    min(path.quantity, 1, {message: 'Quantity cannot be less than 1'});
+    max(path.quantity, 1, {message: 'Quantity cannot be more than 1'});
     validate(path.price, c=>{
       const value = c.value()
       if (Math.round(value * 100) === value * 100){return undefined}
@@ -188,8 +220,6 @@ export class ViewTaskProcurement {
 
   }
 
-
-
   protected ReceiveLocation(value: any) {
     this.supplierId.set(value.value);
     this.showForm.set(true);
@@ -201,9 +231,8 @@ export class ViewTaskProcurement {
       this.taskService.fullfillProcurementTask(this.id(),this.itemsToCreate()).subscribe( (data) => {
         this.goodsBySubTask.set({})
         this.responseMessage.set(data as ReturnFulfillTask)
-        console.log(data)
+        this.receivedTask.reload()
       } )
   }
 
-  protected readonly GoodsStatusEnum = GoodsStatusEnum;
 }

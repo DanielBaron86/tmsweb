@@ -1,11 +1,11 @@
 
   <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
     <div class="flex flex-col gap-2.5 divide-gray-300 sm:flex-row sm:divide-x dark:divide-gray-700">
-      <div class="flex items-center gap-2 sm:pr-3"><span class="text-base font-medium text-gray-700 dark:text-gray-400"> Task ID : {{ task().id}} </span>
-        <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium"> {{task().taskStatus | enumToString : TaskTypesStatus}} </span>
+      <div class="flex items-center gap-2 sm:pr-3"><span class="text-base font-medium text-gray-700 dark:text-gray-400"> Task ID : {{ receivedTask.value().id}} </span>
+        <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium"> {{receivedTask.value().taskStatus | enumToString : TaskTypesStatus}} </span>
       </div>
       <p
-        class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Create date:&nbsp; {{task().createdDate | date:'medium'}} </p>
+        class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Create date:&nbsp; {{receivedTask.value().createdDate | date:'medium'}} </p>
     </div>
   </div>
   <div class="my-4"></div>
@@ -28,7 +28,7 @@
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-              @for ( order of task().tasksEntitiesProcurements; track  order.id){
+              @for ( order of receivedTask.value().tasksEntitiesProcurements; track  order.id){
                 <tr>
                   <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.taskId}} </td>
                   <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.goodTypeId}} </td>
@@ -63,11 +63,13 @@
             <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3">
               <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90"> Created By </h2>
               <ul class="divide-y divide-gray-100 dark:divide-gray-800">
-                <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Username </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ userProfile.value().username}} </span></li>
-                <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Email </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ userProfile.value().email}} </span></li>
-                <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> First Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ userProfile.value().firstName}} </span></li>
-                <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Last Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ userProfile.value().lastName}} </span></li>
-                <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> User Type </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ userProfile.value().userTypeId | enumToString:UserTypeEnum }} </span></li>
+                @if(userProfile.value(); as user){
+                                  <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Username </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.username}} </span></li>
+                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Email </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.email}} </span></li>
+                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> First Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.firstName}} </span></li>
+                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Last Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.lastName}} </span></li>
+                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> User Type </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.userTypeId | enumToString:UserTypeEnum }} </span></li>
+                }
               </ul>
             </div>
           </div>
@@ -146,7 +148,16 @@
                 }
               </div>
               <div>
-                <input [field]="fulfillGoodsForm.quantity" type="number"  class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+                <input [field]="fulfillGoodsForm.quantity" type="number"   class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+                @if (fulfillGoodsForm.quantity().invalid() &&
+                fulfillGoodsForm.quantity().touched()) {
+
+                  <div class="text-red-500 text-sm">
+                    @for (error of fulfillGoodsForm.quantity().errors(); track error) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
               </div>
               <div class="px-2 py-3 font-normal text-theme-sm dark:text-white/90 whitespace-nowrap">
                 <button type="submit" [disabled]="fulfillGoodsForm().invalid()" class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-current"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z" fill=""></path></svg></span></button>
