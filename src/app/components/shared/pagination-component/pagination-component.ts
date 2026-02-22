@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, Component, inject, input, model, OnInit, output, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  OnInit,
+  output,
+  signal
+} from '@angular/core';
 import DataService from '../../../services/data-service';
 
 @Component({
@@ -10,34 +20,28 @@ import DataService from '../../../services/data-service';
 export class PaginationComponent {
   dataService = inject(DataService);
 
-
-
   pageNumbers =input<number[]>([1]);
   disabled = input(false);
-  TotalPageCount = input(0);
-
+  totalPageCount = input(0);
   activePage = signal<number>(1);
+  isFirstPage = computed(() => this.dataService.activePage() === 1);
+  isLastPage = computed(() => this.dataService.activePage() === this.totalPageCount());
+
   protected changePage(pageNumber: number) {
     this.dataService.activePage.set(pageNumber);
-    if (!this.dataService.cachedPages.includes(this.dataService.activePage())) {
+    if (!this.dataService.cachedPages.includes(pageNumber)) {
       this.dataService.pageNumber.set(pageNumber);
     }
 
   }
 
   protected decreasePage() {
-    this.dataService.activePage() < 2 ? this.dataService.activePage.set(this.TotalPageCount()) : this.dataService.activePage.set(this.dataService.activePage() - 1);
-    if (!this.dataService.cachedPages.includes(this.dataService.activePage())) {
-      this.dataService.pageNumber.set(this.dataService.activePage());
-    }
+    const prev = this.isFirstPage() ? this.totalPageCount() : this.dataService.activePage() - 1;
+    this.changePage(prev);
   }
 
   protected increasePage(){
-    this.dataService.activePage() > this.TotalPageCount()-1 ? this.dataService.activePage.set(1) : this.dataService.activePage.set(this.dataService.activePage() + 1);
-    if (!this.dataService.cachedPages.includes(this.dataService.activePage())) {
-      this.dataService.pageNumber.set(this.dataService.activePage());
-    }
-
-
+    const next = this.isLastPage() ? 1 : this.dataService.activePage() + 1;
+    this.changePage(next);
   }
 }

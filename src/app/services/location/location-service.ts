@@ -19,6 +19,7 @@ export class LocationService extends DataService<LocationCollectionName> {
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
   readonly injector = inject(Injector);
+
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
   activePage = signal(1);

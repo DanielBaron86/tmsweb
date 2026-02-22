@@ -2,6 +2,7 @@ import {BaseModel} from './base-model';
 import {LocationUnitModel} from './location-models';
 import {exec} from 'node:child_process';
 import {GoodsModels} from './goods-models';
+import {TaskTypesStatus} from './status-enums';
 
 
 
@@ -63,5 +64,25 @@ export interface TransferTask {
     goodId: number[],
     toLocation: number
   }
+}
+
+export interface TasksModelWithTransfer extends TaskModels{
+  tasksEntitiesTransferList: TasksEntitiesTransferModel[];
+}
+export interface TasksEntitiesTransferModel {
+  id: number;
+  taskId: number;
+  goodId: number;
+  serialNumber: string;
+  fromLocation: number;
+  fromLocationName: string;
+  toLocation: number;
+  toLocationName: string;
+  taskStatus: TaskTypesStatus | null;
+}
+
+export interface FulfillGoodsTransfer {
+  userId: number;
+  fulfillGoodsTransfer : string[]
 }
 
