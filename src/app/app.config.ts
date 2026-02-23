@@ -5,10 +5,15 @@ import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/ht
 
 import { routes } from './routes/app.routes';
 import {authInterceptor, loggingInterceptor, refreshTokenInterceptor} from './interceptors/http-interceptors';
+import {ConfigService} from './services/config/config-service';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(() => {
+      const configService = inject(ConfigService);
+      return configService.loadConfig();
+    }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes,withComponentInputBinding()),
     provideHttpClient(withInterceptors([
