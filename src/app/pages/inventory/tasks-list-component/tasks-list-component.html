@@ -5,6 +5,9 @@
       <p class="text-sm text-gray-500 dark:text-gray-400">Track your store's progress to boost your sales.</p>
     </div>
     <div class="flex gap-3">
+      <app-button variant="outline" (click)="RefreshList()">
+        Refresh List
+      </app-button>
       <app-button variant="primary" (click)="NavigateTo('/inventory/add_transfer')">
         New Transfer
       </app-button>

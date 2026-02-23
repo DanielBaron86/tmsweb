@@ -56,4 +56,8 @@ export class TasksListComponent{
 
   protected readonly TaskTypes = TaskTypes;
   protected readonly TaskTypesStatus = TaskTypesStatus;
+
+  protected RefreshList() {
+    this.dataService.refresh();
+  }
 }
