@@ -1,11 +1,12 @@
 import {computed, effect, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, httpResource, HttpResponse} from '@angular/common/http';
-import {BaseItem} from '../../models/goods-models';
+import {BaseItem, GoodsTypesModel} from '../../models/goods-models';
 import {BaseCollectionName, paginatedResult, PaginationHeader} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
 import {BehaviorSubject, throwError} from 'rxjs';
 import {ConfigService} from '../config/config-service';
 import DataService from '../data-service';
+import {QueryFilters} from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,22 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
   activePage = signal(1);
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
+  queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[]=[];
+
+  readonly baseResourceResource = httpResource<BaseItem[]>(() => {
+    const filters = this.queryFilters();
+    const pageNumber = this.pageNumber();
+    const pageSize= this.pageSize()
+
+    return filters
+      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
+      : { url: `${this.apiUrl}/v1/goods_base`, method: 'GET', params: { pageNumber,pageSize } };
+  });
 
   cache = linkedSignal({
     source: () => ({
-      data: this.#baseTypes.value(),
+      data: this.baseResourceResource.value(),
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
@@ -45,27 +57,18 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-    return this.#baseTypes.value() ?? [];
+    return this.baseResourceResource.value() ?? [];
   });
 
   header = computed<PaginationHeader>(
-    () => this.#baseTypes.hasValue() ? JSON.parse(this.#baseTypes.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => this.baseResourceResource.hasValue() ? JSON.parse(this.baseResourceResource.headers()?.get('X-Pagination') ?? '{}'): {}
   )
 
-  readonly #baseTypes = httpResource <BaseItem[]>(() => ({
-    params: {
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize()
-    },
-    url: `${this.apiUrl}/v1/goods_base`,
-    method: 'GET',
-    observe: 'response',
-    defaultValue: []
-  }));
+
 
 refresh(){
-  this.#baseTypes.reload();
-  this.cachedPages=[];
+  this.baseResourceResource.reload();
+  //this.cachedPages=[];
 }
 
   updateItem(baseItem: BaseItem) {
