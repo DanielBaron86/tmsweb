@@ -24,14 +24,26 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   activePage = signal(1);
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
+  queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[]=[];
+
+  readonly goodsResource = httpResource<v_GoodsTypesInstances[]>(() => {
+    const filters = this.queryFilters();
+    const pageNumber = this.pageNumber();
+    const pageSize= this.pageSize()
+
+    return filters
+      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
+      : { url: `${this.apiUrl}/v1/goods_instance/view`, method: 'GET', params: { pageNumber,pageSize } };
+  });
 
   cache = linkedSignal({
     source: () => ({
-      data: this.#itemList.value(),
+      data: this.goodsResource.value(),
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
+
       const currentList = (previous?.value ?? []) as v_GoodsTypesInstances[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
@@ -47,26 +59,23 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   displayItems = computed(() => {
     const pagedData = this.cache() as v_GoodsTypesInstances[][];
     const currentPage = this.activePage();
+    console.log('displayItems',pagedData,currentPage);
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-    return this.#itemList.value() ?? [];
+    return this.goodsResource.value() ?? [];
   });
 
   header = computed<PaginationHeader>(
-    () => this.#itemList.hasValue() ? JSON.parse(this.#itemList.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => this.goodsResource.hasValue() ? JSON.parse(this.goodsResource.headers()?.get('X-Pagination') ?? '{}'): {}
   )
 
 
-  readonly #itemList = httpResource<v_GoodsTypesInstances[]>(() => ({
-    params: {
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-    },
-    url: `${this.apiUrl}/v1/goods_instance/view`,
-    method: 'GET',
-    defaultValue: signal<GoodsModels[]>([])
-  }));
+  setActivePage(page: number){
+   // console.log('setting active page to:', page);
+    this.activePage.set(page);
+    // this.pageNumber.set(page);
+  }
 
   updateItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");
@@ -74,33 +83,6 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   createItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");
   }
-
-  getGoodsWithFilters(queryFilters:QueryFilters){
-    const locations= httpResource<v_GoodsTypesInstances[]>( () => ({
-      url: `${this.apiUrl}/v1/goods_instance/query`,
-      method: 'POST',
-      body: this.queryFilters(),
-    }))
-    const header = computed<PaginationHeader>(
-      () => locations.hasValue() ? JSON.parse(locations.headers()?.get('X-Pagination') ?? '{}'): {}
-    )
-    const displayItems = computed(() => {
-      const pagedData = locations.value() as v_GoodsTypesInstances[];
-      if (pagedData) {
-        return pagedData;
-      }
-      return locations.value() ?? [];
-    });
-
-    return {header,displayItems}
-  }
-  queryFilters =signal<QueryFilters>(
-    {
-      pageNumber: 1,
-      pageSize: 100,
-      queryFields: []
-    }
-  )
 
 
 }

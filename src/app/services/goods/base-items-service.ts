@@ -11,6 +11,9 @@ import DataService from '../data-service';
   providedIn: 'root',
 })
 export default class BaseItemsService extends DataService<BaseCollectionName> {
+    override setActivePage(pageNumber: number): void {
+        throw new Error("Method not implemented.");
+    }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

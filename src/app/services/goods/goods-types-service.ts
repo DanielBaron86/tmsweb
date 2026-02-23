@@ -11,6 +11,9 @@ import {BehaviorSubject, Observable} from "rxjs";
   providedIn: 'root',
 })
 export default class GoodsTypesService extends DataService<TypesCollectionName> {
+  override setActivePage(pageNumber: number): void {
+      throw new Error("Method not implemented.");
+  }
 
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);

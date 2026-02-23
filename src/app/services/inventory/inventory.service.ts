@@ -17,6 +17,9 @@ import {Router} from '@angular/router';
   providedIn: 'root',
 })
 export class InventoryService extends DataService<TaskModelsCollectionName> {
+  override setActivePage(pageNumber: number): void {
+      throw new Error("Method not implemented.");
+  }
 
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);

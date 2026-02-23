@@ -60,14 +60,6 @@ export class GoodsInstanceSearch {
       }
     ]
   }
-  getItems = this.dataService.getGoodsWithFilters(this.queryFilter)
-  itemsOptions = computed<v_GoodsTypesInstances[]>( ()=> {
-    const options: v_GoodsTypesInstances[] = [];
-    this.getItems.displayItems().forEach((item) => {
-      options.push(item)
-    })
-    return options
-  })
 
   selectItem = output<v_GoodsTypesInstances>();
   protected EmitItem(item: any) {

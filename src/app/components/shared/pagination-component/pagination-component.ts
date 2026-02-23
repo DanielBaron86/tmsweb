@@ -23,11 +23,11 @@ export class PaginationComponent {
   pageNumbers =input<number[]>([1]);
   disabled = input(false);
   totalPageCount = input(0);
-  activePage = signal<number>(1);
   isFirstPage = computed(() => this.dataService.activePage() === 1);
   isLastPage = computed(() => this.dataService.activePage() === this.totalPageCount());
 
   protected changePage(pageNumber: number) {
+    console.log('changePage',pageNumber)
     this.dataService.activePage.set(pageNumber);
     if (!this.dataService.cachedPages.includes(pageNumber)) {
       this.dataService.pageNumber.set(pageNumber);
