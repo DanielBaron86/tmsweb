@@ -7,6 +7,4 @@ export default abstract class DataService<T> {
   abstract cachedPages : number[]
   abstract updateItem(item: any): Observable<any>
   abstract createItem(item: any): Observable<any>
-
-  abstract  setActivePage(pageNumber: number): void
 }

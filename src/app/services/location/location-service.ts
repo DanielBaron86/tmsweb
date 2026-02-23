@@ -12,9 +12,7 @@ import {BaseItem} from '../../models/goods-models';
   providedIn: 'root',
 })
 export class LocationService extends DataService<LocationCollectionName> {
-  override setActivePage(pageNumber: number): void {
-      throw new Error("Method not implemented.");
-  }
+
   cachedPages: number[]=[];
 
 

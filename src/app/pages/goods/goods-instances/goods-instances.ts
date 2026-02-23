@@ -30,12 +30,12 @@ export class GoodsInstances {
     } )
   }
 
-  readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
   dataService = inject(DataService) as GoodsInstancesService;
   location = inject(LocationStrategy);
+  readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
   protected readonly GoodsStatusEnum = GoodsStatusEnum;
-  headerInfo =this.dataService.header
 
+  headerInfo =this.dataService.header
   pageNumbers = computed(() =>
     Array.from({ length:  this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );

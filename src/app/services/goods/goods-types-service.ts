@@ -1,20 +1,17 @@
 import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {BaseItem, GoodsTypesModel} from '../../models/goods-models';
+import {BaseItem, GoodsTypesModel, v_GoodsTypesInstances} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {paginatedResult, PaginationHeader, TypesCollectionName} from '../../models/base-model';
 import DataService from '../data-service';
 import {BehaviorSubject, Observable} from "rxjs";
+import {QueryFilters} from '../../models/query-models';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export default class GoodsTypesService extends DataService<TypesCollectionName> {
-  override setActivePage(pageNumber: number): void {
-      throw new Error("Method not implemented.");
-  }
-
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
@@ -22,13 +19,23 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
   activePage = signal(1);
   pageNumber =signal<number>(1);
   pageSize =signal<number>(20);
+  queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[]=[];
 
+  readonly goodsTypesResourceResource = httpResource<GoodsTypesModel[]>(() => {
+    const filters = this.queryFilters();
+    const pageNumber = this.pageNumber();
+    const pageSize= this.pageSize()
+
+    return filters
+      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
+      : { url: `${this.apiUrl}/v1/goods_type`, method: 'GET', params: { pageNumber,pageSize } };
+  });
 
 
   cache = linkedSignal({
     source: () => ({
-      data: this.#goodstypes.value(),
+      data: this.goodsTypesResourceResource.value(),
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
@@ -50,27 +57,19 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-    return this.#goodstypes.value() ?? [];
+    return this.goodsTypesResourceResource.value() ?? [];
   });
 
   header = computed<PaginationHeader>(
-    () => this.#goodstypes.hasValue() ? JSON.parse(this.#goodstypes.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => this.goodsTypesResourceResource.hasValue() ? JSON.parse(this.goodsTypesResourceResource.headers()?.get('X-Pagination') ?? '{}'): {}
   )
 
   refresh(){
-    this.#goodstypes.reload();
+    this.goodsTypesResourceResource.reload();
     this.cachedPages=[];
   }
 
-  readonly #goodstypes = httpResource<GoodsTypesModel[]>(() => ({
-    params: {
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize()
-    },
-    url: `${this.apiUrl}/v1/goods_type`,
-    method: 'GET',
-    defaultValue:  signal<GoodsTypesModel[]>([])
-  }));
+
 
   updateItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");

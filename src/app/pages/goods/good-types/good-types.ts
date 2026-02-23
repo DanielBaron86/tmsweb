@@ -28,18 +28,18 @@ import DataService from '../../../services/data-service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypes {
-  dataService = inject(DataService) as GoodsTypesService;
-  location = inject(LocationStrategy);
   constructor() {
     effect( () =>{
       this.location.replaceState(null, '','/goods/base_types',`pageNumber=${this.dataService.activePage()}&pageSize=${this.headerInfo().PageSize}`);
     } )
   }
 
-
+  dataService = inject(DataService) as GoodsTypesService;
+  location = inject(LocationStrategy);
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
+  protected readonly InventoryKey = InventoryKey;
+
   headerInfo =this.dataService.header
-  activePage = signal<number>(1);
   pageNumbers = computed(() =>
     Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1)
   );
@@ -62,7 +62,7 @@ export class GoodTypes {
     })
   }
 
-  protected readonly InventoryKey = InventoryKey;
+
   protected exportExcel() {
     console.log(this.dataService.displayItems());
   }
