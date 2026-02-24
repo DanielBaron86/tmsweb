@@ -25,10 +25,10 @@ export class PaginationComponent {
   totalPageCount = input(0);
   isFirstPage = computed(() => this.dataService.activePage() === 1);
   isLastPage = computed(() => this.dataService.activePage() === this.totalPageCount());
-
+  hasFilers = input(false);
   protected changePage(pageNumber: number) {
-    console.log('changePage',pageNumber)
-    this.dataService.activePage.set(pageNumber);
+
+    this.dataService.setActivePage(pageNumber,this.hasFilers());
     if (!this.dataService.cachedPages.includes(pageNumber)) {
       this.dataService.pageNumber.set(pageNumber);
     }

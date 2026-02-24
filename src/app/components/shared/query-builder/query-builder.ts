@@ -43,7 +43,7 @@ export class QueryBuilder {
 
   queryFilterForm = this.fb.group({
     pageNumber: [1, [Validators.min(1)]],
-    pageSize: [100, [Validators.min(1), Validators.max(100)]],
+    pageSize: [10, [Validators.min(1), Validators.max(100)]],
     queryFields: this.fb.array([])
   });
 

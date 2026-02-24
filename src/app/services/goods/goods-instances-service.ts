@@ -35,7 +35,6 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
     const pageSize = this.pageSize()
-    //console.log('goodsResource',filters,pageNumber,pageSize);
     return this.queryFilters()
       ? {url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters}
       : {url: `${this.apiUrl}/v1/goods_instance/view`, method: 'GET', params: {pageNumber, pageSize}};
@@ -48,7 +47,7 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
-    //  console.log('cache',source.activePage,source.data);
+
       const currentList = (previous?.value ?? []) as v_GoodsTypesInstances[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
@@ -64,7 +63,6 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   displayItems = computed(() => {
     const pagedData = this.cache() as v_GoodsTypesInstances[][];
     const currentPage = this.activePage();
-   // console.log('displayItems',pagedData,currentPage);
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
@@ -73,21 +71,33 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
 
   header = computed<PaginationHeader>(
     () => {
-      const loadState =this.goodsResource.isLoading()
-      if(loadState){
-        return
+      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+      if (this.goodsResource.status() !== 'resolved') {
+        return {};
       }
-      return this.goodsResource.hasValue() ? JSON.parse(this.goodsResource.headers()?.get('X-Pagination') ?? '{}'): {}
+      return JSON.parse(
+        this.goodsResource.headers()?.get('X-Pagination') ?? '{}'
+      )
     }
   )
 
 
-  setActivePage(page: number){
-   // console.log('setting active page to:', page);
-    this.activePage.set(page);
-    // this.pageNumber.set(page);
-  }
+  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update(value => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
 
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+
+  }
   updateItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");
   }
