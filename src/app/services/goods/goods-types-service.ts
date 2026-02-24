@@ -61,8 +61,32 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
   });
 
   header = computed<PaginationHeader>(
-    () => this.goodsTypesResourceResource.hasValue() ? JSON.parse(this.goodsTypesResourceResource.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => {
+      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+      if (this.goodsTypesResourceResource.status() !== 'resolved') {
+        return {};
+      }
+      return JSON.parse(
+        this.goodsTypesResourceResource.headers()?.get('X-Pagination') ?? '{}'
+      )
+    }
   )
+  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update(value => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+
+  }
 
   refresh(){
     this.goodsTypesResourceResource.reload();

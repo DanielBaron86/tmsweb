@@ -61,9 +61,33 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
   });
 
   header = computed<PaginationHeader>(
-    () => this.baseResourceResource.hasValue() ? JSON.parse(this.baseResourceResource.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => {
+      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+      if (this.baseResourceResource.status() !== 'resolved') {
+        return {};
+      }
+      return JSON.parse(
+        this.baseResourceResource.headers()?.get('X-Pagination') ?? '{}'
+      )
+    }
   )
 
+  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update(value => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+
+  }
 
 
 refresh(){
