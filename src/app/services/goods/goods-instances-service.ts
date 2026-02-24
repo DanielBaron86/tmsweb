@@ -1,6 +1,6 @@
 import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
 import {BaseItem, GoodsModels, GoodsTypesModel, v_GoodsTypesInstances} from '../../models/goods-models';
-import {HttpClient, httpResource} from '@angular/common/http';
+import {HttpClient, httpResource, HttpResponse} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {
   ItemInstanceCollectionName,
@@ -11,6 +11,10 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {QueryFilters} from '../../models/query-models';
 import {LocationUnitModel} from '../../models/location-models';
 
+interface GoodsResponse {
+  data: v_GoodsTypesInstances[];
+  pagination: PaginationHeader;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +34,12 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   readonly goodsResource = httpResource<v_GoodsTypesInstances[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
-    const pageSize= this.pageSize()
+    const pageSize = this.pageSize()
+    //console.log('goodsResource',filters,pageNumber,pageSize);
+    return this.queryFilters()
+      ? {url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters}
+      : {url: `${this.apiUrl}/v1/goods_instance/view`, method: 'GET', params: {pageNumber, pageSize}};
 
-    return filters
-      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
-      : { url: `${this.apiUrl}/v1/goods_instance/view`, method: 'GET', params: { pageNumber,pageSize } };
   });
 
   cache = linkedSignal({
@@ -43,7 +48,7 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
-
+    //  console.log('cache',source.activePage,source.data);
       const currentList = (previous?.value ?? []) as v_GoodsTypesInstances[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
@@ -59,7 +64,7 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   displayItems = computed(() => {
     const pagedData = this.cache() as v_GoodsTypesInstances[][];
     const currentPage = this.activePage();
-    console.log('displayItems',pagedData,currentPage);
+   // console.log('displayItems',pagedData,currentPage);
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
@@ -67,7 +72,13 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   });
 
   header = computed<PaginationHeader>(
-    () => this.goodsResource.hasValue() ? JSON.parse(this.goodsResource.headers()?.get('X-Pagination') ?? '{}'): {}
+    () => {
+      const loadState =this.goodsResource.isLoading()
+      if(loadState){
+        return
+      }
+      return this.goodsResource.hasValue() ? JSON.parse(this.goodsResource.headers()?.get('X-Pagination') ?? '{}'): {}
+    }
   )
 
 
@@ -82,6 +93,13 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
   }
   createItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");
+  }
+
+  search(newFilters: QueryFilters) {
+    this.cachedPages=[];
+    this.queryFilters.set(newFilters);
+    this.activePage.set(1);
+    this.pageNumber.set(1);
   }
 
 

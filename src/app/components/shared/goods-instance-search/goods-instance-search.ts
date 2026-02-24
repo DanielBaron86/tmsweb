@@ -74,7 +74,7 @@ export class GoodsInstanceSearch {
     {value: 'SerialNumber', text: 'Serial Number'},
   ]
   protected ReceiveFilters($event: QueryFilters) {
-    this.dataService.queryFilters.set($event);
+    this.dataService.search($event);
 
   }
 }
