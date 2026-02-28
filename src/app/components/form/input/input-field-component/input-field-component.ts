@@ -1,15 +1,17 @@
-import {ChangeDetectionStrategy, Component, input, model, output, signal} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {readonly} from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, input, model, output, signal } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { readonly } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-field',
   imports: [],
-  providers: [ {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: InputFieldComponent,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: InputFieldComponent,
+      multi: true,
+    },
+  ],
   templateUrl: './input-field-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,21 +39,21 @@ export class InputFieldComponent implements ControlValueAccessor {
 
   value = model<number | string>('');
   type = model('');
-  id =input.required<string>();
+  id = input.required<string>();
   name = input<string>();
   placeholder = input<string>('');
-  min =input<string>('')
-  max =input<string>('');
+  min = input<string>('');
+  max = input<string>('');
   step = input<number>();
   disabled = signal(false);
   success = input(false);
-  error: boolean = false;
+  error = false;
   hint = input<string>('');
   className = input<string>('');
   inputReadonly = input(false);
-  readonly inputValueChange =  output<Event>();
+  readonly inputValueChange = output<Event>();
 
-   get inputClasses(): string {
+  get inputClasses(): string {
     let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${this.className()}`;
 
     if (this.disabled()) {

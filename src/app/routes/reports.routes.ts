@@ -1,8 +1,11 @@
-import { Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-export const reportsRoutes: Routes  =[
+export const reportsRoutes: Routes = [
   {
-    path: "", loadComponent: () => import('../pages/reports/reports-component/reports-component').then(m => m.ReportsComponent),
+    path: '',
+    loadComponent: () =>
+      import('../pages/reports/reports-component/reports-component').then(
+        (m) => m.ReportsComponent,
+      ),
   },
-
-]
+];

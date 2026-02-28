@@ -1,12 +1,11 @@
-import {computed, inject, Injectable, linkedSignal, signal} from '@angular/core';
-import {GoodsTypesModel} from '../../models/goods-models';
-import {HttpClient, httpResource} from '@angular/common/http';
-import {ConfigService} from '../config/config-service';
-import {PaginationHeader, TypesCollectionName} from '../../models/base-model';
+import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { GoodsTypesModel } from '../../models/goods-models';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { ConfigService } from '../config/config-service';
+import { PaginationHeader, TypesCollectionName } from '../../models/base-model';
 import DataService from '../data-service';
-import { Observable} from "rxjs";
-import {QueryFilters} from '../../models/query-models';
-
+import { Observable } from 'rxjs';
+import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +16,25 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
   readonly apiUrl = this.config.apiUrl;
 
   activePage = signal(1);
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
-  cachedPages: number[]=[];
+  cachedPages: number[] = [];
 
   readonly goodsTypesResourceResource = httpResource<GoodsTypesModel[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
-    const pageSize= this.pageSize()
+    const pageSize = this.pageSize();
 
     return filters
-      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
-      : { url: `${this.apiUrl}/v1/goods_type`, method: 'GET', params: { pageNumber,pageSize } };
+      ? {
+          url: `${this.apiUrl}/v1/goods_instance/query`,
+          method: 'POST',
+          body: filters,
+          params: { pageNumber, pageSize },
+        }
+      : { url: `${this.apiUrl}/v1/goods_type`, method: 'GET', params: { pageNumber, pageSize } };
   });
-
 
   cache = linkedSignal({
     source: () => ({
@@ -44,11 +47,11 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
         this.cachedPages.push(source.activePage);
         return {
           ...currentList,
-          [source.activePage]: source.data // Store data under its page number key
+          [source.activePage]: source.data, // Store data under its page number key
         };
       }
       return currentList;
-    }
+    },
   });
 
   displayItems = computed(() => {
@@ -60,20 +63,16 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
     return this.goodsTypesResourceResource.value() ?? [];
   });
 
-  header = computed<PaginationHeader>(
-    () => {
-      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
-      if (this.goodsTypesResourceResource.status() !== 'resolved') {
-        return {};
-      }
-      return JSON.parse(
-        this.goodsTypesResourceResource.headers()?.get('X-Pagination') ?? '{}'
-      )
+  header = computed<PaginationHeader>(() => {
+    //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+    if (this.goodsTypesResourceResource.status() !== 'resolved') {
+      return {};
     }
-  )
-  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+    return JSON.parse(this.goodsTypesResourceResource.headers()?.get('X-Pagination') ?? '{}');
+  });
+  override setActivePage(pageNumber: number, hasFilters = false) {
     if (hasFilters && !this.cachedPages.includes(pageNumber)) {
-      this.queryFilters.update(value => {
+      this.queryFilters.update((value) => {
         if (!value) return value;
         return { ...value, pageNumber: pageNumber };
       });
@@ -85,22 +84,20 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
     if (!this.cachedPages.includes(pageNumber)) {
       this.pageNumber.set(pageNumber);
     }
-
   }
 
-  refresh(){
-    this.cachedPages=[];
-    this.cache.update( () => [])
+  refresh() {
+    this.cachedPages = [];
+    this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);
     this.goodsTypesResourceResource.reload();
   }
 
   updateItem(item: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   createItem(item: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
-
 }

@@ -1,24 +1,23 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed, effect,
+  computed,
+  effect,
   ElementRef,
   inject,
   input,
-  output, signal,
-  viewChild
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {toSignal} from '@angular/core/rxjs-interop';
-import {QueryFilters} from '../../../models/query-models';
-import {SelectedOption} from '../../form/select-with-search/select-with-search';
-
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { QueryFilters } from '../../../models/query-models';
+import { SelectedOption } from '../../form/select-with-search/select-with-search';
 
 @Component({
   selector: 'app-query-builder',
-  imports: [
-    ReactiveFormsModule,
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './query-builder.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,8 +31,8 @@ export class QueryBuilder {
     });
   }
   emitQueryFilter = output<QueryFilters>();
-  dropdownMenu = viewChild<ElementRef<HTMLElement>>("dropdownMenu");
-  isOpen = signal(false)
+  dropdownMenu = viewChild<ElementRef<HTMLElement>>('dropdownMenu');
+  isOpen = signal(false);
   protected Toogle() {
     this.isOpen.set(!this.isOpen());
   }
@@ -43,14 +42,14 @@ export class QueryBuilder {
   queryFilterForm = this.fb.group({
     pageNumber: [1, [Validators.min(1)]],
     pageSize: [10, [Validators.min(1), Validators.max(100)]],
-    queryFields: this.fb.array([])
+    queryFields: this.fb.array([]),
   });
 
   formValue = toSignal(this.queryFilterForm.valueChanges, {
-    initialValue: this.queryFilterForm.value
+    initialValue: this.queryFilterForm.value,
   });
-   formStatus = toSignal(this.queryFilterForm.statusChanges, {
-    initialValue: this.queryFilterForm.status
+  formStatus = toSignal(this.queryFilterForm.statusChanges, {
+    initialValue: this.queryFilterForm.status,
   });
   isSubmitDisabled = computed(() => this.formStatus() !== 'VALID');
 
@@ -76,5 +75,5 @@ export class QueryBuilder {
     this.emitQueryFilter.emit(this.formValue() as QueryFilters);
     this.Toogle();
   }
-  selectOptions= input<SelectedOption[]>([]);
+  selectOptions = input<SelectedOption[]>([]);
 }

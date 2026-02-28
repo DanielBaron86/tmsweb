@@ -4,14 +4,13 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SidebarService {
+  #isExpandedSubject = signal<boolean>(true);
+  #isMobileOpenSubject = signal<boolean>(false);
+  #isHoveredSubject = signal<boolean>(false);
 
-     #isExpandedSubject = signal<boolean>(true);
-     #isMobileOpenSubject = signal<boolean>(false);
-     #isHoveredSubject = signal<boolean>(false);
-
-    readonly isExpanded = this.#isExpandedSubject.asReadonly();
-    readonly isMobileOpen = this.#isMobileOpenSubject.asReadonly();
-    readonly isHovered = this.#isHoveredSubject.asReadonly(); 
+  readonly isExpanded = this.#isExpandedSubject.asReadonly();
+  readonly isMobileOpen = this.#isMobileOpenSubject.asReadonly();
+  readonly isHovered = this.#isHoveredSubject.asReadonly();
 
   setExpanded(val: boolean) {
     this.#isExpandedSubject.set(val);
@@ -30,6 +29,6 @@ export class SidebarService {
   }
 
   setHovered(val: boolean) {
-    this.#isHoveredSubject.set(val);  
+    this.#isHoveredSubject.set(val);
   }
 }

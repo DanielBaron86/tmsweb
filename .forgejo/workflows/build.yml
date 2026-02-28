@@ -8,15 +8,15 @@ jobs:
   test:
     name: Build and analyze
     runs-on: host
-    
+
     steps:
       - uses: actions/checkout@v4
-        with: 
+        with:
           fetch-depth: 0
       - run: "sonar \
-              -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
-              -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-              -Dsonar.projectKey=tmsweb"
+          -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.projectKey=tmsweb"
 
   build:
     name: Build Docker
@@ -24,11 +24,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run : docker build -f Dockerfile -t registry.danielsplaygrounds.com/docker/images/tms_web:latest . 
+      - run: docker build -f Dockerfile -t registry.danielsplaygrounds.com/docker/images/tms_web:latest .
   deploy:
     needs:
       - build
     name: Push Docker
     runs-on: host
     steps:
-      - run : docker push registry.danielsplaygrounds.com/docker/images/tms_web:latest    
+      - run: docker push registry.danielsplaygrounds.com/docker/images/tms_web:latest

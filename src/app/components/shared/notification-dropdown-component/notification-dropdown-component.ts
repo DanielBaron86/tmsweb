@@ -7,12 +7,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationDropdownComponent {
-
   isOpen = false;
   notifying = false;
 
-toggleDropdown() {
-  this.isOpen = !this.isOpen;
-}
-
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
 }

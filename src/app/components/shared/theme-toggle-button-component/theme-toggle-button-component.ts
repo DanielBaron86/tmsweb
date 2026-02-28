@@ -7,10 +7,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggleButtonComponent {
-theme = 'dark';
+  theme = 'dark';
 
   toggleTheme() {
     throw new Error('Method not implemented.');
   }
-
 }

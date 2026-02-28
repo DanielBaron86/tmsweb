@@ -4,10 +4,8 @@ import { ThemeToggleTwoComponent } from '../../shared/theme-toggle-two-component
 
 @Component({
   selector: 'app-auth-page-layout',
-  imports: [GridShapeComponent,ThemeToggleTwoComponent],
+  imports: [GridShapeComponent, ThemeToggleTwoComponent],
   templateUrl: './auth-page-layout-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthPageLayoutComponent {
-
-}
+export class AuthPageLayoutComponent {}

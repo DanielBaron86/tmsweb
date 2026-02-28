@@ -8,21 +8,27 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signin-form',
-  imports: [LabelComponent,InputFieldComponent,CheckboxComponent,ButtonComponent,ButtonComponent,FormsModule],
+  imports: [
+    LabelComponent,
+    InputFieldComponent,
+    CheckboxComponent,
+    ButtonComponent,
+    ButtonComponent,
+    FormsModule,
+  ],
   templateUrl: './signin-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninFormComponent {
-readonly authService = inject(AuthServices)
+  readonly authService = inject(AuthServices);
 
+  inputValueEmail = '';
+  inputValuePassword = '';
 
- inputValueEmail = '';
- inputValuePassword = '';
+  showPassword = false;
+  isChecked = false;
 
- showPassword = false;
- isChecked = false;
-
- inputType='password';
+  inputType = 'password';
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -34,21 +40,18 @@ readonly authService = inject(AuthServices)
   }
   className = 'mb-4';
 
-
-
-   onSignIn(): void {
-   this.authService.login(this.inputValueEmail,this.inputValuePassword,this.isChecked);
-
+  onSignIn(): void {
+    this.authService.login(this.inputValueEmail, this.inputValuePassword, this.isChecked);
   }
 
-  onKeepMeLoggedIn($event:boolean){
-    this.isChecked=$event;
-       const storedToken = localStorage.getItem('userToken');
-      if (storedToken) {
-        console.log('Refreshing token from storage',storedToken);
-        /// Implement TOKEN REFRESH LOGIC  AND API ENDPOINT HERE
-      }else{
-        console.log('No token found in storage');
+  onKeepMeLoggedIn($event: boolean) {
+    this.isChecked = $event;
+    const storedToken = localStorage.getItem('userToken');
+    if (storedToken) {
+      console.log('Refreshing token from storage', storedToken);
+      /// Implement TOKEN REFRESH LOGIC  AND API ENDPOINT HERE
+    } else {
+      console.log('No token found in storage');
     }
   }
 }

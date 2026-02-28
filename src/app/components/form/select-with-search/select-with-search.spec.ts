@@ -8,9 +8,8 @@ describe('SelectWithSearch', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectWithSearch]
-    })
-    .compileComponents();
+      imports: [SelectWithSearch],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SelectWithSearch);
     component = fixture.componentInstance;

@@ -8,9 +8,8 @@ describe('ThemeToggleTwoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ThemeToggleTwoComponent]
-    })
-    .compileComponents();
+      imports: [ThemeToggleTwoComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ThemeToggleTwoComponent);
     component = fixture.componentInstance;

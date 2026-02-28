@@ -8,9 +8,8 @@ describe('QueryBuilder', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QueryBuilder]
-    })
-    .compileComponents();
+      imports: [QueryBuilder],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(QueryBuilder);
     component = fixture.componentInstance;

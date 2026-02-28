@@ -1,89 +1,89 @@
-import { inject, Injectable, Injector, linkedSignal, Signal, signal} from '@angular/core';
-import {HttpClient, httpResource} from '@angular/common/http';
-import {ConfigService} from '../config/config-service';
-import {LocationCollectionName, LocationUnitModel} from '../../models/location-models';
+import { inject, Injectable, Injector, linkedSignal, Signal, signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { ConfigService } from '../config/config-service';
+import { LocationCollectionName, LocationUnitModel } from '../../models/location-models';
 import DataService from '../data-service';
-import { paginatedResult} from '../../models/base-model';
-import { Observable} from "rxjs";
-import {QueryFilters} from '../../models/query-models';
+import { paginatedResult } from '../../models/base-model';
+import { Observable } from 'rxjs';
+import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService extends DataService<LocationCollectionName> {
+  cachedPages: number[] = [];
 
-  cachedPages: number[]=[];
-
-
-  readonly  http = inject(HttpClient);
+  readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
   readonly injector = inject(Injector);
 
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(20);
   activePage = signal(1);
-  #cahedItems : LocationCollectionName[] =[];
+  #cahedItems: LocationCollectionName[] = [];
 
-  itemTypes(){
+  itemTypes() {
     return !!this.#location.hasValue();
   }
 
-
   getCollectionList() {
-    return   linkedSignal({
+    return linkedSignal({
       source: () => this.#location.value(),
       computation: () => {
         if (this.#location.hasValue()) {
           const headers = JSON.parse(this.#location.headers()?.get('X-Pagination') ?? '{}');
-          this.#cahedItems[this.pageNumber()]={pageNumber : this.pageNumber(),collectionName : this.#location.value()}
+          this.#cahedItems[this.pageNumber()] = {
+            pageNumber: this.pageNumber(),
+            collectionName: this.#location.value(),
+          };
           const returnedObject: paginatedResult<LocationCollectionName[]> = {
-            result:  this.#cahedItems,
-            paginationHeader: headers
-          }
+            result: this.#cahedItems,
+            paginationHeader: headers,
+          };
 
           return returnedObject;
         } else {
           const returnedObject: paginatedResult<LocationCollectionName[]> = {
-            result: [{pageNumber : 0,collectionName : []}],
+            result: [{ pageNumber: 0, collectionName: [] }],
             paginationHeader: {
               TotalItemCount: 0,
               TotalPageCount: 0,
               PageSize: 0,
-              CurrentPage:0
-            }
-          }
+              CurrentPage: 0,
+            },
+          };
           return returnedObject;
         }
-      }
-    })
+      },
+    });
   }
-
 
   override updateItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   override createItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
-
-
-  get locations(){
-    return this.#location.asReadonly()
+  get locations() {
+    return this.#location.asReadonly();
   }
 
   #location = httpResource<LocationUnitModel[]>(() => ({
     url: `${this.apiUrl}/v1/locations`,
     method: 'GET',
-    defaultValue: signal<Location[]>([])
+    defaultValue: signal<Location[]>([]),
   }));
 
-  getLocationsWithFilters(queryFilters: Signal<QueryFilters>){
-    return httpResource<LocationUnitModel[]>( () => ({
-      url: `${this.apiUrl}/v1/locations/query`,
-      method: 'POST',
-      body: queryFilters(),
-    }), {injector: this.injector})
+  getLocationsWithFilters(queryFilters: Signal<QueryFilters>) {
+    return httpResource<LocationUnitModel[]>(
+      () => ({
+        url: `${this.apiUrl}/v1/locations/query`,
+        method: 'POST',
+        body: queryFilters(),
+      }),
+      { injector: this.injector },
+    );
   }
 }

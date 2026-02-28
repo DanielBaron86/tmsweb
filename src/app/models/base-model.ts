@@ -1,7 +1,7 @@
-import {BaseItem, GoodsTypesModel, v_GoodsTypesInstances} from './goods-models';
-import {TaskModels} from './tasks-models';
+import { BaseItem, GoodsTypesModel, v_GoodsTypesInstances } from './goods-models';
+import { TaskModels } from './tasks-models';
 
-export  interface  BaseModel {
+export interface BaseModel {
   createdDate?: Date | null;
   updatedDate?: Date | null;
 }
@@ -30,11 +30,9 @@ export interface TaskModelsCollectionName {
   collectionName: TaskModels[];
 }
 
-
 export interface PaginationHeader {
   TotalItemCount: number;
   TotalPageCount: number;
   PageSize: number;
   CurrentPage: number;
 }
-

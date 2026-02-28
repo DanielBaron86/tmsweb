@@ -1,87 +1,86 @@
 import { Routes } from '@angular/router';
 import { CanActivateAuthGuard } from '../components/auth/guards/can-activate';
-import {goodsRoutes} from './goods.routes';
-import {userRoutes} from './user.routes';
-import {inventoryRoutes} from './inventory.routes';
-import {locationRoutes} from './location.routes';
-import {clientsRoutes} from './clients.routes';
-import { tasksRoutes} from './tasks.routes';
-import {storesRoutes} from './stores.routes';
-import {reportsRoutes} from './reports.routes';
-import {InventoryService} from '../services/inventory/inventory.service';
+import { goodsRoutes } from './goods.routes';
+import { userRoutes } from './user.routes';
+import { inventoryRoutes } from './inventory.routes';
+import { locationRoutes } from './location.routes';
+import { clientsRoutes } from './clients.routes';
+import { tasksRoutes } from './tasks.routes';
+import { storesRoutes } from './stores.routes';
+import { reportsRoutes } from './reports.routes';
+import { InventoryService } from '../services/inventory/inventory.service';
 import DataService from '../services/data-service';
-import {UserService} from '../services/users/user-service';
-
+import { UserService } from '../services/users/user-service';
 
 export const routes: Routes = [
-   {
-      path: '', redirectTo: '/login', pathMatch: 'full'
-   },
-   {
-    path: 'login', loadComponent: () => import('../components/auth/sign-in-component/sign-in-component').then(m => m.SignInComponent),
-   },
-   {
-      path: 'users', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
-      canActivate: [CanActivateAuthGuard],
-     providers: [{provide: DataService, useClass: UserService}],
-     children: [
-       ...userRoutes
-     ]
-   },
   {
-    path: 'inventory', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('../components/auth/sign-in-component/sign-in-component').then(
+        (m) => m.SignInComponent,
+      ),
+  },
+  {
+    path: 'users',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{provide: DataService, useClass: InventoryService}],
-    children: [
-      ...inventoryRoutes,
-    ]
+    providers: [{ provide: DataService, useClass: UserService }],
+    children: [...userRoutes],
   },
   {
-    path: 'locations', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'inventory',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...locationRoutes,
-    ]
+    providers: [{ provide: DataService, useClass: InventoryService }],
+    children: [...inventoryRoutes],
   },
   {
-    path: 'clients', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'locations',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...clientsRoutes,
-    ]
+    children: [...locationRoutes],
   },
   {
-    path: 'tasks', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'clients',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...tasksRoutes,
-    ]
+    children: [...clientsRoutes],
   },
   {
-    path: 'stores', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'tasks',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...storesRoutes,
-    ]
+    children: [...tasksRoutes],
   },
   {
-    path: 'reports', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'stores',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...reportsRoutes,
-    ]
+    children: [...storesRoutes],
   },
   {
-    path: 'goods', loadComponent: () => import('../components/main-page/main-page').then(m => m.MainPage),
+    path: 'reports',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    children: [
-      ...goodsRoutes,
-    ]
+    children: [...reportsRoutes],
   },
   {
-    path: '404', loadComponent: () => import('../pages/page404/page404').then(m => m.Page404),
+    path: 'goods',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    children: [...goodsRoutes],
   },
   {
-    path: '**', redirectTo: '/404'
+    path: '404',
+    loadComponent: () => import('../pages/page404/page404').then((m) => m.Page404),
+  },
+  {
+    path: '**',
+    redirectTo: '/404',
   },
 ];

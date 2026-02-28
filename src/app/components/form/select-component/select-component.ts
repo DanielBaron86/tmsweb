@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 export interface Option {
   value: string;
   label: string;
@@ -10,7 +10,6 @@ export interface Option {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectComponent {
-
   options = input.required<Option[]>();
   placeholder = input('Select an option');
   className = input('');
@@ -18,9 +17,7 @@ export class SelectComponent {
   defaultValue = input('');
   value = input('');
 
-  valueChange= output<string>();
+  valueChange = output<string>();
 
-  protected onChange($event: Event) {
-
-  }
+  protected onChange($event: Event) {}
 }

@@ -1,36 +1,48 @@
-import {computed, effect, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {HttpClient, httpResource} from '@angular/common/http';
-import {BaseItem} from '../../models/goods-models';
-import {BaseCollectionName, PaginationHeader} from '../../models/base-model';
-import {catchError} from 'rxjs/operators';
-import {throwError} from 'rxjs';
-import {ConfigService} from '../config/config-service';
+import {
+  computed,
+  effect,
+  inject,
+  Injectable,
+  linkedSignal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { BaseItem } from '../../models/goods-models';
+import { BaseCollectionName, PaginationHeader } from '../../models/base-model';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { ConfigService } from '../config/config-service';
 import DataService from '../data-service';
-import {QueryFilters} from '../../models/query-models';
+import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export default class BaseItemsService extends DataService<BaseCollectionName> {
-
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
   activePage = signal(1);
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
-  cachedPages: number[]=[];
+  cachedPages: number[] = [];
 
   readonly baseResourceResource = httpResource<BaseItem[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
-    const pageSize= this.pageSize()
+    const pageSize = this.pageSize();
 
     return filters
-      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters, params: { pageNumber,pageSize } }
-      : { url: `${this.apiUrl}/v1/goods_base`, method: 'GET', params: { pageNumber,pageSize } };
+      ? {
+          url: `${this.apiUrl}/v1/goods_instance/query`,
+          method: 'POST',
+          body: filters,
+          params: { pageNumber, pageSize },
+        }
+      : { url: `${this.apiUrl}/v1/goods_base`, method: 'GET', params: { pageNumber, pageSize } };
   });
 
   cache = linkedSignal({
@@ -44,11 +56,11 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
         this.cachedPages.push(source.activePage);
         return {
           ...currentList,
-          [source.activePage]: source.data // Store data under its page number key
+          [source.activePage]: source.data, // Store data under its page number key
         };
       }
       return currentList;
-    }
+    },
   });
 
   displayItems = computed(() => {
@@ -60,21 +72,17 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
     return this.baseResourceResource.value() ?? [];
   });
 
-  header = computed<PaginationHeader>(
-    () => {
-      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
-      if (this.baseResourceResource.status() !== 'resolved') {
-        return {};
-      }
-      return JSON.parse(
-        this.baseResourceResource.headers()?.get('X-Pagination') ?? '{}'
-      )
+  header = computed<PaginationHeader>(() => {
+    //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+    if (this.baseResourceResource.status() !== 'resolved') {
+      return {};
     }
-  )
+    return JSON.parse(this.baseResourceResource.headers()?.get('X-Pagination') ?? '{}');
+  });
 
-  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+  override setActivePage(pageNumber: number, hasFilters = false) {
     if (hasFilters && !this.cachedPages.includes(pageNumber)) {
-      this.queryFilters.update(value => {
+      this.queryFilters.update((value) => {
         if (!value) return value;
         return { ...value, pageNumber: pageNumber };
       });
@@ -86,32 +94,29 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
     if (!this.cachedPages.includes(pageNumber)) {
       this.pageNumber.set(pageNumber);
     }
-
   }
 
-  refresh(){
-    this.cachedPages=[];
-    this.cache.update( () => [])
+  refresh() {
+    this.cachedPages = [];
+    this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);
     this.baseResourceResource.reload();
   }
 
-
   updateItem(baseItem: BaseItem) {
     return this.http.put<BaseItem>(`${this.apiUrl}/v1/goods_base/${baseItem.id}`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);
-      })
-    )
+      }),
+    );
   }
 
   createItem(baseItem: BaseItem) {
     return this.http.post<BaseItem>(`${this.apiUrl}/v1/goods_base`, baseItem).pipe(
       catchError((error) => {
         return throwError(() => error);
-      })
-    )
+      }),
+    );
   }
-
 }

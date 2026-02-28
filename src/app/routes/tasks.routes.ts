@@ -1,7 +1,9 @@
-import { Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-export const tasksRoutes: Routes  =[
+export const tasksRoutes: Routes = [
   {
-    path: "users", loadComponent: () => import('../pages/users/users-component/users-component').then(m => m.UsersComponent),
+    path: 'users',
+    loadComponent: () =>
+      import('../pages/users/users-component/users-component').then((m) => m.UsersComponent),
   },
-]
+];

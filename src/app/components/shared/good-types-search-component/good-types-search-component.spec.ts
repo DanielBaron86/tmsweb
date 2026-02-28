@@ -8,9 +8,8 @@ describe('GoodTypesSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoodTypesSearchComponent]
-    })
-    .compileComponents();
+      imports: [GoodTypesSearchComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GoodTypesSearchComponent);
     component = fixture.componentInstance;

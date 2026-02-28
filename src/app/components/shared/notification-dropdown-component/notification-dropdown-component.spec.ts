@@ -8,9 +8,8 @@ describe('NotificationDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationDropdownComponent]
-    })
-    .compileComponents();
+      imports: [NotificationDropdownComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationDropdownComponent);
     component = fixture.componentInstance;

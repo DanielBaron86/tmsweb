@@ -1,5 +1,4 @@
-export enum GoodsStatusEnum
-{
+export enum GoodsStatusEnum {
   NONE,
   PENDING,
   IN_TRANSIT,
@@ -10,32 +9,26 @@ export enum GoodsStatusEnum
   RETURNED,
   LOST,
   DELETED,
-  RESERVED
+  RESERVED,
 }
 
-
-
-
-export enum TaskTypes
-{
+export enum TaskTypes {
   NONE,
   PROCUREMENT,
   TRANSFER,
-
 }
 
-export  enum TaskTypesStatus
-{
+export enum TaskTypesStatus {
   NONE,
   PENDING,
   OPEN,
   CLOSED,
-  COMPLETE
+  COMPLETE,
 }
 
 export enum InventoryKey {
   Quantity,
-  Serial
+  Serial,
 }
 
 export enum UserTypeEnum {

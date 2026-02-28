@@ -3,32 +3,29 @@ import { SidebarWidgetComponent } from './sidebar-widget-component';
 import { SidebarService } from '../../../services/sidebar/sidebar-service';
 import { Router, RouterModule } from '@angular/router';
 import { SafeHtmlPipe } from '../../../pipes/safe-html-pipe';
-import { navItemsList,NavItem } from '../../../routes/menu-items-list';
-
-
+import { navItemsList, NavItem } from '../../../routes/menu-items-list';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SidebarWidgetComponent,SafeHtmlPipe,RouterModule],
+  imports: [SidebarWidgetComponent, SafeHtmlPipe, RouterModule],
   templateUrl: './app-sidebar-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSidebarComponent {
+  readonly sidebarService = inject(SidebarService);
+  readonly router = inject(Router);
+  readonly cdr = inject(ChangeDetectorRef);
 
- readonly  sidebarService = inject(SidebarService);
- readonly  router = inject(Router);
- readonly cdr = inject(ChangeDetectorRef);
+  openSubmenu: string | null | number = null;
+  subMenuHeights: Record<string, number> = {};
 
- openSubmenu: string | null | number = null;
- subMenuHeights: { [key: string]: number } = {};
+  navItems: NavItem[] = navItemsList;
 
-   navItems: NavItem[] = navItemsList;
-
-   onSidebarMouseEnter() {
+  onSidebarMouseEnter() {
     this.sidebarService.setHovered(true);
-   }
+  }
 
-   toggleSubmenu(section: string, index: number){
+  toggleSubmenu(section: string, index: number) {
     const key = `${section}-${index}`;
     if (this.openSubmenu === key) {
       this.openSubmenu = null;
@@ -44,12 +41,11 @@ export class AppSidebarComponent {
         }
       });
     }
-   }
-
-   onSubmenuClick() {}
-
-    isActive(path: string): boolean {
-    return this.router.url === path;
   }
 
+  onSubmenuClick() {}
+
+  isActive(path: string): boolean {
+    return this.router.url === path;
+  }
 }

@@ -1,21 +1,21 @@
-import {computed, inject, Injectable, Injector, linkedSignal, signal} from '@angular/core';
-import {HttpClient, httpResource} from '@angular/common/http';
-import {ConfigService} from '../config/config-service';
-import {UserResource} from '../../models/user-models';
-import {QueryFilters} from '../../models/query-models';
-import {PaginationHeader} from '../../models/base-model';
+import { computed, inject, Injectable, Injector, linkedSignal, signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { ConfigService } from '../config/config-service';
+import { UserResource } from '../../models/user-models';
+import { QueryFilters } from '../../models/query-models';
+import { PaginationHeader } from '../../models/base-model';
 import DataService from '../data-service';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService extends DataService<UserResource> {
   override updateItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   override createItem(item: any): Observable<any> {
-      throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   readonly injector = inject(Injector);
   readonly http = inject(HttpClient);
@@ -23,19 +23,18 @@ export class UserService extends DataService<UserResource> {
   readonly apiUrl = this.config.apiUrl;
 
   activePage = signal(1);
-  pageNumber =signal<number>(1);
-  pageSize =signal<number>(20);
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
-  cachedPages: number[]=[];
+  cachedPages: number[] = [];
 
   readonly usersResources = httpResource<UserResource[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
-    const pageSize = this.pageSize()
+    const pageSize = this.pageSize();
     return this.queryFilters()
-      ? {url: `${this.apiUrl}/v1/users/query`, method: 'POST', body: filters}
-      : {url: `${this.apiUrl}/v1/users`, method: 'GET', params: {pageNumber, pageSize}};
-
+      ? { url: `${this.apiUrl}/v1/users/query`, method: 'POST', body: filters }
+      : { url: `${this.apiUrl}/v1/users`, method: 'GET', params: { pageNumber, pageSize } };
   });
 
   cache = linkedSignal({
@@ -44,17 +43,16 @@ export class UserService extends DataService<UserResource> {
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
-
       const currentList = (previous?.value ?? []) as UserResource[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
         return {
           ...currentList,
-          [source.activePage]: source.data // Store data under its page number key
+          [source.activePage]: source.data, // Store data under its page number key
         };
       }
       return currentList;
-    }
+    },
   });
 
   displayItems = computed(() => {
@@ -66,22 +64,17 @@ export class UserService extends DataService<UserResource> {
     return this.usersResources.value() ?? [];
   });
 
-  header = computed<PaginationHeader>(
-    () => {
-      //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
-      if (this.usersResources.status() !== 'resolved') {
-        return {};
-      }
-      return JSON.parse(
-        this.usersResources.headers()?.get('X-Pagination') ?? '{}'
-      )
+  header = computed<PaginationHeader>(() => {
+    //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
+    if (this.usersResources.status() !== 'resolved') {
+      return {};
     }
-  )
+    return JSON.parse(this.usersResources.headers()?.get('X-Pagination') ?? '{}');
+  });
 
-
-  override setActivePage(pageNumber: number, hasFilters: boolean = false) {
+  override setActivePage(pageNumber: number, hasFilters = false) {
     if (hasFilters && !this.cachedPages.includes(pageNumber)) {
-      this.queryFilters.update(value => {
+      this.queryFilters.update((value) => {
         if (!value) return value;
         return { ...value, pageNumber: pageNumber };
       });
@@ -93,18 +86,17 @@ export class UserService extends DataService<UserResource> {
     if (!this.cachedPages.includes(pageNumber)) {
       this.pageNumber.set(pageNumber);
     }
-
   }
 
   search(newFilters: QueryFilters) {
-    this.cachedPages=[];
-    this.cache.update(() => [])
+    this.cachedPages = [];
+    this.cache.update(() => []);
     this.queryFilters.set(newFilters);
     this.activePage.set(1);
     this.pageNumber.set(1);
   }
 
-  defaultprofile =signal<UserResource>({
+  defaultprofile = signal<UserResource>({
     email: '',
     firstName: '',
     lastName: '',
@@ -116,12 +108,15 @@ export class UserService extends DataService<UserResource> {
   });
 
   getUserById(idFactory: () => number | undefined) {
-    return httpResource<UserResource>(() => {
-      const id = idFactory();
-      if (id === undefined || id ==0) return undefined;
-      return `${this.apiUrl}/v1/users/${id}`;
-    }, {
-      injector: this.injector,
-    });
+    return httpResource<UserResource>(
+      () => {
+        const id = idFactory();
+        if (id === undefined || id == 0) return undefined;
+        return `${this.apiUrl}/v1/users/${id}`;
+      },
+      {
+        injector: this.injector,
+      },
+    );
   }
 }

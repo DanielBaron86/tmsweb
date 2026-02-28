@@ -1,12 +1,12 @@
-import { Directive, input, model, numberAttribute} from '@angular/core';
+import { Directive, input, model, numberAttribute } from '@angular/core';
 
 @Directive({
   selector: 'input[appDebounceTimer]',
   standalone: true,
   host: {
     '[value]': 'value()',
-    '(input)': 'handleInput($event)'
-  }
+    '(input)': 'handleInput($event)',
+  },
 })
 export class DebounceTimer {
   #debounceTimer?: any;

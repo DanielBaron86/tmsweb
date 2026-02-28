@@ -8,9 +8,8 @@ describe('ViewTaskTransfer', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewTaskTransfer]
-    })
-    .compileComponents();
+      imports: [ViewTaskTransfer],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ViewTaskTransfer);
     component = fixture.componentInstance;

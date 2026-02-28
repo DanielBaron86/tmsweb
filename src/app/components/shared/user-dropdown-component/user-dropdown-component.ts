@@ -5,19 +5,18 @@ import { AuthServices } from '../../../services/auth/auth.services';
 
 @Component({
   selector: 'app-user-dropdown',
-  imports: [DropdownComponent,DropdownItemTwoComponent],
+  imports: [DropdownComponent, DropdownItemTwoComponent],
   templateUrl: './user-dropdown-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserDropdownComponent {
-
   readonly AuthServices = inject(AuthServices);
 
-doLogOut() {
-  this.AuthServices.logout();
-}
+  doLogOut() {
+    this.AuthServices.logout();
+  }
 
-   isOpen = false;
+  isOpen = false;
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;
@@ -26,5 +25,4 @@ doLogOut() {
   closeDropdown() {
     this.isOpen = false;
   }
-
 }

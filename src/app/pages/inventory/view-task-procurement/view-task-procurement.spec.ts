@@ -8,9 +8,8 @@ describe('ViewTaskProcurement', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewTaskProcurement]
-    })
-    .compileComponents();
+      imports: [ViewTaskProcurement],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ViewTaskProcurement);
     component = fixture.componentInstance;

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-page404',
-  imports: [GridShapeComponent,RouterModule],
+  imports: [GridShapeComponent, RouterModule],
   templateUrl: './page404.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -4,7 +4,7 @@ import { SigninFormComponent } from '../signin-form/signin-form.component';
 
 @Component({
   selector: 'app-sign-in-component',
-  imports: [AuthPageLayoutComponent,SigninFormComponent],
+  imports: [AuthPageLayoutComponent, SigninFormComponent],
   templateUrl: './sign-in-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

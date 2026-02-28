@@ -5,9 +5,11 @@
   >
     <span
       class="absolute right-0 top-0.5 z-10 h-2 w-2 rounded-full bg-orange-400"
-      [class]="{ 'hidden': !notifying, 'flex': notifying }"
+      [class]="{ hidden: !notifying, flex: notifying }"
     >
-      <span class="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"></span>
+      <span
+        class="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"
+      ></span>
     </span>
     <svg
       class="fill-current"
@@ -24,7 +26,6 @@
       />
     </svg>
   </button>
-  
 </div>
 
 <!-- block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 -->

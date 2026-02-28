@@ -1,271 +1,543 @@
-
-  <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
-    <div class="flex flex-col gap-2.5 divide-gray-300 sm:flex-row sm:divide-x dark:divide-gray-700">
-      <div class="flex items-center gap-2 sm:pr-3"><span class="text-base font-medium text-gray-700 dark:text-gray-400"> Task ID : {{ receivedTask.value().id}} </span>
-        <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium"> {{receivedTask.value().taskStatus | enumToString : TaskTypesStatus}} </span>
+<div
+  class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3"
+>
+  <div class="flex flex-col gap-2.5 divide-gray-300 sm:flex-row sm:divide-x dark:divide-gray-700">
+    <div class="flex items-center gap-2 sm:pr-3">
+      <span class="text-base font-medium text-gray-700 dark:text-gray-400">
+        Task ID : {{ receivedTask.value().id }}
+      </span>
+      <span
+        class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium"
+      >
+        {{ receivedTask.value().taskStatus | enumToString: TaskTypesStatus }}
+      </span>
+    </div>
+    <p class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400">
+      Create date:&nbsp; {{ receivedTask.value().createdDate | date: 'medium' }}
+    </p>
+  </div>
+</div>
+<div class="my-4"></div>
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+  <div class="lg:col-span-8 2xl:col-span-9">
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3"
+    >
+      <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Order Details</h2>
+      <div class="overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800">
+        <div class="custom-scrollbar overflow-x-auto">
+          <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
+            <thead class="bg-gray-50 dark:bg-gray-900">
+              <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Task Id
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Good Type Id
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"
+                >
+                  Good Type
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Quantity
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Remaining Quantity
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Location Id
+                </th>
+                <th
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+                >
+                  Location Address
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]"
+            >
+              @for (order of receivedTask.value().tasksEntitiesProcurements; track order.id) {
+                <tr>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.taskId }}
+                  </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.goodTypeId }}
+                  </td>
+                  <td
+                    class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"
+                  >
+                    {{ order.goodType }}
+                  </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.quantity }}
+                  </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.remainingQuantity }}
+                  </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.location }}
+                  </td>
+                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                    {{ order.locationTypesInstances.address }} -
+                    {{ order.locationTypesInstances.description }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
-      <p
-        class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Create date:&nbsp; {{receivedTask.value().createdDate | date:'medium'}} </p>
+      <div class="flex flex-wrap justify-between sm:justify-end">
+        <div class="mt-6 w-full space-y-1 text-right sm:w-[220px]">
+          <p class="mb-4 text-left text-sm font-medium text-gray-800 dark:text-white/90">
+            Order summary
+          </p>
+          <ul class="space-y-2">
+            <li class="flex justify-between gap-5">
+              <span class="text-sm text-gray-500 dark:text-gray-400">Total Items </span
+              ><span class="text-sm font-medium text-gray-700 dark:text-gray-400">
+                {{ summary().total }}
+              </span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-sm text-gray-500 dark:text-gray-400"> Remaining </span
+              ><span class="text-sm font-medium text-gray-700 dark:text-gray-400">
+                {{ summary().remaining }}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--    </app-order-details-table>-->
+
+  <div class="space-y-6 lg:col-span-4 2xl:col-span-3">
+    <div>
+      <div
+        class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3"
+      >
+        <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Created By</h2>
+        <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+          @if (userProfile.value(); as user) {
+            <li class="flex items-start gap-5 py-2.5">
+              <span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Username </span
+              ><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400">
+                {{ user.username }}
+              </span>
+            </li>
+            <li class="flex items-start gap-5 py-2.5">
+              <span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Email </span
+              ><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400">
+                {{ user.email }}
+              </span>
+            </li>
+            <li class="flex items-start gap-5 py-2.5">
+              <span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400">
+                First Name </span
+              ><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400">
+                {{ user.firstName }}
+              </span>
+            </li>
+            <li class="flex items-start gap-5 py-2.5">
+              <span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400">
+                Last Name </span
+              ><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400">
+                {{ user.lastName }}
+              </span>
+            </li>
+            <li class="flex items-start gap-5 py-2.5">
+              <span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400">
+                User Type </span
+              ><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400">
+                {{ user.userTypeId | enumToString: UserTypeEnum }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</div>
+<div class="my-4"></div>
+@if (summary().remaining == 0) {
+  <div
+    class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3"
+  >
+    <div class="space-y-6">
+      <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Task completed</h3>
+      <p>Please create a new task to add more items</p>
+    </div>
+  </div>
+} @else {
+  <div
+    class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3"
+  >
+    <div class="space-y-6">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-1">
+        <div>
+          <app-label>Goods Suppliers</app-label>
+        </div>
+        <app-select-with-search
+          [options]="options()"
+          (emitSelected)="ReceiveLocation($event)"
+        ></app-select-with-search>
+      </div>
+      @if (showForm()) {
+        <form (submit)="onSubmit($event)">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
+            <div>
+              <app-label>Good Type</app-label>
+            </div>
+            <div>
+              <app-label>Price</app-label>
+            </div>
+            <div>
+              <app-label> Serial Number</app-label>
+            </div>
+            <div>
+              <app-label>Quantity</app-label>
+            </div>
+            <div></div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
+            <div>
+              <select
+                (change)="OnChangeItemType(godType.value)"
+                #godType
+                class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full"
+              >
+                @for (item of goodsOptions(); track $index; let i = $index) {
+                  <option
+                    class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
+                    value="{{ item.itemValue }}"
+                  >
+                    {{ item.itemText }}
+                  </option>
+                }
+              </select>
+            </div>
+            <div>
+              <input
+                [formField]="fulfillGoodsForm.price"
+                type="number"
+                step="0.01"
+                class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"
+              />
+              @if (fulfillGoodsForm.price().invalid() && fulfillGoodsForm.price().touched()) {
+                <div class="text-red-500 text-sm">
+                  @for (error of fulfillGoodsForm.price().errors(); track error) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <div>
+              <input
+                [formField]="fulfillGoodsForm.serialNumber"
+                type="text"
+                class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"
+              />
+              @if (
+                fulfillGoodsForm.serialNumber().invalid() &&
+                fulfillGoodsForm.serialNumber().touched()
+              ) {
+                <div class="text-red-500 text-sm">
+                  @for (error of fulfillGoodsForm.serialNumber().errors(); track error) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <div>
+              <input
+                [formField]="fulfillGoodsForm.quantity"
+                type="number"
+                class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"
+              />
+              @if (fulfillGoodsForm.quantity().invalid() && fulfillGoodsForm.quantity().touched()) {
+                <div class="text-red-500 text-sm">
+                  @for (error of fulfillGoodsForm.quantity().errors(); track error) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="px-2 py-3 font-normal text-theme-sm dark:text-white/90 whitespace-nowrap">
+              <button
+                type="submit"
+                [disabled]="fulfillGoodsForm().invalid()"
+                class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+              >
+                <span
+                  ><svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="fill-current"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z"
+                      fill=""
+                    ></path></svg
+                ></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      } @else {
+        <div class="text-center">
+          <p class="text-gray-500 dark:text-gray-400">Please select a supplier first</p>
+        </div>
+      }
     </div>
   </div>
   <div class="my-4"></div>
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
-    <div class="lg:col-span-8 2xl:col-span-9">
-      <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3">
-        <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90"> Order Details </h2>
-        <div class="overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800">
-          <div class="custom-scrollbar overflow-x-auto">
-            <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
-              <thead class="bg-gray-50 dark:bg-gray-900">
-              <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Task Id </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Good Type Id </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Good Type </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Quantity </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Remaining Quantity </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Id </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location Address </th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-              @for ( order of receivedTask.value().tasksEntitiesProcurements; track  order.id){
-                <tr>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.taskId}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.goodTypeId}} </td>
-                  <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{order.goodType}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.quantity}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.remainingQuantity}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.location}} </td>
-                  <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{order.locationTypesInstances.address}} - {{order.locationTypesInstances.description}} </td>
-                </tr>
-              }
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="flex flex-wrap justify-between sm:justify-end">
-          <div class="mt-6 w-full space-y-1 text-right sm:w-[220px]">
-            <p class="mb-4 text-left text-sm font-medium text-gray-800 dark:text-white/90"> Order summary </p>
-            <ul class="space-y-2">
-              <li class="flex justify-between gap-5"><span class="text-sm text-gray-500 dark:text-gray-400">Total Items </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{summary().total}} </span></li>
-              <li class="flex items-center justify-between"><span class="text-sm text-gray-500 dark:text-gray-400"> Remaining </span><span class="text-sm font-medium text-gray-700 dark:text-gray-400"> {{summary().remaining}} </span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--    </app-order-details-table>-->
-
-
-
-        <div class="space-y-6 lg:col-span-4 2xl:col-span-3">
-          <div>
-            <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/3">
-              <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90"> Created By </h2>
-              <ul class="divide-y divide-gray-100 dark:divide-gray-800">
-                @if(userProfile.value(); as user){
-                                  <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Username </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.username}} </span></li>
-                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Email </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.email}} </span></li>
-                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> First Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.firstName}} </span></li>
-                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> Last Name </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.lastName}} </span></li>
-                                    <li class="flex items-start gap-5 py-2.5"><span class="w-1/2 text-sm text-gray-500 sm:w-1/3 dark:text-gray-400"> User Type </span><span class="w-1/2 text-sm text-gray-700 sm:w-2/3 dark:text-gray-400"> {{ user.userTypeId | enumToString:UserTypeEnum }} </span></li>
-                }
-              </ul>
-            </div>
-          </div>
-          <div>
-          </div>
-        </div>
-  </div>
-<div class="my-4"></div>
-  @if(summary().remaining == 0){
-    <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
-      <div class="space-y-6">
-        <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Task completed</h3>
-        <p>Please create a new task to add more items</p>
-      </div>
-    </div>
-
-  }@else{
-    <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
-      <div class="space-y-6">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-1">
-          <div>
-            <app-label>Goods Suppliers</app-label>
-          </div>
-          <app-select-with-search [options]="options()" (emitSelected)="ReceiveLocation($event)" ></app-select-with-search>
-
-        </div>
-        @if(showForm()){
-          <form (submit)="onSubmit($event)">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
-              <div>
-                <app-label>Good Type</app-label>
-              </div>
-              <div>
-                <app-label>Price</app-label>
-              </div>
-              <div>
-                <app-label>	Serial Number</app-label>
-              </div>
-              <div>
-                <app-label>Quantity</app-label>
-              </div>
-              <div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
-              <div>
-                <select (change)="OnChangeItemType(godType.value)" #godType class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full">
-                  @for(item of goodsOptions(); track $index; let i = $index) {
-                    <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="{{item.itemValue}}">{{item.itemText}}</option>
-                  }
-                </select>
-              </div>
-              <div>
-                <input [formField]="fulfillGoodsForm.price" type="number" step="0.01" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
-                @if (fulfillGoodsForm.price().invalid() &&
-                fulfillGoodsForm.price().touched()) {
-
-                  <div class="text-red-500 text-sm">
-                    @for (error of fulfillGoodsForm.price().errors(); track error) {
-                      <div>{{ error.message }}</div>
-                    }
-                  </div>
-                }
-              </div>
-              <div>
-                <input [formField]="fulfillGoodsForm.serialNumber" type="text" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
-                @if (fulfillGoodsForm.serialNumber().invalid() &&
-                fulfillGoodsForm.serialNumber().touched()) {
-
-                  <div class="text-red-500 text-sm">
-                    @for (error of fulfillGoodsForm.serialNumber().errors(); track error) {
-                      <div>{{ error.message }}</div>
-                    }
-                  </div>
-                }
-              </div>
-              <div>
-                <input [formField]="fulfillGoodsForm.quantity" type="number"   class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
-                @if (fulfillGoodsForm.quantity().invalid() &&
-                fulfillGoodsForm.quantity().touched()) {
-
-                  <div class="text-red-500 text-sm">
-                    @for (error of fulfillGoodsForm.quantity().errors(); track error) {
-                      <div>{{ error.message }}</div>
-                    }
-                  </div>
-                }
-              </div>
-              <div class="px-2 py-3 font-normal text-theme-sm dark:text-white/90 whitespace-nowrap">
-                <button type="submit" [disabled]="fulfillGoodsForm().invalid()" class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-current"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z" fill=""></path></svg></span></button>
-              </div>
-            </div>
-          </form>
-        }@else{
-          <div class="text-center">
-            <p class="text-gray-500 dark:text-gray-400">Please select a supplier first</p>
-          </div>
-        }
-      </div>
-    </div>
-    <div class="my-4"></div>
-    <div class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
-      <div class="space-y-6">
-        <p class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400"> Items added to list </p>
-        <button (click)="SaveTask()" type="button" class="' 'inline-flex bg-brand-500 disabled:bg-brand-300 gap-2 hover:bg-brand-600 items-center justify-center px-5 py-3.5 rounded-lg shadow-theme-xs text-sm text-white transition">
-          Save and Create
-        </button>
-        @for( items of this.itemsToCreate(); track items.subTaskId) {
-
-            <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
-              <thead class="bg-gray-50 dark:bg-gray-900">
-              <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Supplier </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Subtask Id </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Price </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Serial Number </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Quantity </th>
-                <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Action </th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-                @for (item of items.fulfillGoodsModels; track $index) {
-              <tr>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.supplier}} </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{items.subTaskId}} </td>
-                <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{item.price}} </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{item.serialNumber}} </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{item.quantity}} </td>
-                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-                  <button (click)="removeFulfillmentGood(items.subTaskId,$index,item.serialNumber)" class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>              </td>
-              </tr>
-                }
-              </tbody>
-            </table>
-
-        }
-      </div>
-    </div>
-  }
-  @if(responseMessage()){
-    <div class="my-4"></div>
-        <div class="text-center">
-          <p class="text-gray-500 dark:text-gray-400">Created items</p>
-        </div>
+  <div
+    class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3"
+  >
+    <div class="space-y-6">
+      <p class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400">Items added to list</p>
+      <button
+        (click)="SaveTask()"
+        type="button"
+        class="' 'inline-flex bg-brand-500 disabled:bg-brand-300 gap-2 hover:bg-brand-600 items-center justify-center px-5 py-3.5 rounded-lg shadow-theme-xs text-sm text-white transition"
+      >
+        Save and Create
+      </button>
+      @for (items of this.itemsToCreate(); track items.subTaskId) {
         <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
           <thead class="bg-gray-50 dark:bg-gray-900">
-          <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Good Id </th>
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Description </th>
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Serial Number </th>
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> Quantity </th>
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location </th>
-            <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Status </th>
-          </tr>
+            <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+              >
+                Supplier
+              </th>
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+              >
+                Subtask Id
+              </th>
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"
+              >
+                Price
+              </th>
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+              >
+                Serial Number
+              </th>
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+              >
+                Quantity
+              </th>
+              <th
+                class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+              >
+                Action
+              </th>
+            </tr>
           </thead>
-          <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-            @for(message of responseMessage()?.goodsModels; track message) {
-          <tr>
-            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.id}} </td>
-            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.goodsTypes.description}} </td>
-            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{message.serialNumber}} </td>
-            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{message.quantity}} </td>
-            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.locationTypesInstances?.address}} </td>
-            <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{message.status | enumToString: GoodsStatusEnum}} </td>
-          </tr>
+          <tbody
+            class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]"
+          >
+            @for (item of items.fulfillGoodsModels; track $index) {
+              <tr>
+                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                  {{ items.supplier }}
+                </td>
+                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                  {{ items.subTaskId }}
+                </td>
+                <td
+                  class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"
+                >
+                  {{ item.price }}
+                </td>
+                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                  {{ item.serialNumber }}
+                </td>
+                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                  {{ item.quantity }}
+                </td>
+                <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                  <button
+                    (click)="removeFulfillmentGood(items.subTaskId, $index, item.serialNumber)"
+                    class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+                  >
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
             }
           </tbody>
         </table>
-
-
-    <div class="my-4"></div>
-      <div class="text-center">
-        <p class="text-gray-500 dark:text-gray-400">Rejected items</p>
-      </div>
-      <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
-        <thead class="bg-gray-50 dark:bg-gray-900">
-        <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
-          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Location </th>
-          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Supplier </th>
-          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"> SubTask id </th>
-          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Serial Number </th>
-          <th class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"> Reason </th>
-        </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
-          @for (rejected of responseMessage()?.rejectedProcurementTransfer; track rejected ) {
+      }
+    </div>
+  </div>
+}
+@if (responseMessage()) {
+  <div class="my-4"></div>
+  <div class="text-center">
+    <p class="text-gray-500 dark:text-gray-400">Created items</p>
+  </div>
+  <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
+    <thead class="bg-gray-50 dark:bg-gray-900">
+      <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Good Id
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Description
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"
+        >
+          Serial Number
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"
+        >
+          Quantity
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Location
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Status
+        </th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
+      @for (message of responseMessage()?.goodsModels; track message) {
         <tr>
-          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.location}} </td>
-          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.supplier}} </td>
-          <td class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"> {{rejected.subTaskId}} </td>
-          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.serialNumber}} </td>
-          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> {{rejected.reason}} </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ message.id }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ message.goodsTypes.description }}
+          </td>
+          <td
+            class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"
+          >
+            {{ message.serialNumber }}
+          </td>
+          <td
+            class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"
+          >
+            {{ message.quantity }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ message.locationTypesInstances?.address }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ message.status | enumToString: GoodsStatusEnum }}
+          </td>
         </tr>
-          }
-        </tbody>
-      </table>
+      }
+    </tbody>
+  </table>
 
-    }
+  <div class="my-4"></div>
+  <div class="text-center">
+    <p class="text-gray-500 dark:text-gray-400">Rejected items</p>
+  </div>
+  <table class="min-w-full text-left text-sm text-gray-700 dark:border-gray-800">
+    <thead class="bg-gray-50 dark:bg-gray-900">
+      <tr class="border-b border-gray-100 whitespace-nowrap dark:border-gray-800">
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Location
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Supplier
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400"
+        >
+          SubTask id
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Serial Number
+        </th>
+        <th
+          class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-700 dark:text-gray-400"
+        >
+          Reason
+        </th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-white/[0.03]">
+      @for (rejected of responseMessage()?.rejectedProcurementTransfer; track rejected) {
+        <tr>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ rejected.location }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ rejected.supplier }}
+          </td>
+          <td
+            class="px-5 py-4 text-sm font-medium whitespace-nowrap text-gray-800 dark:text-white/90"
+          >
+            {{ rejected.subTaskId }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ rejected.serialNumber }}
+          </td>
+          <td class="px-5 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+            {{ rejected.reason }}
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

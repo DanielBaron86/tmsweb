@@ -1,9 +1,7 @@
-import {BaseModel} from './base-model';
-import {LocationUnitModel} from './location-models';
-import {GoodsModels} from './goods-models';
-import {TaskTypesStatus} from './status-enums';
-
-
+import { BaseModel } from './base-model';
+import { LocationUnitModel } from './location-models';
+import { GoodsModels } from './goods-models';
+import { TaskTypesStatus } from './status-enums';
 
 export interface TaskModels extends BaseModel {
   id: number;
@@ -11,10 +9,10 @@ export interface TaskModels extends BaseModel {
   taskStatus: number;
   description: string;
   creatorId: number;
-  userName?: string
+  userName?: string;
 }
 
-export  interface ProcurementsSubtaskModel {
+export interface ProcurementsSubtaskModel {
   id: number;
   taskId: number;
   goodTypeId: number;
@@ -22,16 +20,15 @@ export  interface ProcurementsSubtaskModel {
   location: number;
   quantity: number;
   remainingQuantity: number;
-  locationTypesInstances : LocationUnitModel;
+  locationTypesInstances: LocationUnitModel;
 }
-export interface ProcurementsModel extends TaskModels{
+export interface ProcurementsModel extends TaskModels {
   tasksEntitiesProcurements: ProcurementsSubtaskModel[];
 }
 export interface FulfillGoodsModel {
   price: number;
   serialNumber: string;
   quantity: number;
-
 }
 
 export interface FulfilmentModel {
@@ -42,30 +39,29 @@ export interface FulfilmentModel {
 }
 
 export interface ReturnFulfillTask {
-  goodsModels: GoodsModels[],
-  rejectedProcurementTransfer: RejectedProcurementTransfer[]
+  goodsModels: GoodsModels[];
+  rejectedProcurementTransfer: RejectedProcurementTransfer[];
 }
 
-
 export interface RejectedProcurementTransfer {
-  location: number
-  supplier: number
-  subTaskId: number
-  serialNumber: string
-  reason: string
+  location: number;
+  supplier: number;
+  subTaskId: number;
+  serialNumber: string;
+  reason: string;
 }
 
 export interface TransferTask {
-  creatorId: number,
-  userName: string,
-  description:string,
+  creatorId: number;
+  userName: string;
+  description: string;
   goodsTransfer: {
-    goodId: number[],
-    toLocation: number
-  }
+    goodId: number[];
+    toLocation: number;
+  };
 }
 
-export interface TasksModelWithTransfer extends TaskModels{
+export interface TasksModelWithTransfer extends TaskModels {
   tasksEntitiesTransferList: TasksEntitiesTransferModel[];
 }
 export interface TasksEntitiesTransferModel {
@@ -82,6 +78,5 @@ export interface TasksEntitiesTransferModel {
 
 export interface FulfillGoodsTransfer {
   userId: number;
-  fulfillGoodsTransfer : string[]
+  fulfillGoodsTransfer: string[];
 }
-

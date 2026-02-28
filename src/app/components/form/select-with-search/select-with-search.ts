@@ -4,7 +4,7 @@ import {
   ElementRef,
   input,
   output,
-  viewChildren
+  viewChildren,
 } from '@angular/core';
 export interface SelectedOption {
   value: string;
@@ -17,18 +17,16 @@ export interface SelectedOption {
   templateUrl: './select-with-search.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-
 export class SelectWithSearch {
-emitSelected = output<any>();
+  emitSelected = output<any>();
   searchItems = viewChildren<ElementRef<HTMLDivElement>>('searchItems');
 
-placeholder = input('Search...')
-label = input('')
-options = input<SelectedOption[]>([]);
-defaultSelected = input<string[]>([]);
-disabled =input(false);
-selectionChange =output<string[]>();
+  placeholder = input('Search...');
+  label = input('');
+  options = input<SelectedOption[]>([]);
+  defaultSelected = input<string[]>([]);
+  disabled = input(false);
+  selectionChange = output<string[]>();
 
   selectedOptions: string[] = [];
   isOpen = false;
@@ -42,12 +40,11 @@ selectionChange =output<string[]>();
   }
 
   protected handleSearch($event: any) {
-    let filterValue = $event.target.value;
-    this.options().forEach( (val, index) => {
-      console.log(val.text.toLowerCase())
-      const isMatch =val.text.toLowerCase().includes(filterValue.toLowerCase())
-      this.searchItems()[index].nativeElement.hidden = !isMatch
-    })
-
+    const filterValue = $event.target.value;
+    this.options().forEach((val, index) => {
+      console.log(val.text.toLowerCase());
+      const isMatch = val.text.toLowerCase().includes(filterValue.toLowerCase());
+      this.searchItems()[index].nativeElement.hidden = !isMatch;
+    });
   }
 }

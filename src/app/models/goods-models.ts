@@ -1,11 +1,10 @@
-import {BaseModel} from './base-model';
-import {LocationUnitModel} from './location-models';
-
+import { BaseModel } from './base-model';
+import { LocationUnitModel } from './location-models';
 
 export interface BaseItem extends BaseModel {
-  id: number
+  id: number;
   description: string;
-  manufacturer: string
+  manufacturer: string;
 }
 
 export interface GoodsTypesModel extends BaseModel {
@@ -14,17 +13,16 @@ export interface GoodsTypesModel extends BaseModel {
   name: string;
   description: string;
   type: string;
-  manufacturer: string
-  inventoryKey: number
+  manufacturer: string;
+  inventoryKey: number;
   goodModelBaseTypeEntity?: BaseItem;
 }
-
 
 export interface GoodsModels extends BaseModel {
   id: number;
   goodModelId: number;
   price: number;
-  status: number
+  status: number;
   serialNumber: string;
   locationId: number;
   goodsTypes: GoodsTypesModel;
@@ -39,12 +37,10 @@ export interface v_GoodsTypesInstances extends BaseModel {
   price: number;
   locationId: number;
   locationName: string;
-  serialNumber: string
-  name: string
-  type: string
-  manufacturer: string
-  status: number
+  serialNumber: string;
+  name: string;
+  type: string;
+  manufacturer: string;
+  status: number;
   quantity: number;
 }
-
-

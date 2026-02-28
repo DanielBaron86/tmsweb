@@ -6,16 +6,15 @@ import { UserDropdownComponent } from '../user-dropdown-component/user-dropdown-
 
 @Component({
   selector: 'app-header',
-  imports: [ThemeToggleButtonComponent,NotificationDropdownComponent,UserDropdownComponent],
+  imports: [ThemeToggleButtonComponent, NotificationDropdownComponent, UserDropdownComponent],
   templateUrl: './app-header-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHeaderComponent {
-
   readonly sidebarService = inject(SidebarService);
   isApplicationMenuOpen = signal(false);
 
-   handleToggle() {
+  handleToggle() {
     if (window.innerWidth >= 1280) {
       this.sidebarService.toggleExpanded();
     } else {
@@ -23,8 +22,7 @@ export class AppHeaderComponent {
     }
   }
 
-   toggleApplicationMenu() {
-    this.isApplicationMenuOpen.update( (value) => !value);
+  toggleApplicationMenu() {
+    this.isApplicationMenuOpen.update((value) => !value);
   }
-
 }
