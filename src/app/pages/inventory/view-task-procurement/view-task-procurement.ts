@@ -14,7 +14,7 @@ import {InventoryService} from '../../../services/inventory/inventory.service';
 import DataService from '../../../services/data-service';
 import {LabelComponent} from '../../../components/form/label/label-component';
 import {FormsModule} from '@angular/forms';
-import {form, Field, required, min,max, submit, validate, customError} from '@angular/forms/signals';
+import {form, required, min, max, submit, validate, FormField} from '@angular/forms/signals';
 import {QueryFilters} from '../../../models/query-models';
 import {LocationService} from '../../../services/location/location-service';
 import {SelectedOption, SelectWithSearch} from '../../../components/form/select-with-search/select-with-search';
@@ -30,8 +30,8 @@ import {TaskServices} from '../../../services/tasks/task-services';
     EnumToStringPipe,
     LabelComponent,
     FormsModule,
-    Field,
-    SelectWithSearch
+    SelectWithSearch,
+    FormField
   ],
   templateUrl: './view-task-procurement.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -191,7 +191,11 @@ export class ViewTaskProcurement  {
     validate(path.price, c=>{
       const value = c.value()
       if (Math.round(value * 100) === value * 100){return undefined}
-      return customError({message: 'Price can have maximum 2 decimal places'})
+      return {
+        kind: "invalid",
+        message: "Price can have maximum 2 decimal place",
+      };
+      //return customError({message: 'Price can have maximum 2 decimal places'})
     })
   })
 

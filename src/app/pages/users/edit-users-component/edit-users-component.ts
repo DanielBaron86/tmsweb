@@ -6,7 +6,7 @@ import {LabelComponent} from '../../../components/form/label/label-component';
 import {InputFieldComponent} from '../../../components/form/input/input-field-component/input-field-component';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {SelectComponent} from '../../../components/form/select-component/select-component';
-import {Field, form} from '@angular/forms/signals';
+import {form, FormField} from '@angular/forms/signals';
 @Component({
   selector: 'app-edit-users-component',
   imports: [
@@ -14,7 +14,7 @@ import {Field, form} from '@angular/forms/signals';
     InputFieldComponent,
     ButtonComponent,
     SelectComponent,
-    Field
+    FormField
   ],
   templateUrl: './edit-users-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

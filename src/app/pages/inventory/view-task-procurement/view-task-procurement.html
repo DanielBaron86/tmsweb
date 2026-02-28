@@ -124,7 +124,7 @@
                 </select>
               </div>
               <div>
-                <input [field]="fulfillGoodsForm.price" type="number" step="0.01" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+                <input [formField]="fulfillGoodsForm.price" type="number" step="0.01" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
                 @if (fulfillGoodsForm.price().invalid() &&
                 fulfillGoodsForm.price().touched()) {
 
@@ -136,7 +136,7 @@
                 }
               </div>
               <div>
-                <input [field]="fulfillGoodsForm.serialNumber" type="text" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+                <input [formField]="fulfillGoodsForm.serialNumber" type="text" class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
                 @if (fulfillGoodsForm.serialNumber().invalid() &&
                 fulfillGoodsForm.serialNumber().touched()) {
 
@@ -148,7 +148,7 @@
                 }
               </div>
               <div>
-                <input [field]="fulfillGoodsForm.quantity" type="number"   class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
+                <input [formField]="fulfillGoodsForm.quantity" type="number"   class="appearance-none bg-transparent border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 h-11 placeholder:text-gray-400 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-800 text-sm w-full"/>
                 @if (fulfillGoodsForm.quantity().invalid() &&
                 fulfillGoodsForm.quantity().touched()) {
 
