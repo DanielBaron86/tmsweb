@@ -12,10 +12,10 @@ export const userRoutes: Routes = [
       import('../pages/users/profile-component/profile-component').then((m) => m.ProfileComponent),
   },
   {
-    path: `:userid`,
+    path: `new`,
     loadComponent: () =>
-      import('../pages/users/edit-users-component/edit-users-component').then(
-        (m) => m.EditUsersComponent,
+      import('../pages/users/create-users-component/create-users.component').then(
+        (m) => m.CreateUsersComponent,
       ),
   },
 ];

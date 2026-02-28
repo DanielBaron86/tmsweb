@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import { CreateUser } from '../../../models/user-models';
 import DataService from '../../../services/data-service';
 import { UserService } from '../../../services/users/user-service';
@@ -14,47 +21,23 @@ import {
 } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-edit-users-component',
+  selector: 'app-create-users-component',
   imports: [LabelComponent, FormField],
-  templateUrl: './edit-users-component.html',
+  templateUrl: './create-users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditUsersComponent {
+export class CreateUsersComponent {
   readonly dataService = inject(DataService) as UserService;
   readonly router = inject(Router);
 
-  userid = input<number>(0);
-  readonly userResource = this.dataService.getUserById(() => this.userid());
-  responseError = input<string | null>(null);
-
-  userModel = linkedSignal({
-    source: () => ({
-      userid: this.userid(),
-      user: this.userResource.value(),
-      isLoading: this.userResource.isLoading(),
-    }),
-    computation: (source): CreateUser => {
-      const empty: CreateUser = {
-        username: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        userTypeId: '0',
-        password: '',
-        confirmPassword: '',
-      };
-      if (source.userid === 0 || source.isLoading || !source.user) {
-        return empty;
-      }
-      return {
-        ...empty,
-        username: source.user.username ?? '',
-        email: source.user.email ?? '',
-        firstName: source.user.firstName ?? '',
-        lastName: source.user.lastName ?? '',
-        userTypeId: source.user.userTypeId.toString() ?? '0',
-      };
-    },
+  userModel = signal<CreateUser>({
+    username: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    userTypeId: '0',
+    password: '',
+    confirmPassword: '',
   });
 
   createForm = form(this.userModel, (schemaPath) => {

@@ -57,6 +57,10 @@ export class UsersComponent {
   protected readonly UserTypeEnum = UserTypeEnum;
 
   protected EditUser(id: number) {
-    this.router.navigate([`/users/${id}`]);
+    this.router.navigate([`/users/profile/${id}`]);
+  }
+
+  protected CreateUser() {
+    this.router.navigate([`/users/new`]);
   }
 }

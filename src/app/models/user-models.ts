@@ -9,12 +9,14 @@ export interface UserResource {
   updatedDate: Date | null;
 }
 
-export interface CreateUser {
-  username: string;
+export interface EditUser {
   email: string;
   firstName: string;
   lastName: string;
   userTypeId: string;
+}
+export interface CreateUser extends EditUser {
+  username: string;
   password: string;
   confirmPassword: string;
 }

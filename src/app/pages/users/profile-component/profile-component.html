@@ -1,1 +1,93 @@
-<app-blank />
+<div
+  class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6"
+>
+  <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">Profile</h3>
+  <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
+    <div class="space-y-6">
+      <form (submit)="onSubmit($event)">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div class="col-span-2 sm:col-span-1">
+            <app-label for="firstName"> First name </app-label>
+            <input
+              [formField]="createForm.firstName"
+              type="text"
+              id="firstName"
+              placeholder="firstName"
+              class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800"
+            />
+            @if (createForm.firstName().invalid() && createForm.firstName().touched()) {
+              @for (error of createForm.firstName().errors(); track error.formField) {
+                <p>{{ error.message }}</p>
+              }
+            }
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <app-label for="lastName"> Last name </app-label>
+            <input
+              [formField]="createForm.lastName"
+              type="text"
+              id="lastName"
+              placeholder="lastName"
+              class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800"
+            />
+            @if (createForm.lastName().invalid() && createForm.lastName().touched()) {
+              @for (error of createForm.lastName().errors(); track error.formField) {
+                <p>{{ error.message }}</p>
+              }
+            }
+          </div>
+          <div class="col-span-2">
+            <app-label for="email"> Email </app-label>
+            <input
+              [formField]="createForm.email"
+              type="text"
+              id="email"
+              placeholder="email"
+              class="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:focus:border-brand-800"
+            />
+            @if (createForm.email().invalid() && createForm.email().touched()) {
+              @for (error of createForm.email().errors(); track error.formField) {
+                <p>{{ error.message }}</p>
+              }
+            }
+          </div>
+          <div class="col-span-2">
+            <app-label for="subject"> User Type </app-label>
+            <select
+              [formField]="createForm.userTypeId"
+              class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full"
+            >
+              <option
+                value=""
+                disabled=""
+                class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
+              >
+                Select an option
+              </option>
+              <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="3">
+                Clerk
+              </option>
+              <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="4">
+                Supervisor
+              </option>
+            </select>
+            @if (createForm.userTypeId().invalid() && createForm.userTypeId().touched()) {
+              @for (error of createForm.userTypeId().errors(); track error.formField) {
+                <p>{{ error.message }}</p>
+              }
+            }
+          </div>
+          <div class="col-span-2">
+            <button
+              [disabled]="createForm().invalid()"
+              type="submit"
+              class="inline-flex items-center justify-center gap-2 rounded-lg transition w-full px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
