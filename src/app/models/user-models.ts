@@ -14,7 +14,7 @@ export interface CreateUser {
   email: string;
   firstName: string;
   lastName: string;
-  userTypeId: number;
+  userTypeId: string;
   password: string;
   confirmPassword: string;
 }
