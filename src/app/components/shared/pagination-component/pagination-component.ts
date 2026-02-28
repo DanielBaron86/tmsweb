@@ -3,11 +3,7 @@ import {
   Component,
   computed,
   inject,
-  input,
-  model,
-  OnInit,
-  output,
-  signal
+  input
 } from '@angular/core';
 import DataService from '../../../services/data-service';
 

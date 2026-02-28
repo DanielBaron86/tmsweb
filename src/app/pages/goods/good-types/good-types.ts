@@ -3,7 +3,6 @@ import {
   Component, computed, effect,
   ElementRef,
   inject,
-  signal,
   viewChildren,
 } from '@angular/core';
 import GoodsTypesService from '../../../services/goods/./goods-types-service';

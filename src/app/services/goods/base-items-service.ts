@@ -1,9 +1,9 @@
 import {computed, effect, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {HttpClient, httpResource, HttpResponse} from '@angular/common/http';
-import {BaseItem, GoodsTypesModel} from '../../models/goods-models';
-import {BaseCollectionName, paginatedResult, PaginationHeader} from '../../models/base-model';
+import {HttpClient, httpResource} from '@angular/common/http';
+import {BaseItem} from '../../models/goods-models';
+import {BaseCollectionName, PaginationHeader} from '../../models/base-model';
 import {catchError} from 'rxjs/operators';
-import {BehaviorSubject, throwError} from 'rxjs';
+import {throwError} from 'rxjs';
 import {ConfigService} from '../config/config-service';
 import DataService from '../data-service';
 import {QueryFilters} from '../../models/query-models';

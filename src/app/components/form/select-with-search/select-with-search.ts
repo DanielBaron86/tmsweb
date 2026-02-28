@@ -32,12 +32,6 @@ selectionChange =output<string[]>();
 
   selectedOptions: string[] = [];
   isOpen = false;
-
-  ngOnInit() {
-
-    this.selectedOptions = [...this.defaultSelected()];
-  }
-
   toggleDropdown() {
     if (!this.disabled()) this.isOpen = !this.isOpen;
   }

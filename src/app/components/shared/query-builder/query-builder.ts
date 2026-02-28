@@ -11,7 +11,6 @@ import {
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {toSignal} from '@angular/core/rxjs-interop';
 import {QueryFilters} from '../../../models/query-models';
-import {DropdownDirective} from '../../../directives/dropdown-directive';
 import {SelectedOption} from '../../form/select-with-search/select-with-search';
 
 

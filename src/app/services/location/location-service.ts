@@ -1,12 +1,11 @@
-import {computed, inject, Injectable, Injector, linkedSignal, Signal, signal, WritableSignal} from '@angular/core';
+import { inject, Injectable, Injector, linkedSignal, Signal, signal} from '@angular/core';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {LocationCollectionName, LocationUnitModel} from '../../models/location-models';
 import DataService from '../data-service';
-import {BaseCollectionName, paginatedResult, PaginationHeader, TypesCollectionName} from '../../models/base-model';
-import {BehaviorSubject, Observable} from "rxjs";
+import { paginatedResult} from '../../models/base-model';
+import { Observable} from "rxjs";
 import {QueryFilters} from '../../models/query-models';
-import {BaseItem} from '../../models/goods-models';
 
 @Injectable({
   providedIn: 'root',

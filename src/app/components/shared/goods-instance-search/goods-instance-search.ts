@@ -62,7 +62,7 @@ export class GoodsInstanceSearch {
   }
 
   selectItem = output<v_GoodsTypesInstances>();
-  protected EmitItem(item: any) {
+  protected EmitItem(item: v_GoodsTypesInstances) {
     if (!item) {return;}
     this.selectItem.emit( item );
   }

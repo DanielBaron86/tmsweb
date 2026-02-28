@@ -1,6 +1,5 @@
 import {BaseModel} from './base-model';
 import {LocationUnitModel} from './location-models';
-import {exec} from 'node:child_process';
 import {GoodsModels} from './goods-models';
 import {TaskTypesStatus} from './status-enums';
 

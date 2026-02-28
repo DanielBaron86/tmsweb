@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, model, signal, viewChild, viewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthServices } from '../../../services/auth/auth.services';
 import { LabelComponent } from '../../form/label/label-component';
 import { InputFieldComponent } from '../../form/input/input-field-component/input-field-component';
@@ -13,19 +13,12 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninFormComponent {
-
-
-
 readonly authService = inject(AuthServices)
- 
 
-constructor(){
-
-}
 
  inputValueEmail = '';
  inputValuePassword = '';
-   
+
  showPassword = false;
  isChecked = false;
 
@@ -41,11 +34,11 @@ constructor(){
   }
   className = 'mb-4';
 
-  
+
 
    onSignIn(): void {
    this.authService.login(this.inputValueEmail,this.inputValuePassword,this.isChecked);
-  
+
   }
 
   onKeepMeLoggedIn($event:boolean){
@@ -55,7 +48,7 @@ constructor(){
         console.log('Refreshing token from storage',storedToken);
         /// Implement TOKEN REFRESH LOGIC  AND API ENDPOINT HERE
       }else{
-        console.log('No token found in storage');   
+        console.log('No token found in storage');
     }
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {computed, inject, Injectable, Signal, signal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import {LoginResponse, UserResource} from '../../models/user-models';

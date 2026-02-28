@@ -30,8 +30,6 @@ export class AppSidebarComponent {
 
    toggleSubmenu(section: string, index: number){
     const key = `${section}-${index}`;
-    const el = document.getElementById(key);
-
     if (this.openSubmenu === key) {
       this.openSubmenu = null;
       this.subMenuHeights[key] = 0;

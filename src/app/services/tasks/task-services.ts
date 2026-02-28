@@ -1,5 +1,5 @@
 import {inject, Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpErrorResponse, httpResource} from '@angular/common/http';
+import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {
   FulfillGoodsTransfer,
@@ -8,8 +8,7 @@ import {
   TasksModelWithTransfer,
   TransferTask
 } from '../../models/tasks-models';
-import {catchError} from 'rxjs/operators';
-import {throwError} from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',

@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component, computed, DestroyRef, effect,
   ElementRef,
-  inject, linkedSignal,
+  inject,
   signal,
-  viewChildren, WritableSignal
+  viewChildren
 } from '@angular/core';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe, LocationStrategy} from '@angular/common';
@@ -16,7 +16,6 @@ import BaseItemsService from '../../../services/goods/base-items-service';
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 import {PaginationComponent} from '../../../components/shared/pagination-component/pagination-component';
 import DataService from '../../../services/data-service';
-import {BaseCollectionName, paginatedResult} from '../../../models/base-model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 

@@ -17,6 +17,6 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 })
 export class DropdownComponent {
   isOpen = input(false);
-  close =  output<void>();
+  closeDropDown =  output<void>();
   className = input('');
 }

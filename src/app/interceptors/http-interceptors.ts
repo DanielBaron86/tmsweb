@@ -1,6 +1,6 @@
-import {HttpErrorResponse, HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest} from '@angular/common/http';
 import {Observable, switchMap, throwError} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {inject} from '@angular/core';
 import {AuthServices} from '../services/auth/auth.services';
 import { ToastService} from '../services/toast.service';

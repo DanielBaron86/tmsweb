@@ -10,7 +10,6 @@ import {
   viewChild
 } from '@angular/core';
 import {GoodsTypesModel} from '../../../models/goods-models';
-import {GoodsOrder} from '../../../models/inventory-model';
 import DataService from '../../../services/data-service';
 import GoodsTypesService from '../../../services/goods/goods-types-service';
 import {PaginationComponent} from '../pagination-component/pagination-component';

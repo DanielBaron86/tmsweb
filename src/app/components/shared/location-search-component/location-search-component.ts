@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component, computed,
-  contentChild,
   effect,
   ElementRef,
   inject, output,
@@ -11,7 +10,6 @@ import {
 import {LocationService} from '../../../services/location/location-service';
 import {LocationUnitModel} from '../../../models/location-models';
 import DataService from '../../../services/data-service';
-import GoodsTypesService from '../../../services/goods/goods-types-service';
 import {PaginationComponent} from '../pagination-component/pagination-component';
 
 @Component({

@@ -1,15 +1,14 @@
-import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {BaseItem, GoodsModels, GoodsTypesModel, v_GoodsTypesInstances} from '../../models/goods-models';
-import {HttpClient, httpResource, HttpResponse} from '@angular/common/http';
+import {computed, inject, Injectable, linkedSignal, signal} from '@angular/core';
+import { v_GoodsTypesInstances} from '../../models/goods-models';
+import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
 import {
   ItemInstanceCollectionName,
-  paginatedResult, PaginationHeader,
+   PaginationHeader,
 } from '../../models/base-model';
 import DataService from '../data-service';
-import {BehaviorSubject, Observable} from "rxjs";
+import { Observable} from "rxjs";
 import {QueryFilters} from '../../models/query-models';
-import {LocationUnitModel} from '../../models/location-models';
 
 interface GoodsResponse {
   data: v_GoodsTypesInstances[];

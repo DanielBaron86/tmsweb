@@ -1,10 +1,10 @@
-import {computed, inject, Injectable, linkedSignal, signal, WritableSignal} from '@angular/core';
-import {BaseItem, GoodsTypesModel, v_GoodsTypesInstances} from '../../models/goods-models';
+import {computed, inject, Injectable, linkedSignal, signal} from '@angular/core';
+import {GoodsTypesModel} from '../../models/goods-models';
 import {HttpClient, httpResource} from '@angular/common/http';
 import {ConfigService} from '../config/config-service';
-import {paginatedResult, PaginationHeader, TypesCollectionName} from '../../models/base-model';
+import {PaginationHeader, TypesCollectionName} from '../../models/base-model';
 import DataService from '../data-service';
-import {BehaviorSubject, Observable} from "rxjs";
+import { Observable} from "rxjs";
 import {QueryFilters} from '../../models/query-models';
 
 
