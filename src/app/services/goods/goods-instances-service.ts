@@ -105,6 +105,7 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
 
   refresh() {
     this.cachedPages = [];
+    this.queryFilters.set(null);
     this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);

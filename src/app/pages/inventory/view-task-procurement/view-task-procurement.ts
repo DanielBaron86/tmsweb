@@ -170,12 +170,10 @@ export class ViewTaskProcurement {
 
   goodsOptions = computed(() => {
     const mappedItems =
-      this.receivedTask
-        .value()
-        ?.tasksEntitiesProcurements.map((item) => ({
-          itemValue: item.id,
-          itemText: item.goodType,
-        })) ?? [];
+      this.receivedTask.value()?.tasksEntitiesProcurements.map((item) => ({
+        itemValue: item.id,
+        itemText: item.goodType,
+      })) ?? [];
 
     return [{ itemValue: null, itemText: 'Select a good...' }, ...mappedItems];
   });

@@ -12,6 +12,7 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-users-component',
   imports: [LabelComponent, FormField],
@@ -20,9 +21,11 @@ import {
 })
 export class EditUsersComponent {
   readonly dataService = inject(DataService) as UserService;
+  readonly router = inject(Router);
 
   userid = input<number>(0);
   readonly userResource = this.dataService.getUserById(() => this.userid());
+  responseError = input<string | null>(null);
 
   userModel = linkedSignal({
     source: () => ({
@@ -97,5 +100,8 @@ export class EditUsersComponent {
       this.createForm().markAsTouched();
       return;
     }
+    this.dataService.createUser(this.userModel()).subscribe(() => {
+      this.router.navigate(['/users']);
+    });
   }
 }

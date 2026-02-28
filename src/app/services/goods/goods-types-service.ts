@@ -88,6 +88,7 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
 
   refresh() {
     this.cachedPages = [];
+    this.queryFilters.set(null);
     this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);

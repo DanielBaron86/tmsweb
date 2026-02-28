@@ -21,27 +21,7 @@
     <div class="flex gap-3">
       <app-button variant="outline" (click)="RefreshList()"> Refresh List </app-button>
       <app-button variant="outline" (click)="Export()"> Export </app-button>
-      <a
-        (click)="EditUser(0)"
-        class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600"
-      >
-        <svg
-          fill="none"
-          height="20"
-          viewBox="0 0 20 20"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 10.0002H15.0006M10.0002 5V15.0006"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-          ></path>
-        </svg>
-        New User
-      </a>
+      <app-button variant="primary" (click)="EditUser(0)"> New User </app-button>
     </div>
   </div>
   <div class="border-b border-gray-200 px-5 py-4 dark:border-gray-800">
@@ -439,3 +419,8 @@
     </table>
   </div>
 </div>
+<app-pagination-component
+  [pageNumbers]="pageNumbers()"
+  [totalPageCount]="headerInfo().TotalPageCount"
+>
+</app-pagination-component>

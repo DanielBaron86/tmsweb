@@ -3,7 +3,7 @@ import { Observable, switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { inject } from '@angular/core';
 import { AuthServices } from '../services/auth/auth.services';
-import { ToastService } from '../services/toast.service';
+import { ToastData, ToastService } from '../services/toast.service';
 
 export function loggingInterceptor(
   req: HttpRequest<unknown>,
@@ -15,6 +15,13 @@ export function loggingInterceptor(
       if (error instanceof HttpErrorResponse) {
         if (error.error?.detail) {
           toast.show(error.error);
+        } else {
+          const toastData: ToastData = {
+            title: error.name,
+            status: error.status,
+            detail: error.error.errorMessage,
+          };
+          toast.show(toastData);
         }
         console.error('HTTP Error:', req.method, req.url, 'Error:', error.error);
       }

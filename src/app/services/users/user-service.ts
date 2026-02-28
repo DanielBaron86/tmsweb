@@ -1,11 +1,12 @@
 import { computed, inject, Injectable, Injector, linkedSignal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
-import { UserResource } from '../../models/user-models';
+import { CreateUser, UserResource } from '../../models/user-models';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import DataService from '../data-service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -96,6 +97,15 @@ export class UserService extends DataService<UserResource> {
     this.pageNumber.set(1);
   }
 
+  refresh() {
+    this.cachedPages = [];
+    this.queryFilters.set(null);
+    this.cache.update(() => []);
+    this.activePage.set(1);
+    this.pageNumber.set(1);
+    this.usersResources.reload();
+  }
+
   defaultprofile = signal<UserResource>({
     email: '',
     firstName: '',
@@ -117,6 +127,14 @@ export class UserService extends DataService<UserResource> {
       {
         injector: this.injector,
       },
+    );
+  }
+
+  createUser(createUser: CreateUser) {
+    return this.http.post<UserResource>(`${this.apiUrl}/v1/users`, createUser).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.detail));
+      }),
     );
   }
 }
