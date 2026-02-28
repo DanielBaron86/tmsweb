@@ -38,3 +38,11 @@ export enum UserTypeEnum {
   CLERK,
   SUPERVISOR,
 }
+
+export enum LocationTypesList {
+  NONE,
+  WAREHOUSE,
+  STORE,
+  CLIENT,
+  SUPPLIER,
+}
