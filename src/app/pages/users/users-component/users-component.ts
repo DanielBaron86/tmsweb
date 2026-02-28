@@ -7,9 +7,9 @@ import {SelectedOption} from '../../../components/form/select-with-search/select
 import {SpinnerComponent} from '../../../components/ui/spinner-component/spinner-component';
 import {ButtonComponent} from '../../../components/ui/button-component/button-component';
 import {DatePipe} from '@angular/common';
-import {UserResource} from '../../../models/user-models';
 import {EnumToStringPipe} from '../../../pipes/enum-to-string-pipe';
 import {UserTypeEnum} from '../../../models/status-enums';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-users-component',
@@ -25,6 +25,8 @@ import {UserTypeEnum} from '../../../models/status-enums';
 })
 export class UsersComponent {
   readonly dataService = inject(DataService) as UserService;
+  readonly router = inject(Router);
+
   queryTitle = input<string>('Users Query Filters');
   availableOptions :SelectedOption[] =[
     {value: 'id', text: 'Id'},
@@ -47,17 +49,13 @@ export class UsersComponent {
 
   }
 
-  protected NewUser() {
-
-  }
-
   protected onSearchInput($event: Event) {
 
   }
 
-  protected EditUser(userItem: UserResource) {
-
-  }
-
   protected readonly UserTypeEnum = UserTypeEnum;
+
+  protected EditUser(id: number) {
+    this.router.navigate([`/users/${id}`]);
+  }
 }

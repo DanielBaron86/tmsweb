@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, Input, input, model, output, signal} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {readonly} from '@angular/forms/signals';
 

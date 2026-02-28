@@ -9,6 +9,16 @@ export interface UserResource {
     updatedDate: Date | null;
 }
 
+export interface CreateUser {
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  userTypeId: number;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface LoginResponse{
     token: string;
     userProfile: UserResource;

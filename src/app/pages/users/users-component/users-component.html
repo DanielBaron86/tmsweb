@@ -21,7 +21,7 @@
       <app-button variant="outline" (click)="Export()">
         Export
       </app-button>
-      <a (click)="NewUser()" class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" >
+      <a (click)="EditUser(0)" class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" >
         <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
           <path d="M5 10.0002H15.0006M10.0002 5V15.0006" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></path>
         </svg>
@@ -161,7 +161,6 @@
       </tr>
       </thead>
       <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-        @if (dataService.cache()){
           @for (userItem of dataService.displayItems(); track userItem.id) {
             <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900" #baseList>
               <td class="lg:w-14 px-5 py-4 whitespace-nowrap">
@@ -198,15 +197,11 @@
                 <p class="text-sm text-gray-700 dark:text-gray-400">{{userItem.updatedDate | date}}</p>
               </td>
               <td class="px-5 py-4 whitespace-nowrap">
-                <app-button size="sm" variant="outline" [disabled]="disabled()" (btnClick)="EditUser(userItem)"  > Edit </app-button>
+                <app-button size="sm" variant="outline" [disabled]="disabled()" (btnClick)="EditUser(userItem.id)"  > Edit </app-button>
               </td>
             </tr>
           }
-        } @else {
-          <app-spinner-component></app-spinner-component>
-        }
 
-      <!---->
       </tbody>
     </table>
   </div>
