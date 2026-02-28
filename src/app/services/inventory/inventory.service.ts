@@ -71,6 +71,7 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
 
   refresh(){
     this.cachedPages=[];
+    this.cache.update( () => [])
     this.#taskList.reload();
   }
   updateItem(item: any): Observable<any> {

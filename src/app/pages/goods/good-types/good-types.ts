@@ -66,4 +66,8 @@ export class GoodTypes {
   protected exportExcel() {
     console.log(this.dataService.displayItems());
   }
+
+  protected RefreshList() {
+    this.dataService.refresh();
+  }
 }

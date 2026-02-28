@@ -16,6 +16,9 @@
       <p class="text-sm text-gray-500 dark:text-gray-400">A list of existing goods with location and status information.</p>
     </div>
     <div class="flex gap-3">
+      <app-button variant="outline" (click)="RefreshList()">
+        Refresh List
+      </app-button>
       <app-button variant="outline">Export
       </app-button>
       <a class="bg-brand-500 shadow-sm hover inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600" href="/add-product" routerlink="/add-product">

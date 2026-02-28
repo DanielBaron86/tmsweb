@@ -89,11 +89,12 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
   }
 
   refresh(){
-    this.goodsTypesResourceResource.reload();
     this.cachedPages=[];
+    this.cache.update( () => [])
+    this.activePage.set(1);
+    this.pageNumber.set(1);
+    this.goodsTypesResourceResource.reload();
   }
-
-
 
   updateItem(item: any): Observable<any> {
     throw new Error("Method not implemented.");

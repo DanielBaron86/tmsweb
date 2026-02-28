@@ -112,5 +112,13 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
     this.pageNumber.set(1);
   }
 
+  refresh(){
+    this.cachedPages=[];
+    this.cache.update( () => [])
+    this.activePage.set(1);
+    this.pageNumber.set(1);
+    this.goodsResource.reload();
+  }
 
 }
+

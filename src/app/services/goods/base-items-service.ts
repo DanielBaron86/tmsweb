@@ -89,11 +89,14 @@ export default class BaseItemsService extends DataService<BaseCollectionName> {
 
   }
 
+  refresh(){
+    this.cachedPages=[];
+    this.cache.update( () => [])
+    this.activePage.set(1);
+    this.pageNumber.set(1);
+    this.baseResourceResource.reload();
+  }
 
-refresh(){
-  this.baseResourceResource.reload();
-  //this.cachedPages=[];
-}
 
   updateItem(baseItem: BaseItem) {
     return this.http.put<BaseItem>(`${this.apiUrl}/v1/goods_base/${baseItem.id}`, baseItem).pipe(

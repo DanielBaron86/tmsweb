@@ -5,6 +5,9 @@
       <p class="text-sm text-gray-500 dark:text-gray-400">A list of good types in the store.</p>
     </div>
     <div class="flex gap-3">
+      <app-button variant="outline" (click)="RefreshList()">
+        Refresh List
+      </app-button>
       <app-button variant="outline" (click)="exportExcel()">
         Export
       </app-button>

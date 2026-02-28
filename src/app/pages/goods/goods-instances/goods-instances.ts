@@ -56,4 +56,8 @@ export class GoodsInstances {
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
   }
+
+  protected RefreshList() {
+    this.dataService.refresh();
+  }
 }

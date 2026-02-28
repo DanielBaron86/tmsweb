@@ -112,4 +112,8 @@ export class BaseTypesComponent {
      console.log(this.dataService.cachedPages);
 
   }
+
+  protected RefreshList() {
+    this.dataService.refresh();
+  }
 }
