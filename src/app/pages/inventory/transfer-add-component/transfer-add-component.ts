@@ -12,7 +12,6 @@ import {
   SelectWithSearch,
 } from '../../../components/form/select-with-search/select-with-search';
 import { LocationService } from '../../../services/location/location-service';
-import { QueryFilters } from '../../../models/query-models';
 import { QueryBuilder } from '../../../components/shared/query-builder/query-builder';
 import { GoodsInstanceSearch } from '../../../components/shared/goods-instance-search/goods-instance-search';
 import { PaginationHeader } from '../../../models/base-model';
@@ -32,12 +31,6 @@ export class TransferAddComponent {
   readonly locationService = inject(LocationService);
   readonly userProfile = this.auth.userProfile();
   readonly taskService = inject(TaskServices);
-
-  queryFilters = signal<QueryFilters>({
-    pageNumber: 1,
-    pageSize: 100,
-    queryFields: [],
-  });
   locationOptions = this.locationService.locationsTypesResource;
   header = computed<PaginationHeader>(() =>
     this.locationOptions.hasValue()
@@ -73,7 +66,7 @@ export class TransferAddComponent {
   ];
 
   protected ReceiveFilters($event: any) {
-    this.queryFilters.update((val) => $event);
+    this.locationService.search($event);
   }
   transferTask = signal<TransferTask>({
     creatorId: this.userProfile?.id,

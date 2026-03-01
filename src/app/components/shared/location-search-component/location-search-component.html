@@ -10,6 +10,13 @@
   <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
     <div class="space-y-6" #dropdownMenu>
       <div class="overflow-hidden rounded-xl bg-white dark:bg-white/[0.03]">
+        <app-query-builder
+          (emitQueryFilter)="ReceiveFilters($event)"
+          [queryTitle]="'Location Query Filters'"
+          [selectOptions]="availableOptions"
+        >
+        </app-query-builder>
+        <div class="my-4"></div>
         <div
           class="flex flex-col gap-2 px-4 py-4 border border-b-0 border-gray-100 dark:border-white/[0.05] rounded-t-xl sm:flex-row sm:items-center sm:justify-between"
         >
@@ -219,62 +226,57 @@
               </tr>
             </thead>
             <tbody>
-
-                @for (
-                  location of dataService.displayItems();
-                  track location.id
-                ) {
-                  <tr>
-                    <td
-                      class="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap"
-                    >
-                      {{ location.id }}
-                    </td>
-                    <td
-                      class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap"
-                    >
-                      {{ location.address }}
-                    </td>
-                    <td
-                      class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap"
-                    >
-                      {{ location.description }}
-                    </td>
-                    <td
-                      class="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap"
-                    >
-                      {{ location.locationTypesEntity?.description }}
-                    </td>
-                    <td
-                      class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap"
-                    >
-                      <div class="flex items-center w-full gap-2">
-                        <button
-                          (click)="EmitItem(location)"
-                          class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
-                        >
-                          <span
-                            ><svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="fill-current"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z"
-                                fill=""
-                              ></path></svg
-                          ></span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                }
-
+              @for (location of dataService.displayItems(); track location.id) {
+                <tr>
+                  <td
+                    class="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap"
+                  >
+                    {{ location.id }}
+                  </td>
+                  <td
+                    class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap"
+                  >
+                    {{ location.address }}
+                  </td>
+                  <td
+                    class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap"
+                  >
+                    {{ location.description }}
+                  </td>
+                  <td
+                    class="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap"
+                  >
+                    {{ location.locationTypesEntity?.description }}
+                  </td>
+                  <td
+                    class="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap"
+                  >
+                    <div class="flex items-center w-full gap-2">
+                      <button
+                        (click)="EmitItem(location)"
+                        class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+                      >
+                        <span
+                          ><svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="fill-current"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M4.98433 2.44399C3.11285 1.57147 1.15276 3.46979 1.96494 5.36824L3.82037 9.70527C3.90097 9.89367 3.90097 10.1069 3.82037 10.2953L1.96494 14.6323C1.15277 16.5307 3.11284 18.4291 4.98432 17.5565L16.8179 12.0395C18.5503 11.2319 18.5503 8.76865 16.8179 7.961L4.98433 2.44399ZM3.34404 4.77824C3.07331 4.14543 3.72667 3.51266 4.3505 3.80349L16.1841 9.32051C16.7615 9.58973 16.7616 10.4108 16.1841 10.68L4.3505 16.197C3.72667 16.4879 3.07331 15.8551 3.34404 15.2223L5.19947 10.8853C5.21895 10.8397 5.23687 10.7937 5.25321 10.7473L9.11736 10.7473C9.53157 10.7473 9.86736 10.4115 9.86736 9.99726C9.86736 9.58304 9.53157 9.24726 9.11736 9.24726L5.25108 9.24726C5.23531 9.20287 5.21811 9.15885 5.19947 9.11528L3.34404 4.77824Z"
+                              fill=""
+                            ></path></svg
+                        ></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>

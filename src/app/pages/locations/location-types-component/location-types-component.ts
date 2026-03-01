@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { LocationTypesService } from '../../../services/location/location-types-service';
 import { ButtonComponent } from '../../../components/ui/button-component/button-component';
 import { DatePipe } from '@angular/common';
@@ -15,13 +10,7 @@ import { LocationTypesList } from '../../../models/status-enums';
 
 @Component({
   selector: 'app-location-types-component',
-  imports: [
-    ButtonComponent,
-    DatePipe,
-    PaginationComponent,
-    SpinnerComponent,
-    EnumToStringPipe,
-  ],
+  imports: [ButtonComponent, DatePipe, PaginationComponent, SpinnerComponent, EnumToStringPipe],
   templateUrl: './location-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -28,7 +28,7 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
 
     return filters
       ? {
-          url: `${this.apiUrl}/v1/goods_instance/query`,
+          url: `${this.apiUrl}/v1/goods_type/query`,
           method: 'POST',
           body: filters,
           params: { pageNumber, pageSize },
@@ -84,6 +84,14 @@ export default class GoodsTypesService extends DataService<TypesCollectionName> 
     if (!this.cachedPages.includes(pageNumber)) {
       this.pageNumber.set(pageNumber);
     }
+  }
+
+  search(newFilters: QueryFilters) {
+    this.cachedPages = [];
+    this.cache.update(() => []);
+    this.queryFilters.set(newFilters);
+    this.activePage.set(1);
+    this.pageNumber.set(1);
   }
 
   refresh() {

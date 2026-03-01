@@ -44,18 +44,6 @@ export class GoodsInstanceSearch {
   protected Toogle() {
     this.isOpen.set(!this.isOpen());
   }
-  queryFilter: QueryFilters = {
-    pageNumber: 1,
-    pageSize: 10,
-    queryFields: [
-      {
-        keyField: 'Status',
-        keyValue: '1',
-        method: 'where',
-      },
-    ],
-  };
-
   selectItem = output<v_GoodsTypesInstances>();
   protected EmitItem(item: v_GoodsTypesInstances) {
     if (!item) {

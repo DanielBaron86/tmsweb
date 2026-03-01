@@ -8,20 +8,12 @@ import DataService from '../../../services/data-service';
 import { LocationService } from '../../../services/location/location-service';
 import { LocationTypesList } from '../../../models/status-enums';
 
-
 @Component({
   selector: 'app-locations-component',
-  imports: [
-    ButtonComponent,
-    DatePipe,
-    EnumToStringPipe,
-    PaginationComponent,
-    SpinnerComponent,
-  ],
-
+  imports: [ButtonComponent, DatePipe, EnumToStringPipe, PaginationComponent, SpinnerComponent],
 
   templateUrl: './locations-component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationsComponent {
   dataService = inject(DataService) as unknown as LocationService;
@@ -30,7 +22,9 @@ export class LocationsComponent {
     Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
   );
 
-  protected Export() { /* empty */ }
+  protected Export() {
+    /* empty */
+  }
 
   protected readonly LocationTypesList = LocationTypesList;
 }

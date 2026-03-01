@@ -14,10 +14,13 @@ import { GoodsTypesModel } from '../../../models/goods-models';
 import DataService from '../../../services/data-service';
 import GoodsTypesService from '../../../services/goods/goods-types-service';
 import { PaginationComponent } from '../pagination-component/pagination-component';
+import { QueryBuilder } from '../query-builder/query-builder';
+import { QueryFilters } from '../../../models/query-models';
+import { SelectedOption } from '../../form/select-with-search/select-with-search';
 
 @Component({
   selector: 'app-good-types-search-component',
-  imports: [PaginationComponent],
+  imports: [PaginationComponent, QueryBuilder],
   templateUrl: './good-types-search-component.html',
   providers: [{ provide: DataService, useExisting: GoodsTypesService }],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +44,12 @@ export class GoodTypesSearchComponent {
     Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
   );
 
+  availableOptions: SelectedOption[] = [
+    { value: 'Id', text: 'Id' },
+    { value: 'name', text: 'Name' },
+    { value: 'description', text: 'Description' },
+  ];
+
   protected Toogle() {
     this.isOpen.set(!this.isOpen());
   }
@@ -53,5 +62,9 @@ export class GoodTypesSearchComponent {
       return;
     }
     this.selectItem.emit(item);
+  }
+
+  protected ReceiveFilters($event: QueryFilters) {
+    this.dataService.search($event);
   }
 }

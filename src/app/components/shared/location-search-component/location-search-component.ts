@@ -13,10 +13,13 @@ import { LocationService } from '../../../services/location/location-service';
 import { LocationUnitModel } from '../../../models/location-models';
 import DataService from '../../../services/data-service';
 import { PaginationComponent } from '../pagination-component/pagination-component';
+import { QueryBuilder } from '../query-builder/query-builder';
+import { SelectedOption } from '../../form/select-with-search/select-with-search';
+import { QueryFilters } from '../../../models/query-models';
 
 @Component({
   selector: 'app-location-search-component',
-  imports: [PaginationComponent],
+  imports: [PaginationComponent, QueryBuilder],
   providers: [{ provide: DataService, useExisting: LocationService }],
   templateUrl: './location-search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +33,11 @@ export class LocationSearchComponent {
       }
     });
   }
-
+  availableOptions: SelectedOption[] = [
+    { value: 'Address', text: 'Address' },
+    { value: 'Description', text: 'Description' },
+    { value: 'locationTypeId', text: 'Location Type' },
+  ];
   dataService = inject(DataService) as LocationService;
   headerInfo = this.dataService.header;
   pageNumbers = computed(() =>
@@ -46,5 +53,9 @@ export class LocationSearchComponent {
 
   protected EmitItem(location: LocationUnitModel) {
     this.locationEmitter.emit(location);
+  }
+
+  protected ReceiveFilters($event: QueryFilters) {
+    this.dataService.search($event);
   }
 }
