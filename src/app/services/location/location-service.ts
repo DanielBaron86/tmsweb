@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
-import { LocationUnitModel } from '../../models/location-models';
+import { CreateLocationUnitModel, LocationUnitModel } from '../../models/location-models';
 import DataService from '../data-service';
 import { PaginationHeader } from '../../models/base-model';
 import { Observable } from 'rxjs';
@@ -80,10 +80,26 @@ export class LocationService extends DataService<LocationUnitModel> {
     return JSON.parse(this.locationsTypesResource.headers()?.get('X-Pagination') ?? '{}');
   });
 
+  createNewLocation(body: CreateLocationUnitModel) {
+    return this.http.post(`${this.apiUrl}/v1/locations`, body);
+  }
+  updateLocationItem($event: CreateLocationUnitModel) {
+    return this.http.post(`${this.apiUrl}/v1/locations/${$event.id}`, $event);
+  }
+
   search(newFilters: QueryFilters) {
     this.cachedPages = [];
     this.queryFilters.set(newFilters);
     this.activePage.set(1);
     this.pageNumber.set(1);
+  }
+
+  refresh() {
+    this.cachedPages = [];
+    this.queryFilters.set(null);
+    this.cache.update(() => []);
+    this.activePage.set(1);
+    this.pageNumber.set(1);
+    this.locationsTypesResource.reload();
   }
 }

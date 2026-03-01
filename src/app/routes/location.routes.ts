@@ -20,4 +20,9 @@ export const locationRoutes: Routes = [
       ),
     providers: [{ provide: DataService, useClass: LocationService }],
   },
+  {
+    path: 'edit',
+    loadComponent: () =>
+      import('../components/locations/edit-location/edit-location').then((m) => m.EditLocation),
+  },
 ];

@@ -100,4 +100,11 @@ export class AuthServices {
       localStorage.setItem('refreshToken', response.refreshToken);
     }
   }
+
+  clearToken() {
+    this.#tokenString.set(null);
+    if (!this.keepLoggeddIn) {
+      localStorage.removeItem('userToken');
+    }
+  }
 }

@@ -36,7 +36,7 @@ export class ProcurementAddComponent {
   taskDescription = signal('');
   selectedLocation = signal<LocationUnitModel>({
     id: 0,
-    locationTypeID: 0,
+    locationTypeId: 0,
     address: '',
     description: '',
     locationTypesEntity: null,

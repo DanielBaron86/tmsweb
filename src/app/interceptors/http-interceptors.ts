@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { inject } from '@angular/core';
 import { AuthServices } from '../services/auth/auth.services';
 import { ToastData, ToastService } from '../services/toast.service';
+import { Router } from '@angular/router';
 
 export function loggingInterceptor(
   req: HttpRequest<unknown>,
@@ -40,11 +41,13 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authToken = inject(AuthServices);
+  const router = inject(Router);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       const isAuthRequest =
         error.url?.includes('users/login') || error.url?.includes('users/refreshToken');
+
       if (error.status === 401 && !isAuthRequest) {
         return authToken.refreshToken().pipe(
           switchMap((res) => {
@@ -55,10 +58,13 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
             return next(newReq);
           }),
           catchError((refreshErr) => {
+            authToken.clearToken();
+            router.navigate(['/login']);
             return throwError(() => refreshErr);
           }),
         );
       }
+
       return throwError(() => error);
     }),
   );

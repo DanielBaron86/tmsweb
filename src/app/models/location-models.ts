@@ -6,9 +6,15 @@ export interface LocationTypesModel extends BaseModel {
   description: string;
 }
 
+export interface CreateLocationUnitModel {
+  id: number;
+  locationTypeId: string;
+  address: string;
+  description: string;
+}
 export interface LocationUnitModel extends BaseModel {
   id: number;
-  locationTypeID: number;
+  locationTypeId: number;
   address: string;
   description: string;
   locationTypesEntity?: LocationTypesModel | null;
