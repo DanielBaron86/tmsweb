@@ -32,9 +32,9 @@ export class LocationSearchComponent {
   }
 
   dataService = inject(DataService) as LocationService;
-  listItems = this.dataService.getCollectionList();
+  headerInfo = this.dataService.header;
   pageNumbers = computed(() =>
-    Array.from({ length: this.listItems().paginationHeader.TotalPageCount }, (_, i) => i + 1),
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
   );
   isOpen = signal(false);
   toggleText = computed(() => (this.isOpen() ? 'Close' : 'Open'));

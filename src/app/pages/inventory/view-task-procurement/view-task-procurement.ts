@@ -65,7 +65,7 @@ export class ViewTaskProcurement {
   /**
   @summary Get locations of type Supplier and build dropdown options
   **/
-  locationOptions = this.locationService.getLocationsWithFilters(this.queryFilters);
+  locationOptions = this.locationService.locationsTypesResource;
   options = linkedSignal({
     source: () => this.locationOptions.value(),
     computation: () => {

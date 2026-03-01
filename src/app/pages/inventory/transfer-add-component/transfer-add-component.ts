@@ -4,7 +4,6 @@ import {
   computed,
   inject,
   linkedSignal,
-  OnInit,
   signal,
 } from '@angular/core';
 import { AuthServices } from '../../../services/auth/auth.services';
@@ -39,7 +38,7 @@ export class TransferAddComponent {
     pageSize: 100,
     queryFields: [],
   });
-  locationOptions = this.locationService.getLocationsWithFilters(this.queryFilters);
+  locationOptions = this.locationService.locationsTypesResource;
   header = computed<PaginationHeader>(() =>
     this.locationOptions.hasValue()
       ? JSON.parse(this.locationOptions.headers()?.get('X-Pagination') ?? '{}')

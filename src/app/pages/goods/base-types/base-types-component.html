@@ -32,7 +32,7 @@
                   <app-button classname="w-full" size="sm" [variant]="'primary'" (click)="Save()">
                     Save
                   </app-button>
-                  @if (operation() == 'new') {
+                  @if (operation() === 'new') {
                     <app-button
                       classname="w-full"
                       size="sm"

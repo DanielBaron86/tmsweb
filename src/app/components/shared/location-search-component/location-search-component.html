@@ -219,9 +219,9 @@
               </tr>
             </thead>
             <tbody>
-              @if (dataService.itemTypes()) {
+
                 @for (
-                  location of listItems().result[dataService.activePage()].collectionName;
+                  location of dataService.displayItems();
                   track location.id
                 ) {
                   <tr>
@@ -274,13 +274,13 @@
                     </td>
                   </tr>
                 }
-              }
+
             </tbody>
           </table>
         </div>
         <app-pagination-component
           [pageNumbers]="pageNumbers()"
-          [totalPageCount]="listItems().paginationHeader.TotalPageCount"
+          [totalPageCount]="headerInfo().TotalPageCount"
         >
         </app-pagination-component>
       </div>

@@ -7,7 +7,6 @@ import {
 import { LocationTypesService } from '../../../services/location/location-types-service';
 import { ButtonComponent } from '../../../components/ui/button-component/button-component';
 import { DatePipe } from '@angular/common';
-import { InputFieldComponent } from '../../../components/form/input/input-field-component/input-field-component';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
 import DataService from '../../../services/data-service';
@@ -24,7 +23,6 @@ import { LocationTypesList } from '../../../models/status-enums';
     EnumToStringPipe,
   ],
   templateUrl: './location-types-component.html',
-  providers: [{ provide: DataService, useClass: LocationTypesService }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationTypesComponent {
