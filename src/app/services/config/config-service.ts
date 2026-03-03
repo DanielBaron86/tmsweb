@@ -9,6 +9,10 @@ export class ConfigService {
   readonly http = inject(HttpClient);
 
   private readonly DEFAULT_CONFIG = {
+    apiUrl: 'https://tmsapi.danielsplaygrounds.com/api',
+    apStr: 'Default App String',
+  };
+  private readonly LOCAL_CONFIG = {
     apiUrl: 'https://localhost:7220/api',
     apStr: 'Default App String',
   };
@@ -17,7 +21,7 @@ export class ConfigService {
 
   async loadConfig() {
     if (isDevMode()) {
-      this.config = this.DEFAULT_CONFIG;
+      this.config = this.LOCAL_CONFIG;
       return;
     }
 
