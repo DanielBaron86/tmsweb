@@ -13,10 +13,13 @@ export function loggingInterceptor(
   const toast = inject(ToastService);
   return next(req).pipe(
     catchError((error: unknown) => {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof HttpErrorResponse && error.status !== 401) {
+        console.error('HTTP Error:', req.method, req.url, 'Error:', error);
         if (error.error?.detail) {
           toast.show(error.error);
-        } else {
+        }
+        if (error.error?.message) {
+          console.error('Error message:', error.error.message);
           const toastData: ToastData = {
             title: error.name,
             status: error.status,
@@ -24,7 +27,6 @@ export function loggingInterceptor(
           };
           toast.show(toastData);
         }
-        console.error('HTTP Error:', req.method, req.url, 'Error:', error.error);
       }
       return throwError(() => error);
     }),
@@ -47,7 +49,6 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
     catchError((error: HttpErrorResponse) => {
       const isAuthRequest =
         error.url?.includes('users/login') || error.url?.includes('users/refreshToken');
-
       if (error.status === 401 && !isAuthRequest) {
         return authToken.refreshToken().pipe(
           switchMap((res) => {

@@ -58,12 +58,14 @@ export class LocationsComponent {
   }
 
   protected SaveLocation($event: CreateLocationUnitModel | null) {
-    this.showEditLocation.set(false);
+        this.showEditLocation.set(false);
     if ($event == null) {
       return;
     }
-    return $event.id == 0
-      ? this.dataService.createNewLocation($event)
-      : this.dataService.updateLocationItem($event);
+    const request =
+      $event.id == 0
+        ? this.dataService.createNewLocation($event)
+        : this.dataService.updateLocationItem($event);
+    return request.subscribe( ()=> this.dataService.refresh() );
   }
 }

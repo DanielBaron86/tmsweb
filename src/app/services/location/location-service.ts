@@ -4,8 +4,9 @@ import { ConfigService } from '../config/config-service';
 import { CreateLocationUnitModel, LocationUnitModel } from '../../models/location-models';
 import DataService from '../data-service';
 import { PaginationHeader } from '../../models/base-model';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { QueryFilters } from '../../models/query-models';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -81,10 +82,18 @@ export class LocationService extends DataService<LocationUnitModel> {
   });
 
   createNewLocation(body: CreateLocationUnitModel) {
-    return this.http.post(`${this.apiUrl}/v1/locations`, body);
+    return this.http.post(`${this.apiUrl}/v1/locations`, body).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.detail));
+      })
+    );
   }
   updateLocationItem($event: CreateLocationUnitModel) {
-    return this.http.post(`${this.apiUrl}/v1/locations/${$event.id}`, $event);
+    return this.http.put(`${this.apiUrl}/v1/locations/${$event.id}`, $event).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.detail));
+      }),
+    );
   }
 
   search(newFilters: QueryFilters) {
