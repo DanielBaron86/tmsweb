@@ -1,31 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
-import { CreateUser } from '../../../models/user-models';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import DataService from '../../../services/data-service';
-import { UserService } from '../../../services/users/user-service';
+import { ClientService } from '../../../services/clients/client-service';
 import { LabelComponent } from '../../../components/form/label/label-component';
-import {
-  email,
-  form,
-  FormField,
-  maxLength,
-  minLength,
-  required,
-  validate,
-} from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { CreateUser } from '../../../models/user-models';
+import { email, form, FormField, maxLength, minLength, required, validate } from '@angular/forms/signals';
+
 @Component({
-  selector: 'app-create-users-component',
+  selector: 'app-clients-create',
   imports: [LabelComponent, FormField],
-  templateUrl: './create-users.component.html',
+  templateUrl: './clients-create.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateUsersComponent {
-  readonly dataService = inject(DataService) as UserService;
+export class ClientsCreate {
+  readonly dataService = inject(DataService) as ClientService;
   readonly router = inject(Router);
 
   userModel = signal<CreateUser>({
@@ -33,7 +21,7 @@ export class CreateUsersComponent {
     email: '',
     firstName: '',
     lastName: '',
-    userTypeId: '0',
+    userTypeId: '2',
     password: '',
     confirmPassword: '',
   });
@@ -68,12 +56,6 @@ export class CreateUsersComponent {
       return null;
     });
   });
-
-  options = [
-    { value: '3', label: 'Clerk' },
-    { value: '4', label: 'Supervisor' },
-  ];
-
   protected onSubmit($event: SubmitEvent) {
     $event.preventDefault();
     console.log(this.userModel());
@@ -82,11 +64,11 @@ export class CreateUsersComponent {
       return;
     }
     this.dataService.createUser(this.userModel()).subscribe(() => {
-      this.router.navigate(['/users']);
+      this.router.navigate(['/clients']);
     });
   }
 
   protected CancelForm() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/clients']);
   }
 }

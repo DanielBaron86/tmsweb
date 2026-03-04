@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
 import DataService from '../../../services/data-service';
-import { UserService } from '../../../services/users/user-service';
+import { Router } from '@angular/router';
 import { EditUser } from '../../../models/user-models';
 import { email, form, FormField, required, validate } from '@angular/forms/signals';
+import { ClientService } from '../../../services/clients/client-service';
 import { LabelComponent } from '../../../components/form/label/label-component';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-clients-profile',
   imports: [LabelComponent, FormField],
-  templateUrl: './profile-component.html',
+  templateUrl: './clients-profile.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent {
-  readonly dataService = inject(DataService) as UserService;
+export class ClientsProfile {
+  readonly dataService = inject(DataService) as ClientService;
   readonly router = inject(Router);
   userid = input<number>(0);
   readonly userResource = this.dataService.getUserById(() => this.userid());
@@ -29,7 +29,7 @@ export class ProfileComponent {
         email: '',
         firstName: '',
         lastName: '',
-        userTypeId: '0',
+        userTypeId: '2',
       };
       if (source.userid === 0 || source.isLoading || !source.user) {
         return empty;
@@ -39,7 +39,7 @@ export class ProfileComponent {
         email: source.user.email ?? '',
         firstName: source.user.firstName ?? '',
         lastName: source.user.lastName ?? '',
-        userTypeId: source.user.userTypeId.toString() ?? '0',
+        userTypeId: '2',
       };
     },
   });
@@ -72,6 +72,6 @@ export class ProfileComponent {
   }
 
   protected CancelForm() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/clients']);
   }
 }

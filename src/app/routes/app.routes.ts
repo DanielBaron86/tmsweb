@@ -11,6 +11,7 @@ import { reportsRoutes } from './reports.routes';
 import { InventoryService } from '../services/inventory/inventory.service';
 import DataService from '../services/data-service';
 import { UserService } from '../services/users/user-service';
+import { ClientService } from '../services/clients/client-service';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,7 @@ export const routes: Routes = [
     path: 'clients',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
+    providers: [{ provide: DataService, useClass: ClientService }],
     children: [...clientsRoutes],
   },
   {

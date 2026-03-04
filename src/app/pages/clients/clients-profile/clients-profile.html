@@ -51,32 +51,6 @@
               }
             }
           </div>
-          <div class="col-span-2">
-            <app-label for="subject"> User Type </app-label>
-            <select
-              [formField]="createForm.userTypeId"
-              class="appearance-none bg-transparent border border-gray-300 dark:bg-dark-900 dark:bg-gray-900 dark:border-gray-700 dark:focus:border-brand-800 dark:placeholder:text-white/30 dark:text-gray-400 dark:text-white/90 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 h-11 placeholder:text-gray-400 pr-11 px-4 py-2.5 rounded-lg shadow-theme-xs text-gray-400 text-sm w-full"
-            >
-              <option
-                value=""
-                disabled=""
-                class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
-              >
-                Select an option
-              </option>
-              <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="3">
-                Clerk
-              </option>
-              <option class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value="4">
-                Supervisor
-              </option>
-            </select>
-            @if (createForm.userTypeId().invalid() && createForm.userTypeId().touched()) {
-              @for (error of createForm.userTypeId().errors(); track error.formField) {
-                <p>{{ error.message }}</p>
-              }
-            }
-          </div>
           <div class="flex gap-3">
             <button
               [disabled]="createForm().invalid()"
