@@ -56,7 +56,9 @@ export class ClientsComponent {
 
   protected readonly UserTypeEnum = UserTypeEnum;
 
-  protected onSearchInput($event: Event) { /* empty */ }
+  protected onSearchInput($event: Event) {
+    /* empty */
+  }
   protected EditClientAccount(id: number) {
     this.router.navigate([`/clients/profile/${id}`]);
   }

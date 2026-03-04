@@ -1,20 +1,19 @@
-import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { computed, inject, Injectable, Injector, linkedSignal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
-import { CreateLocationUnitModel, LocationUnitModel } from '../../models/location-models';
-import DataService from '../data-service';
-import { PaginationHeader } from '../../models/base-model';
-import { Observable, throwError } from 'rxjs';
 import { QueryFilters } from '../../models/query-models';
-import { catchError } from 'rxjs/operators';
+import { PaginationHeader } from '../../models/base-model';
+import DataService from '../data-service';
+import { CashRegisterModel } from '../../models/stores-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocationService extends DataService<LocationUnitModel> {
+export class RegistersServices extends DataService<CashRegisterModel> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
+  readonly injector = inject(Injector);
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
@@ -22,19 +21,20 @@ export class LocationService extends DataService<LocationUnitModel> {
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 
-  readonly locationsTypesResource = httpResource<LocationUnitModel[]>(() => {
+  readonly registersResource = httpResource<CashRegisterModel[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
     const pageSize = this.pageSize();
 
     return filters
       ? {
-          url: `${this.apiUrl}/v1/locations/query`,
+          url: `${this.apiUrl}/v1/stores/cash_register/query`,
           method: 'POST',
           body: filters,
+          params: { pageNumber, pageSize },
         }
       : {
-          url: `${this.apiUrl}/v1/locations`,
+          url: `${this.apiUrl}/v1/stores/cash_register`,
           method: 'GET',
           params: { pageNumber, pageSize },
         };
@@ -42,11 +42,11 @@ export class LocationService extends DataService<LocationUnitModel> {
 
   cache = linkedSignal({
     source: () => ({
-      data: this.locationsTypesResource.value(),
+      data: this.registersResource.value(),
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
-      const currentList = (previous?.value ?? []) as LocationUnitModel[];
+      const currentList = (previous?.value ?? []) as CashRegisterModel[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
         return {
@@ -59,50 +59,34 @@ export class LocationService extends DataService<LocationUnitModel> {
   });
 
   displayItems = computed(() => {
-    const pagedData = this.cache() as LocationUnitModel[][];
+    const pagedData = this.cache() as CashRegisterModel[][];
     const currentPage = this.activePage();
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-    return this.locationsTypesResource.value() ?? [];
+    return this.registersResource.value() ?? [];
   });
 
   header = computed<PaginationHeader>(() => {
     //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
-    if (this.locationsTypesResource.status() !== 'resolved') {
+    if (this.registersResource.status() !== 'resolved') {
       return {};
     }
-    return JSON.parse(this.locationsTypesResource.headers()?.get('X-Pagination') ?? '{}');
+    return JSON.parse(this.registersResource.headers()?.get('X-Pagination') ?? '{}');
   });
-
-  createNewLocation(body: CreateLocationUnitModel) {
-    return this.http.post(`${this.apiUrl}/v1/locations`, body).pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error.error.detail));
-      }),
-    );
-  }
-  updateLocationItem($event: CreateLocationUnitModel) {
-    return this.http.put(`${this.apiUrl}/v1/locations/${$event.id}`, $event).pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error.error.detail));
-      }),
-    );
-  }
-
-  search(newFilters: QueryFilters) {
-    this.cachedPages = [];
-    this.queryFilters.set(newFilters);
-    this.activePage.set(1);
-    this.pageNumber.set(1);
-  }
-
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);
     this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);
-    this.locationsTypesResource.reload();
+    this.registersResource.reload();
+  }
+  search(newFilters: QueryFilters) {
+    this.cachedPages = [];
+    this.cache.update(() => []);
+    this.queryFilters.set(newFilters);
+    this.activePage.set(1);
+    this.pageNumber.set(1);
   }
 }

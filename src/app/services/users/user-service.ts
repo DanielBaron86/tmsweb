@@ -12,12 +12,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserService extends DataService<UserResource> {
-  override updateItem(item: any): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
-  override createItem(item: any): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
   readonly injector = inject(Injector);
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);

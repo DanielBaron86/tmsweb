@@ -15,6 +15,7 @@ export const clientsRoutes: Routes = [
   },
   {
     path: `new`,
-    loadComponent: () => import('../pages/clients/clients-create/clients-create').then((m) => m.ClientsCreate),
+    loadComponent: () =>
+      import('../pages/clients/clients-create/clients-create').then((m) => m.ClientsCreate),
   },
 ];

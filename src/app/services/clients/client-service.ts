@@ -5,19 +5,13 @@ import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import { CreateUser, EditUser, UserResource } from '../../models/user-models';
 import DataService from '../data-service';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService extends DataService<UserResource> {
-  override updateItem(item: any): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
-  override createItem(item: any): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

@@ -4,7 +4,15 @@ import { ClientService } from '../../../services/clients/client-service';
 import { LabelComponent } from '../../../components/form/label/label-component';
 import { Router } from '@angular/router';
 import { CreateUser } from '../../../models/user-models';
-import { email, form, FormField, maxLength, minLength, required, validate } from '@angular/forms/signals';
+import {
+  email,
+  form,
+  FormField,
+  maxLength,
+  minLength,
+  required,
+  validate,
+} from '@angular/forms/signals';
 
 @Component({
   selector: 'app-clients-create',

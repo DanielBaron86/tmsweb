@@ -5,8 +5,6 @@ export default abstract class DataService<T> {
   abstract pageNumber: WritableSignal<number>;
   abstract activePage: WritableSignal<number>;
   abstract cachedPages: number[];
-  abstract updateItem(item: any): Observable<any>;
-  abstract createItem(item: any): Observable<any>;
 
   setActivePage(pageNumber: number, b: boolean) {}
 }

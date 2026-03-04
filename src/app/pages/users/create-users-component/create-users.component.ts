@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CreateUser } from '../../../models/user-models';
 import DataService from '../../../services/data-service';
 import { UserService } from '../../../services/users/user-service';
