@@ -4,7 +4,7 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import DataService from '../data-service';
-import { CashRegisterModel } from '../../models/stores-models';
+import { CashRegisterModel, CreateCashRegisterModel } from '../../models/stores-models';
 
 @Injectable({
   providedIn: 'root',
@@ -88,5 +88,12 @@ export class RegistersServices extends DataService<CashRegisterModel> {
     this.queryFilters.set(newFilters);
     this.activePage.set(1);
     this.pageNumber.set(1);
+  }
+
+  CreateRegister(createCashRegisterModel1: CreateCashRegisterModel) {
+    return this.http.post<CashRegisterModel>(
+      `${this.apiUrl}/v1/stores/create_register`,
+      createCashRegisterModel1,
+    );
   }
 }

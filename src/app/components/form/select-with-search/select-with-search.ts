@@ -4,6 +4,7 @@ import {
   ElementRef,
   input,
   output,
+  signal,
   viewChildren,
 } from '@angular/core';
 export interface SelectedOption {
@@ -21,7 +22,7 @@ export class SelectWithSearch {
   emitSelected = output<any>();
   searchItems = viewChildren<ElementRef<HTMLDivElement>>('searchItems');
 
-  placeholder = input('Search...');
+  placeholder = signal('Search...');
   label = input('');
   options = input<SelectedOption[]>([]);
   defaultSelected = input<string[]>([]);
@@ -36,13 +37,13 @@ export class SelectWithSearch {
 
   handleSelect(options: SelectedOption) {
     this.isOpen = false;
+    this.placeholder.set(options.text);
     this.emitSelected.emit(options);
   }
 
   protected handleSearch($event: any) {
     const filterValue = $event.target.value;
     this.options().forEach((val, index) => {
-      console.log(val.text.toLowerCase());
       const isMatch = val.text.toLowerCase().includes(filterValue.toLowerCase());
       this.searchItems()[index].nativeElement.hidden = !isMatch;
     });
