@@ -84,6 +84,8 @@ export class StoresComponent implements OnInit {
     locationId: 0,
     notes: [],
   };
+  operations ='new'
+  selectedRegister=0;
   createCashRegisterModel = signal<CreateCashRegisterModel>(this.emptyModel);
   notesList = signal<string[]>(['']);
   addNote = () => {
@@ -117,7 +119,7 @@ export class StoresComponent implements OnInit {
   ];
   locationOption = signal<SelectedOption[]>([]);
   protected RefreshList() {
-    // TODO document why this method 'RefreshList' is empty
+    this.dataService.refresh();
   }
 
   protected Export() {
@@ -125,6 +127,7 @@ export class StoresComponent implements OnInit {
   }
 
   protected NewRegister() {
+    this.operations = 'new'
     this.resetForm();
     this.disabled.set(true);
   }
@@ -143,9 +146,11 @@ export class StoresComponent implements OnInit {
   }
 
   protected EditRegister(registerItem: CashRegisterModel) {
-    console.log(registerItem);
+    this.operations = 'edit';
+    this.selectedRegister=registerItem.id;
     this.createCashRegisterModel.update((item) => ({
       ...item,
+      id: registerItem.id,
       registerNumber: registerItem.registerNumber,
       locationId: registerItem.locationId,
       notes: registerItem.notes,
@@ -162,8 +167,11 @@ export class StoresComponent implements OnInit {
 
   protected SaveRegister() {
     this.syncNotesToModel();
-    console.log(this.createCashRegisterModel());
-    this.dataService.CreateRegister(this.createCashRegisterModel()).subscribe(() => {
+    const action =
+      this.operations == 'new'
+        ? this.dataService.CreateRegister(this.createCashRegisterModel())
+        : this.dataService.UpdateRegister(this.selectedRegister,this.createCashRegisterModel());
+    action.subscribe(() => {
       this.dataService.refresh();
       this.disabled.set(false);
     });

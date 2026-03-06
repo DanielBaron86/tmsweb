@@ -90,10 +90,17 @@ export class RegistersServices extends DataService<CashRegisterModel> {
     this.pageNumber.set(1);
   }
 
-  CreateRegister(createCashRegisterModel1: CreateCashRegisterModel) {
+  CreateRegister(createCashRegisterModel: CreateCashRegisterModel) {
     return this.http.post<CashRegisterModel>(
       `${this.apiUrl}/v1/stores/create_register`,
-      createCashRegisterModel1,
+      createCashRegisterModel,
+    );
+  }
+
+  UpdateRegister(id: number,createCashRegisterModel: CreateCashRegisterModel) {
+    return this.http.put<CashRegisterModel>(
+      `${this.apiUrl}/v1/stores/cash_register/${id}`,
+      createCashRegisterModel,
     );
   }
 }
