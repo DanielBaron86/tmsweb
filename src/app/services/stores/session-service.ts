@@ -1,19 +1,18 @@
-import { computed, inject, Injectable, Injector, linkedSignal, signal } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
+import { CashRegisterSession } from '../../models/stores-models';
 import { PaginationHeader } from '../../models/base-model';
 import DataService from '../data-service';
-import { CashRegisterModel, CreateCashRegisterModel } from '../../models/stores-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RegistersServices extends DataService<CashRegisterModel> {
+export class SessionService extends DataService<CashRegisterSession> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
-  readonly injector = inject(Injector);
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
@@ -21,20 +20,20 @@ export class RegistersServices extends DataService<CashRegisterModel> {
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 
-  readonly registersResource = httpResource<CashRegisterModel[]>(() => {
+  readonly sessionResource = httpResource<CashRegisterSession[]>(() => {
     const filters = this.queryFilters();
     const pageNumber = this.pageNumber();
     const pageSize = this.pageSize();
 
     return filters
       ? {
-          url: `${this.apiUrl}/v1/stores/cash_register/query`,
+          url: `${this.apiUrl}/v1/stores/get_sessions/query`,
           method: 'POST',
           body: filters,
           params: { pageNumber, pageSize },
         }
       : {
-          url: `${this.apiUrl}/v1/stores/cash_register`,
+          url: `${this.apiUrl}/v1/stores/get_sessions`,
           method: 'GET',
           params: { pageNumber, pageSize },
         };
@@ -42,11 +41,11 @@ export class RegistersServices extends DataService<CashRegisterModel> {
 
   cache = linkedSignal({
     source: () => ({
-      data: this.registersResource.value(),
+      data: this.sessionResource.value(),
       activePage: this.activePage(),
     }),
     computation: (source, previous) => {
-      const currentList = (previous?.value ?? []) as CashRegisterModel[];
+      const currentList = (previous?.value ?? []) as CashRegisterSession[];
       if (source.data && !this.cachedPages.includes(source.activePage)) {
         this.cachedPages.push(source.activePage);
         return {
@@ -59,20 +58,20 @@ export class RegistersServices extends DataService<CashRegisterModel> {
   });
 
   displayItems = computed(() => {
-    const pagedData = this.cache() as CashRegisterModel[][];
+    const pagedData = this.cache() as CashRegisterSession[][];
     const currentPage = this.activePage();
     if (pagedData[currentPage]) {
       return pagedData[currentPage];
     }
-    return this.registersResource.value() ?? [];
+    return this.sessionResource.value() ?? [];
   });
 
   header = computed<PaginationHeader>(() => {
     //'idle' | 'error' | 'loading' | 'reloading' | 'resolved' | 'local';
-    if (this.registersResource.status() !== 'resolved') {
+    if (this.sessionResource.status() !== 'resolved') {
       return {};
     }
-    return JSON.parse(this.registersResource.headers()?.get('X-Pagination') ?? '{}');
+    return JSON.parse(this.sessionResource.headers()?.get('X-Pagination') ?? '{}');
   });
   refresh() {
     this.cachedPages = [];
@@ -80,7 +79,7 @@ export class RegistersServices extends DataService<CashRegisterModel> {
     this.cache.update(() => []);
     this.activePage.set(1);
     this.pageNumber.set(1);
-    this.registersResource.reload();
+    this.sessionResource.reload();
   }
   search(newFilters: QueryFilters) {
     this.cachedPages = [];
@@ -89,39 +88,4 @@ export class RegistersServices extends DataService<CashRegisterModel> {
     this.activePage.set(1);
     this.pageNumber.set(1);
   }
-
-  CreateRegister(createCashRegisterModel: CreateCashRegisterModel) {
-    return this.http.post<CashRegisterModel>(
-      `${this.apiUrl}/v1/stores/create_register`,
-      createCashRegisterModel,
-    );
-  }
-
-  UpdateRegister(id: number, createCashRegisterModel: CreateCashRegisterModel) {
-    return this.http.put<CashRegisterModel>(
-      `${this.apiUrl}/v1/stores/cash_register/${id}`,
-      createCashRegisterModel,
-    );
-  }
-
-  selecteRegisterdId = signal<number | null>(null);
-  selectedRegister = computed(() => {
-    const cache = this.cache() as Record<number, CashRegisterModel[]>;
-    const id = this.selecteRegisterdId();
-    console.log(this.selecteRegisterdId(), cache);
-    if (!id) return null;
-    return (
-      Object.values(cache)
-        .flat()
-        .find((register) => register.id === id) ?? null
-    );
-  });
-  getRegisterById(id: number | string): CashRegisterModel | undefined {
-    const cache = this.cache() as Record<number, CashRegisterModel[]>;
-
-    return Object.values(cache)
-      .flat()
-      .find((register) => register.id === id);
-  }
-  getRegister(param: () => number) {}
 }

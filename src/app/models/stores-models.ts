@@ -1,5 +1,6 @@
 import { BaseModel } from './base-model';
 import { LocationUnitModel } from './location-models';
+import { UserResource } from './user-models';
 
 export interface CashRegisterModel extends BaseModel {
   id: number;
@@ -13,4 +14,15 @@ export interface CreateCashRegisterModel {
   registerNumber: number;
   locationId: number;
   notes: string[];
+}
+
+export interface CashRegisterSession extends BaseModel {
+  id: number;
+  sessionStatus: number;
+  assignedClerk: number;
+  cashRegisterId: number;
+  openHour: Date | null;
+  closeHour: Date | null;
+  notes: string[];
+  user: UserResource;
 }

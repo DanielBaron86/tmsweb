@@ -1,0 +1,54 @@
+<div
+  class="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3"
+>
+  <div class="flex flex-col gap-2.5 divide-gray-300 sm:flex-row sm:divide-x dark:divide-gray-700">
+    <div class="flex items-center gap-2 sm:pr-3">
+      <span class="text-base font-medium text-gray-700 dark:text-gray-400">
+        Register Number : {{ registerEntity()?.registerNumber }}
+      </span>
+      <span
+        class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium"
+      >
+        {{ registerEntity()?.locationTypesInstances?.address }} -{{
+          registerEntity()?.locationTypesInstances?.description
+        }}
+      </span>
+    </div>
+    <p class="text-sm text-gray-500 sm:pl-3 dark:text-gray-400">
+      Create date:&nbsp; {{ registerEntity()?.createdDate | date: 'medium' }}
+    </p>
+  </div>
+  <div
+    class="rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] sm:w-fit"
+  >
+    <ul class="flex flex-col md:flex-row">
+      @for (note of registerEntity()?.notes; track $index) {
+        <li
+          class="flex items-center gap-2 border-b border-gray-200 px-3 py-2.5 text-sm text-gray-500 last:border-0 dark:border-gray-800 dark:text-gray-400 md:border-b-0 md:border-r"
+        >
+          <span class="text-brand-500 dark:text-brand-400"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="fill-current"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M2.61719 7.99985C2.61719 5.02736 5.02687 2.61768 7.99936 2.61768C10.9719 2.61768 13.3815 5.02736 13.3815 7.99985C13.3815 10.9723 10.9719 13.382 7.99936 13.382C5.02687 13.382 2.61719 10.9723 2.61719 7.99985ZM7.99936 1.11768C4.19844 1.11768 1.11719 4.19893 1.11719 7.99985C1.11719 11.8008 4.19844 14.882 7.99936 14.882C11.8003 14.882 14.8815 11.8008 14.8815 7.99985C14.8815 4.19893 11.8003 1.11768 7.99936 1.11768ZM10.5185 7.26551C10.8114 6.97262 10.8114 6.49775 10.5185 6.20485C10.2256 5.91196 9.75075 5.91196 9.45785 6.20485L7.45885 8.20386L6.54089 7.28589C6.24799 6.993 5.77312 6.993 5.48023 7.28589C5.18733 7.57878 5.18733 8.05366 5.48023 8.34655L6.92852 9.79485C7.06917 9.9355 7.25994 10.0145 7.45885 10.0145C7.65776 10.0145 7.84853 9.9355 7.98918 9.79485L10.5185 7.26551Z"
+                fill=""
+              ></path></svg></span
+          ><span>
+            {{ note }}
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</div>
+@for (item of sessionService.displayItems(); track $index) {
+  {{ item.assignedClerk }}
+}

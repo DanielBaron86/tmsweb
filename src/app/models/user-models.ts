@@ -27,7 +27,7 @@ export interface LoginResponse {
   refreshToken: string;
 }
 
-export interface LoginModel  {
+export interface LoginModel {
   email: string;
   password: string;
   rememberMe: boolean;

@@ -25,6 +25,7 @@ import { QueryBuilder } from '../../../components/shared/query-builder/query-bui
 import { QueryFields, QueryFilters } from '../../../models/query-models';
 import { LocationService } from '../../../services/location/location-service';
 import { LocationUnitModel } from '../../../models/location-models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stores-component',
@@ -46,8 +47,10 @@ export class StoresComponent implements OnInit {
     this.locationService.search(this.locationQuery);
   }
   readonly dataService = inject(DataService) as RegistersServices;
-  readonly headerInfo = this.dataService.header;
   readonly locationService = inject(LocationService);
+  readonly router = inject(Router);
+
+  readonly headerInfo = this.dataService.header;
   locationQuery: QueryFilters = {
     pageNumber: 1,
     pageSize: 10,
@@ -84,8 +87,8 @@ export class StoresComponent implements OnInit {
     locationId: 0,
     notes: [],
   };
-  operations ='new'
-  selectedRegister=0;
+  operations = 'new';
+  selectedRegister = 0;
   createCashRegisterModel = signal<CreateCashRegisterModel>(this.emptyModel);
   notesList = signal<string[]>(['']);
   addNote = () => {
@@ -127,7 +130,7 @@ export class StoresComponent implements OnInit {
   }
 
   protected NewRegister() {
-    this.operations = 'new'
+    this.operations = 'new';
     this.resetForm();
     this.disabled.set(true);
   }
@@ -147,7 +150,7 @@ export class StoresComponent implements OnInit {
 
   protected EditRegister(registerItem: CashRegisterModel) {
     this.operations = 'edit';
-    this.selectedRegister=registerItem.id;
+    this.selectedRegister = registerItem.id;
     this.createCashRegisterModel.update((item) => ({
       ...item,
       id: registerItem.id,
@@ -162,7 +165,8 @@ export class StoresComponent implements OnInit {
   protected readonly TaskTypesStatus = TaskTypesStatus;
 
   protected ViewRegister(id: number) {
-    // TODO document why this method 'ViewRegister' is empty
+    this.dataService.selecteRegisterdId.set(id);
+    this.router.navigate([`/stores/view_register`]);
   }
 
   protected SaveRegister() {
@@ -170,7 +174,7 @@ export class StoresComponent implements OnInit {
     const action =
       this.operations == 'new'
         ? this.dataService.CreateRegister(this.createCashRegisterModel())
-        : this.dataService.UpdateRegister(this.selectedRegister,this.createCashRegisterModel());
+        : this.dataService.UpdateRegister(this.selectedRegister, this.createCashRegisterModel());
     action.subscribe(() => {
       this.dataService.refresh();
       this.disabled.set(false);

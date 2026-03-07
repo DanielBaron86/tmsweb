@@ -7,11 +7,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-signin-form',
-  imports: [
-    LabelComponent,
-    FormsModule,
-    FormField,
-  ],
+  imports: [LabelComponent, FormsModule, FormField],
   templateUrl: './signin-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,7 +29,7 @@ export class SigninFormComponent {
   showPassword = false;
   isChecked = true;
 
-  inputType =signal('password');
+  inputType = signal('password');
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
