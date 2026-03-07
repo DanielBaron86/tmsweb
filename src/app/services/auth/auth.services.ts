@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { LoginResponse, UserResource } from '../../models/user-models';
+import { LoginModel, LoginResponse, UserResource } from '../../models/user-models';
 import { throwError } from 'rxjs';
 import { ConfigService } from '../config/config-service';
 
@@ -54,9 +54,9 @@ export class AuthServices {
     this.router.navigate(['/login']);
   }
 
-  login(username: string, password: string, keepLoggeddIn = false) {
-    this.keepLoggeddIn = keepLoggeddIn;
-    const body = { username: username, password: password };
+  login(formBody: LoginModel) {
+    this.keepLoggeddIn = formBody.rememberMe ?? false;
+    const body = { username: formBody.email, password: formBody.password };
     return this.http
       .post(`${this.apiUrl}/v1/users/login`, body)
       .pipe(

@@ -1,49 +1,48 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AuthServices } from '../../../services/auth/auth.services';
 import { LabelComponent } from '../../form/label/label-component';
-import { InputFieldComponent } from '../../form/input/input-field-component/input-field-component';
-import { CheckboxComponent } from '../../form/input/checkbox-component/checkbox-component';
-import { ButtonComponent } from '../../ui/button-component/button-component';
 import { FormsModule } from '@angular/forms';
+import { LoginModel } from '../../../models/user-models';
+import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-signin-form',
   imports: [
     LabelComponent,
-    InputFieldComponent,
-    CheckboxComponent,
-    ButtonComponent,
-    ButtonComponent,
     FormsModule,
+    FormField,
   ],
   templateUrl: './signin-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninFormComponent {
   readonly authService = inject(AuthServices);
+  loginModel = signal<LoginModel>({
+    email: '',
+    password: '',
+    rememberMe: false,
+  });
+  loginForm = form(this.loginModel, (schemaPath) => {
+    required(schemaPath.email);
+    required(schemaPath.password);
+  });
 
   inputValueEmail = '';
   inputValuePassword = '';
 
   showPassword = false;
-  isChecked = false;
+  isChecked = true;
 
-  inputType = 'password';
+  inputType =signal('password');
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
     if (this.showPassword) {
-      this.inputType = 'text';
+      this.inputType.set('text');
     } else {
-      this.inputType = 'password';
+      this.inputType.set('password');
     }
   }
-  className = 'mb-4';
-
-  onSignIn(): void {
-    this.authService.login(this.inputValueEmail, this.inputValuePassword, this.isChecked);
-  }
-
   onKeepMeLoggedIn($event: boolean) {
     this.isChecked = $event;
     const storedToken = localStorage.getItem('userToken');
@@ -53,5 +52,10 @@ export class SigninFormComponent {
     } else {
       console.log('No token found in storage');
     }
+  }
+
+  protected onSignIn($event: SubmitEvent) {
+    $event.preventDefault();
+    this.authService.login(this.loginForm().value());
   }
 }
