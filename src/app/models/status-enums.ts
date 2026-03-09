@@ -46,3 +46,8 @@ export enum LocationTypesList {
   CLIENT,
   SUPPLIER,
 }
+export enum SessionStatus {
+  NONE,
+  OPEN,
+  CLOSED,
+}

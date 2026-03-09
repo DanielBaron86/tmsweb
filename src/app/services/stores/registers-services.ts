@@ -4,7 +4,13 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import DataService from '../data-service';
-import { CashRegisterModel, CreateCashRegisterModel } from '../../models/stores-models';
+import {
+  CashRegisterModel,
+  CreateCashRegisterModel,
+  CreateSessionModel,
+} from '../../models/stores-models';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -124,4 +130,12 @@ export class RegistersServices extends DataService<CashRegisterModel> {
       .find((register) => register.id === id);
   }
   getRegister(param: () => number) {}
+
+  CreateSession(createSessionModel1: CreateSessionModel) {
+    return this.http.post(`${this.apiUrl}/v1/stores/open_session`, createSessionModel1).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.detail));
+      }),
+    );
+  }
 }

@@ -26,3 +26,8 @@ export interface CashRegisterSession extends BaseModel {
   notes: string[];
   user: UserResource;
 }
+
+export interface CreateSessionModel {
+  assignedClerk: number;
+  cashRegisterId: number;
+}
