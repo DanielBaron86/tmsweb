@@ -9,8 +9,7 @@ import DataService from '../data-service';
 @Injectable({
   providedIn: 'root',
 })
-
-export class CartsServices extends DataService<CartModelWithDetails>  {
+export class CartsServices extends DataService<CartModelWithDetails> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
@@ -101,5 +100,15 @@ export class CartsServices extends DataService<CartModelWithDetails>  {
     this.queryFilters.set(newFilters);
     this.activePage.set(1);
     this.pageNumber.set(1);
+  }
+
+  GetCartById(param: () => number) {
+    return httpResource<CartModelWithDetails>(() => {
+      const id = param();
+      return {
+        url: `${this.apiUrl}/v1/stores/${id}`,
+        method: 'GET',
+      };
+    });
   }
 }

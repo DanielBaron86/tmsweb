@@ -45,20 +45,13 @@ export class ViewSessionComponent implements OnInit {
   });
   protected readonly SessionStatus = SessionStatusEnum;
 
-  protected RefreshList() {
+  protected RefreshList() {}
 
-  }
+  protected Export() {}
 
-  protected Export() {
+  protected onSearchInput($event: Event) {}
 
-  }
-
-  protected onSearchInput($event: Event) {
-
-  }
-
-  protected ViewCart(id: number) {
-    this.cartService.selectCartId.set(id);
-    this.router.navigate([`/carts/${id}/view`]);
+  protected ViewCart(cartId: number) {
+    this.router.navigate([`/carts/${cartId}/view`]);
   }
 }

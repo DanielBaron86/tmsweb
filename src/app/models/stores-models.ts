@@ -1,6 +1,7 @@
 import { BaseModel } from './base-model';
 import { LocationUnitModel } from './location-models';
 import { UserResource } from './user-models';
+import { GoodsModels } from './goods-models';
 
 export interface CashRegisterModel extends BaseModel {
   id: number;
@@ -45,6 +46,7 @@ export interface StoreCartsEntityDetailsModel extends BaseModel {
   cartId: number;
   operationType: number; // 1 - Sale, 2 - Return
   goodId: number;
+  goodsTypesInstance?: GoodsModels;
   price: number;
   notes?: string[] | null;
 }
@@ -52,8 +54,11 @@ export interface StoreCartsEntityDetailsModel extends BaseModel {
 export interface CartModel extends BaseModel {
   id: number;
   clerktId: number;
+  userEntity?: UserResource;
   storeLocation: number;
+  locationTypesInstances?: LocationUnitModel;
   clientId: number;
+  accounts?: UserResource;
   sessionId: number;
   status: number; // 1 - Open, 2 - Paid
   total: number;

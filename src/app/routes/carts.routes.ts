@@ -8,6 +8,8 @@ export const cartsRoutes: Routes = [
   {
     path: ':cartId/view',
     loadComponent: () =>
-      import('../pages/stores/single-cart-component/single-cart-component').then((m) => m.SingleCartComponent),
+      import('../pages/stores/single-cart-component/single-cart-component').then(
+        (m) => m.SingleCartComponent,
+      ),
   },
 ];

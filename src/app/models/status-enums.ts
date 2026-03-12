@@ -51,3 +51,15 @@ export enum SessionStatusEnum {
   OPEN,
   CLOSED,
 }
+export enum PaymentStatusEnum {
+  NONE,
+  OPEN,
+  PAID,
+}
+
+export enum StoreOperationType {
+  NONE,
+  Sale,
+  Return,
+  Others,
+}

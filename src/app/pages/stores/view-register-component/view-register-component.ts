@@ -165,8 +165,9 @@ export class ViewRegisterComponent implements OnInit {
   }
 
   private increaseVersion() {
-    this.sessionQueryFilters.update( value => ({
-      ...value, version: value.version + 1,
+    this.sessionQueryFilters.update((value) => ({
+      ...value,
+      version: value.version + 1,
     }));
   }
 }

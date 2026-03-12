@@ -19,5 +19,5 @@ export const storesRoutes: Routes = [
       import('../pages/stores/view-session-component/view-session-component').then(
         (m) => m.ViewSessionComponent,
       ),
-  }
+  },
 ];
