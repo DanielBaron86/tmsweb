@@ -61,9 +61,9 @@ export class SessionService extends DataService<CashRegisterSession> {
     const pagedData = this.cache() as CashRegisterSession[][];
     const currentPage = this.activePage();
     if (pagedData[currentPage]) {
-      return pagedData[currentPage];
+      return pagedData[currentPage].reverse();
     }
-    return this.sessionResource.value() ?? [];
+    return this.sessionResource.value()?.reverse() ?? [];
   });
 
   header = computed<PaginationHeader>(() => {
@@ -73,6 +73,19 @@ export class SessionService extends DataService<CashRegisterSession> {
     }
     return JSON.parse(this.sessionResource.headers()?.get('X-Pagination') ?? '{}');
   });
+
+  selectSessiondId = signal<number | null>(null);
+  selectedSession = computed(() => {
+    const cache = this.cache() as Record<number, CashRegisterSession[]>;
+    const id = this.selectSessiondId();
+    if (!id) return null;
+    return (
+      Object.values(cache)
+        .flat()
+        .find((register) => register.id === id) ?? null
+    );
+  });
+
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);
@@ -87,5 +100,9 @@ export class SessionService extends DataService<CashRegisterSession> {
     this.queryFilters.set(newFilters);
     this.activePage.set(1);
     this.pageNumber.set(1);
+  }
+
+  CloseSession(id: number) {
+    return this.http.post(`${this.apiUrl}/v1/stores/close_session/${id}`, {});
   }
 }

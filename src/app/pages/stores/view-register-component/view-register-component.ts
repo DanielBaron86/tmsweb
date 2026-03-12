@@ -10,20 +10,22 @@ import {
 import { RegistersServices } from '../../../services/stores/registers-services';
 import DataService from '../../../services/data-service';
 import { DatePipe } from '@angular/common';
-import { SessionStatus, TaskTypesStatus, UserTypeEnum } from '../../../models/status-enums';
+import { SessionStatusEnum, TaskTypesStatus, UserTypeEnum } from '../../../models/status-enums';
 import { SessionService } from '../../../services/stores/session-service';
 import { QueryBuilder } from '../../../components/shared/query-builder/query-builder';
 import {
   SelectedOption,
   SelectWithSearch,
 } from '../../../components/form/select-with-search/select-with-search';
-import { QueryFields, QueryFilters } from '../../../models/query-models';
+import { QueryFilters } from '../../../models/query-models';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
 import { ButtonComponent } from '../../../components/ui/button-component/button-component';
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { LabelComponent } from '../../../components/form/label/label-component';
 import { UserService } from '../../../services/users/user-service';
 import { CreateSessionModel } from '../../../models/stores-models';
+import { DropdownDirective } from '../../../directives/dropdown-directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-register-component',
@@ -35,6 +37,7 @@ import { CreateSessionModel } from '../../../models/stores-models';
     EnumToStringPipe,
     LabelComponent,
     SelectWithSearch,
+    DropdownDirective,
   ],
   templateUrl: './view-register-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +49,8 @@ export class ViewRegisterComponent implements OnInit {
   readonly dataService = inject(DataService) as RegistersServices;
   readonly sessionService = inject(SessionService);
   readonly userService = inject(UserService);
-  protected readonly SessionStatus = SessionStatus;
+  readonly router = inject(Router);
+  protected readonly SessionStatus = SessionStatusEnum;
   disabled = signal(false);
   headerInfo = this.dataService.header;
   registerEntity = this.dataService.selectedRegister;
@@ -60,19 +64,23 @@ export class ViewRegisterComponent implements OnInit {
       return sessionModel;
     },
   });
-  sessionQueryFilters = computed(() => {
-    const cashRegisterId = this.registerEntity()?.id;
-    return {
-      pageNumber: 1,
-      pageSize: 100,
-      queryFields: [
-        {
-          method: 'where',
-          keyField: 'CashRegisterID',
-          keyValue: cashRegisterId!.toString(),
-        },
-      ],
-    };
+  sessionQueryFilters = linkedSignal({
+    source: () => this.registerEntity(),
+    computation: () => {
+      const cashRegisterId = this.registerEntity()?.id;
+      return {
+        version: 1,
+        pageNumber: 1,
+        pageSize: 100,
+        queryFields: [
+          {
+            method: 'where',
+            keyField: 'CashRegisterID',
+            keyValue: cashRegisterId!.toString(),
+          },
+        ],
+      };
+    },
   });
 
   availableOptions: SelectedOption[] = [
@@ -120,12 +128,14 @@ export class ViewRegisterComponent implements OnInit {
   protected onSearchInput($event: Event) {}
 
   protected ViewSession(id: number) {
-    // TODO document why this method 'ViewSession' is empty
+    this.sessionService.selectSessiondId.set(id);
+    this.router.navigate([`/stores/view_session`]);
   }
 
   protected SaveSession() {
     this.dataService.CreateSession(this.createSessionModel()).subscribe(() => {
-      this.sessionService.refresh();
+      this.increaseVersion();
+      this.sessionService.search(this.sessionQueryFilters());
       this.disabled.set(false);
     });
   }
@@ -143,5 +153,20 @@ export class ViewRegisterComponent implements OnInit {
 
   protected CancelSessionCreation() {
     this.disabled.set(false);
+  }
+
+  protected readonly SessionStatusEnum = SessionStatusEnum;
+
+  protected CloseSession(id: number) {
+    this.sessionService.CloseSession(id).subscribe(() => {
+      this.increaseVersion();
+      this.sessionService.search(this.sessionQueryFilters());
+    });
+  }
+
+  private increaseVersion() {
+    this.sessionQueryFilters.update( value => ({
+      ...value, version: value.version + 1,
+    }));
   }
 }

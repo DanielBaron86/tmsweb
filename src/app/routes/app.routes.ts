@@ -13,6 +13,8 @@ import DataService from '../services/data-service';
 import { UserService } from '../services/users/user-service';
 import { ClientService } from '../services/clients/client-service';
 import { RegistersServices } from '../services/stores/registers-services';
+import { CartsServices } from '../services/stores/carts-services';
+import { cartsRoutes } from './carts.routes';
 
 export const routes: Routes = [
   {
@@ -66,6 +68,13 @@ export const routes: Routes = [
     canActivate: [CanActivateAuthGuard],
     providers: [{ provide: DataService, useClass: RegistersServices }],
     children: [...storesRoutes],
+  },
+  {
+    path: 'carts',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    providers: [{ provide: DataService, useClass: CartsServices }],
+    children: [...cartsRoutes],
   },
   {
     path: 'reports',

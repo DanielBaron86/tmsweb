@@ -14,8 +14,10 @@ export const storesRoutes: Routes = [
       ),
   },
   {
-    path: 'carts',
+    path: 'view_session',
     loadComponent: () =>
-      import('../pages/stores/carts-component/carts-component').then((m) => m.CartsComponent),
-  },
+      import('../pages/stores/view-session-component/view-session-component').then(
+        (m) => m.ViewSessionComponent,
+      ),
+  }
 ];

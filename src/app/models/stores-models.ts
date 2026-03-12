@@ -31,3 +31,36 @@ export interface CreateSessionModel {
   assignedClerk: number;
   cashRegisterId: number;
 }
+
+export interface CashRegisterEntityModel extends BaseModel {
+  id: number;
+  registerNumber: number;
+  locationId: number;
+  notes?: string[] | null;
+  locationTypesInstances: LocationUnitModel;
+}
+
+export interface StoreCartsEntityDetailsModel extends BaseModel {
+  id: number;
+  cartId: number;
+  operationType: number; // 1 - Sale, 2 - Return
+  goodId: number;
+  price: number;
+  notes?: string[] | null;
+}
+
+export interface CartModel extends BaseModel {
+  id: number;
+  clerktId: number;
+  storeLocation: number;
+  clientId: number;
+  sessionId: number;
+  status: number; // 1 - Open, 2 - Paid
+  total: number;
+  paid: number;
+  remaining: number;
+}
+
+export interface CartModelWithDetails extends CartModel {
+  storeCartsEntityDetails: StoreCartsEntityDetailsModel[];
+}
