@@ -1,25 +1,20 @@
-import {
-  computed,
-  effect,
-  inject,
-  Injectable,
-  linkedSignal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { BaseItem } from '../../models/goods-models';
 import { BaseCollectionName, PaginationHeader } from '../../models/base-model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ConfigService } from '../config/config-service';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class BaseItemsService extends DataService<BaseCollectionName> {
+export default class BaseItemsService extends GenericDataService<BaseCollectionName> {
+  override search(filters: QueryFilters): void {
+    throw new Error('Method not implemented.');
+  }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

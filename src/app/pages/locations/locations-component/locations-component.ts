@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { LocationService } from '../../../services/location/location-service';
 import { LocationTypesList } from '../../../models/status-enums';
 import { CreateLocationUnitModel, LocationUnitModel } from '../../../models/location-models';
@@ -26,7 +26,7 @@ import { EditLocation } from '../../../components/locations/edit-location/edit-l
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationsComponent {
-  readonly dataService = inject(DataService) as unknown as LocationService;
+  readonly dataService = inject(GenericDataService) as unknown as LocationService;
   readonly router = inject(Router);
   showEditLocation = signal<boolean>(false);
   selectLocation = signal<LocationUnitModel | null>(null);

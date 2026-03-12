@@ -4,12 +4,12 @@ import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartsServices extends DataService<CartModelWithDetails> {
+export class CartsServices extends GenericDataService<CartModelWithDetails> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

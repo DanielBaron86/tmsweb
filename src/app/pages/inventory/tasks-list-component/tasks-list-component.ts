@@ -15,7 +15,7 @@ import { TaskTypes, TaskTypesStatus } from '../../../models/status-enums';
 import { DropdownDirective } from '../../../directives/dropdown-directive';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
 import { Router } from '@angular/router';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 
 @Component({
@@ -34,7 +34,7 @@ import { PaginationComponent } from '../../../components/shared/pagination-compo
 export class TasksListComponent {
   readonly location = inject(LocationStrategy);
   readonly router = inject(Router);
-  readonly dataService = inject(DataService) as InventoryService;
+  readonly dataService = inject(GenericDataService) as InventoryService;
 
   constructor() {
     effect(() => {

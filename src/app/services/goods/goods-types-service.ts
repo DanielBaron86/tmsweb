@@ -3,14 +3,14 @@ import { GoodsTypesModel } from '../../models/goods-models';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { PaginationHeader, TypesCollectionName } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { Observable } from 'rxjs';
 import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsTypesService extends DataService<TypesCollectionName> {
+export default class GoodsTypesService extends GenericDataService<TypesCollectionName> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

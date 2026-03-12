@@ -4,14 +4,14 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import { CreateUser, EditUser, UserResource } from '../../models/user-models';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClientService extends DataService<UserResource> {
+export class ClientService extends GenericDataService<UserResource> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

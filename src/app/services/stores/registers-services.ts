@@ -3,7 +3,7 @@ import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import {
   CashRegisterModel,
   CreateCashRegisterModel,
@@ -15,7 +15,7 @@ import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RegistersServices extends DataService<CashRegisterModel> {
+export class RegistersServices extends GenericDataService<CashRegisterModel> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

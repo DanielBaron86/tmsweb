@@ -9,7 +9,7 @@ import { tasksRoutes } from './tasks.routes';
 import { storesRoutes } from './stores.routes';
 import { reportsRoutes } from './reports.routes';
 import { InventoryService } from '../services/inventory/inventory.service';
-import DataService from '../services/data-service';
+import GenericDataService from '../services/data-service';
 import { UserService } from '../services/users/user-service';
 import { ClientService } from '../services/clients/client-service';
 import { RegistersServices } from '../services/stores/registers-services';
@@ -33,14 +33,14 @@ export const routes: Routes = [
     path: 'users',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{ provide: DataService, useClass: UserService }],
+    providers: [{ provide: GenericDataService, useClass: UserService }],
     children: [...userRoutes],
   },
   {
     path: 'inventory',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{ provide: DataService, useClass: InventoryService }],
+    providers: [{ provide: GenericDataService, useClass: InventoryService }],
     children: [...inventoryRoutes],
   },
   {
@@ -53,7 +53,7 @@ export const routes: Routes = [
     path: 'clients',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{ provide: DataService, useClass: ClientService }],
+    providers: [{ provide: GenericDataService, useClass: ClientService }],
     children: [...clientsRoutes],
   },
   {
@@ -66,14 +66,14 @@ export const routes: Routes = [
     path: 'stores',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{ provide: DataService, useClass: RegistersServices }],
+    providers: [{ provide: GenericDataService, useClass: RegistersServices }],
     children: [...storesRoutes],
   },
   {
     path: 'carts',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-    providers: [{ provide: DataService, useClass: CartsServices }],
+    providers: [{ provide: GenericDataService, useClass: CartsServices }],
     children: [...cartsRoutes],
   },
   {

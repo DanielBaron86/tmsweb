@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { RegistersServices } from '../../../services/stores/registers-services';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { DatePipe } from '@angular/common';
 import { SessionStatusEnum, TaskTypesStatus, UserTypeEnum } from '../../../models/status-enums';
 import { SessionService } from '../../../services/stores/session-service';
@@ -46,7 +46,7 @@ export class ViewRegisterComponent implements OnInit {
   ngOnInit(): void {
     this.sessionService.search(this.sessionQueryFilters());
   }
-  readonly dataService = inject(DataService) as RegistersServices;
+  readonly dataService = inject(GenericDataService) as RegistersServices;
   readonly sessionService = inject(SessionService);
   readonly userService = inject(UserService);
   readonly router = inject(Router);

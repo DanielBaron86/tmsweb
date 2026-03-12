@@ -10,7 +10,7 @@ import {
 import { ButtonComponent } from '../../../components/ui/button-component/button-component';
 import { DatePipe } from '@angular/common';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { RegistersServices } from '../../../services/stores/registers-services';
 import { CashRegisterModel, CreateCashRegisterModel } from '../../../models/stores-models';
 import { DropdownDirective } from '../../../directives/dropdown-directive';
@@ -46,7 +46,7 @@ export class StoresComponent implements OnInit {
   ngOnInit(): void {
     this.locationService.search(this.locationQuery);
   }
-  readonly dataService = inject(DataService) as RegistersServices;
+  readonly dataService = inject(GenericDataService) as RegistersServices;
   readonly locationService = inject(LocationService);
   readonly router = inject(Router);
 

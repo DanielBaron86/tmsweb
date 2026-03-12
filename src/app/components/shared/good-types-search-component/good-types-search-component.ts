@@ -11,7 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { GoodsTypesModel } from '../../../models/goods-models';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import GoodsTypesService from '../../../services/goods/goods-types-service';
 import { PaginationComponent } from '../pagination-component/pagination-component';
 import { QueryBuilder } from '../query-builder/query-builder';
@@ -22,7 +22,7 @@ import { SelectedOption } from '../../form/select-with-search/select-with-search
   selector: 'app-good-types-search-component',
   imports: [PaginationComponent, QueryBuilder],
   templateUrl: './good-types-search-component.html',
-  providers: [{ provide: DataService, useExisting: GoodsTypesService }],
+  providers: [{ provide: GenericDataService, useExisting: GoodsTypesService }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoodTypesSearchComponent {
@@ -34,7 +34,7 @@ export class GoodTypesSearchComponent {
       }
     });
   }
-  dataService = inject(DataService) as GoodsTypesService;
+  dataService = inject(GenericDataService) as GoodsTypesService;
   headerInfo = this.dataService.header;
 
   isOpen = signal(false);

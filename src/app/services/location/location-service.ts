@@ -2,7 +2,7 @@ import { computed, inject, Injectable, linkedSignal, signal } from '@angular/cor
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { CreateLocationUnitModel, LocationUnitModel } from '../../models/location-models';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { PaginationHeader } from '../../models/base-model';
 import { Observable, throwError } from 'rxjs';
 import { QueryFilters } from '../../models/query-models';
@@ -11,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class LocationService extends DataService<LocationUnitModel> {
+export class LocationService extends GenericDataService<LocationUnitModel> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

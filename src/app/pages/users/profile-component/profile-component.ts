@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { UserService } from '../../../services/users/user-service';
 import { EditUser } from '../../../models/user-models';
 import { email, form, FormField, required, validate } from '@angular/forms/signals';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-  readonly dataService = inject(DataService) as UserService;
+  readonly dataService = inject(GenericDataService) as UserService;
   readonly router = inject(Router);
   userid = input<number>(0);
   readonly userResource = this.dataService.getUserById(() => this.userid());

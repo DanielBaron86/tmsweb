@@ -4,14 +4,18 @@ import { TaskModels } from '../../models/tasks-models';
 import { ConfigService } from '../config/config-service';
 import { CreateProcurement } from '../../models/inventory-model';
 import { catchError } from 'rxjs/operators';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { PaginationHeader, TaskModelsCollectionName } from '../../models/base-model';
 import { Observable } from 'rxjs';
+import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class InventoryService extends DataService<TaskModelsCollectionName> {
+export class InventoryService extends GenericDataService<TaskModelsCollectionName> {
+  override search(filters: QueryFilters): void {
+    throw new Error('Method not implemented.');
+  }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

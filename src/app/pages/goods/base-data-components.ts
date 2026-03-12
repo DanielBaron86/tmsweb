@@ -1,11 +1,11 @@
 // import {computed, Directive, effect, ElementRef, inject, Signal} from '@angular/core';
-// import DataService from '../../services/data-service';
+// import GenericDataService from '../../services/data-service';
 // import {LocationStrategy} from '@angular/common';
 // import {paginatedResult} from '../../models/base-model';
 //
 // @Directive()
-// export abstract class BaseDataComponent<S extends DataService, T> {
-//   protected readonly dataService = inject(DataService) as S;
+// export abstract class BaseDataComponent<S extends GenericDataService, T> {
+//   protected readonly dataService = inject(GenericDataService) as S;
 //   protected readonly location = inject(LocationStrategy);
 //   abstract tableList: Signal<readonly ElementRef<HTMLTableRowElement>[]>;
 //

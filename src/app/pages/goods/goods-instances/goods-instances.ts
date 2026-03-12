@@ -14,7 +14,7 @@ import { GoodsStatusEnum } from '../../../models/status-enums';
 import GoodsInstancesService from '../../../services/goods/goods-instances-service';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 
 @Component({
   selector: 'app-goods-instances',
@@ -34,7 +34,7 @@ export class GoodsInstances {
     });
   }
 
-  dataService = inject(DataService) as GoodsInstancesService;
+  dataService = inject(GenericDataService) as GoodsInstancesService;
   location = inject(LocationStrategy);
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('instancesList');
   protected readonly GoodsStatusEnum = GoodsStatusEnum;

@@ -5,7 +5,7 @@ import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import { QueryBuilder } from '../../../components/shared/query-builder/query-builder';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { Router } from '@angular/router';
 import { SelectedOption } from '../../../components/form/select-with-search/select-with-search';
 import { QueryFilters } from '../../../models/query-models';
@@ -26,7 +26,7 @@ import { ClientService } from '../../../services/clients/client-service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsComponent {
-  readonly dataService = inject(DataService) as ClientService;
+  readonly dataService = inject(GenericDataService) as ClientService;
   readonly router = inject(Router);
   headerInfo = this.dataService.header;
   queryTitle = input<string>('Users Query Filters');

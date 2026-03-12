@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import DataService from '../../../services/data-service';
+import GenericDataService, { DataService } from '../../../services/data-service';
 
 @Component({
   selector: 'app-pagination-component',
@@ -8,28 +8,38 @@ import DataService from '../../../services/data-service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
-  dataService = inject(DataService);
+  injectedService = inject(GenericDataService, { optional: true });
+  inputService = input<DataService | null>(null);
+
+  dataService = computed(() => {
+    const service = this.inputService() ?? this.injectedService;
+    if (!service)
+      throw new Error('PaginationComponent requires a DataService via input or injection');
+    return service;
+  });
+
+  service = input<DataService>();
 
   pageNumbers = input<number[]>([1]);
   disabled = input(false);
   totalPageCount = input(0);
-  isFirstPage = computed(() => this.dataService.activePage() === 1);
-  isLastPage = computed(() => this.dataService.activePage() === this.totalPageCount());
+  isFirstPage = computed(() => this.dataService().activePage() === 1);
+  isLastPage = computed(() => this.dataService().activePage() === this.totalPageCount());
   hasFilers = input(false);
   protected changePage(pageNumber: number) {
-    this.dataService.setActivePage(pageNumber, this.hasFilers());
-    if (!this.dataService.cachedPages.includes(pageNumber)) {
-      this.dataService.pageNumber.set(pageNumber);
+    this.dataService().setActivePage(pageNumber, this.hasFilers());
+    if (!this.dataService().cachedPages.includes(pageNumber)) {
+      this.dataService().pageNumber.set(pageNumber);
     }
   }
 
   protected decreasePage() {
-    const prev = this.isFirstPage() ? this.totalPageCount() : this.dataService.activePage() - 1;
+    const prev = this.isFirstPage() ? this.totalPageCount() : this.dataService().activePage() - 1;
     this.changePage(prev);
   }
 
   protected increasePage() {
-    const next = this.isLastPage() ? 1 : this.dataService.activePage() + 1;
+    const next = this.isLastPage() ? 1 : this.dataService().activePage() + 1;
     this.changePage(next);
   }
 }

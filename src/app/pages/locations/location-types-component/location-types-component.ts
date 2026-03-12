@@ -4,7 +4,7 @@ import { ButtonComponent } from '../../../components/ui/button-component/button-
 import { DatePipe } from '@angular/common';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { LocationTypesList } from '../../../models/status-enums';
 
@@ -15,7 +15,7 @@ import { LocationTypesList } from '../../../models/status-enums';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationTypesComponent {
-  dataService = inject(DataService) as unknown as LocationTypesService;
+  dataService = inject(GenericDataService) as unknown as LocationTypesService;
   protected readonly LocationTypesList = LocationTypesList;
   headerInfo = this.dataService.header;
   pageNumbers = computed(() =>

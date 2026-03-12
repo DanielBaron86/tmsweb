@@ -9,7 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { PaginationComponent } from '../pagination-component/pagination-component';
 import { v_GoodsTypesInstances } from '../../../models/goods-models';
 import GoodsInstancesService from '../../../services/goods/goods-instances-service';
@@ -20,7 +20,7 @@ import { SelectedOption } from '../../form/select-with-search/select-with-search
 @Component({
   selector: 'app-goods-instance-search',
   imports: [PaginationComponent, QueryBuilder],
-  providers: [{ provide: DataService, useExisting: GoodsInstancesService }],
+  providers: [{ provide: GenericDataService, useExisting: GoodsInstancesService }],
   templateUrl: './goods-instance-search.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +34,7 @@ export class GoodsInstanceSearch {
     });
   }
   dropdownMenu = viewChild<ElementRef<HTMLElement>>('dropdownMenu');
-  dataService = inject(DataService) as GoodsInstancesService;
+  dataService = inject(GenericDataService) as GoodsInstancesService;
   headerInfo = this.dataService.header;
   pageNumbers = computed(() =>
     Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),

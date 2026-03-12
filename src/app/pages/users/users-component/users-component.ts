@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { UserService } from '../../../services/users/user-service';
 import { QueryBuilder } from '../../../components/shared/query-builder/query-builder';
 import { QueryFilters } from '../../../models/query-models';
@@ -26,7 +26,7 @@ import { PaginationComponent } from '../../../components/shared/pagination-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
-  readonly dataService = inject(DataService) as UserService;
+  readonly dataService = inject(GenericDataService) as UserService;
   readonly router = inject(Router);
   headerInfo = this.dataService.header;
   queryTitle = input<string>('Users Query Filters');

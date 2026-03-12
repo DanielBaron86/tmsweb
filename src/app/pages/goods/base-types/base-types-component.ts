@@ -18,17 +18,18 @@ import { HttpClient } from '@angular/common/http';
 import BaseItemsService from '../../../services/goods/base-items-service';
 import { SpinnerComponent } from '../../../components/ui/spinner-component/spinner-component';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
-import DataService from '../../../services/data-service';
+import GenericDataService, { DataService } from '../../../services/data-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-base-types',
   imports: [ButtonComponent, DatePipe, InputFieldComponent, SpinnerComponent, PaginationComponent],
+  providers: [{ provide: DataService, useExisting: BaseItemsService }],
   templateUrl: './base-types-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTypesComponent {
-  readonly dataService = inject(DataService) as BaseItemsService;
+  readonly dataService = inject(GenericDataService) as BaseItemsService;
   readonly location = inject(LocationStrategy);
   readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);

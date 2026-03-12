@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CreateUser } from '../../../models/user-models';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { UserService } from '../../../services/users/user-service';
 import { LabelComponent } from '../../../components/form/label/label-component';
 import {
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUsersComponent {
-  readonly dataService = inject(DataService) as UserService;
+  readonly dataService = inject(GenericDataService) as UserService;
   readonly router = inject(Router);
 
   userModel = signal<CreateUser>({

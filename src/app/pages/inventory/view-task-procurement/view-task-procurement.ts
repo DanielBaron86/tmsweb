@@ -17,7 +17,7 @@ import { GoodsStatusEnum, TaskTypesStatus, UserTypeEnum } from '../../../models/
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { UserService } from '../../../services/users/user-service';
 import { InventoryService } from '../../../services/inventory/inventory.service';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
 import { LabelComponent } from '../../../components/form/label/label-component';
 import { FormsModule } from '@angular/forms';
 import { form, required, min, max, submit, validate, FormField } from '@angular/forms/signals';
@@ -37,7 +37,7 @@ import { TaskServices } from '../../../services/tasks/task-services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewTaskProcurement {
-  readonly dataService = inject(DataService) as InventoryService;
+  readonly dataService = inject(GenericDataService) as InventoryService;
   readonly userService = inject(UserService);
   readonly locationService = inject(LocationService);
   readonly auth = inject(AuthServices);

@@ -4,14 +4,14 @@ import { ConfigService } from '../config/config-service';
 import { CreateUser, EditUser, UserResource } from '../../models/user-models';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends DataService<UserResource> {
+export class UserService extends GenericDataService<UserResource> {
   readonly injector = inject(Injector);
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);

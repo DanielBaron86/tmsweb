@@ -5,7 +5,7 @@
   <div class="pb-3 sm:pb-0">
     <span class="block text-sm font-medium text-gray-500 dark:text-gray-400">
       Showing
-      <span class="text-gray-800 dark:text-white/90">{{ dataService.activePage() }}</span> of
+      <span class="text-gray-800 dark:text-white/90">{{ dataService().activePage() }}</span> of
       <span class="text-gray-800 dark:text-white/90">{{ totalPageCount() }}</span></span
     >
   </div>
@@ -41,7 +41,7 @@
           <a
             class="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium text-white"
             [class]="
-              pageNumber == dataService.activePage()
+              pageNumber === dataService().activePage()
                 ? 'bg-amber-500'
                 : 'bg-blue-500 hover:bg-gray-500'
             "

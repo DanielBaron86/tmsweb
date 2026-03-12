@@ -3,7 +3,7 @@ import { v_GoodsTypesInstances } from '../../models/goods-models';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { ItemInstanceCollectionName, PaginationHeader } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 import { Observable } from 'rxjs';
 import { QueryFilters } from '../../models/query-models';
 
@@ -15,7 +15,7 @@ interface GoodsResponse {
 @Injectable({
   providedIn: 'root',
 })
-export default class GoodsInstancesService extends DataService<ItemInstanceCollectionName> {
+export default class GoodsInstancesService extends GenericDataService<ItemInstanceCollectionName> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;

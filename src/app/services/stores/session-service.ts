@@ -4,12 +4,12 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { CashRegisterSession } from '../../models/stores-models';
 import { PaginationHeader } from '../../models/base-model';
-import DataService from '../data-service';
+import GenericDataService from '../data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SessionService extends DataService<CashRegisterSession> {
+export class SessionService extends GenericDataService<CashRegisterSession> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
