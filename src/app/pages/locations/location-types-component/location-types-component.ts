@@ -8,7 +8,6 @@ import GenericDataService from '../../../services/data-service';
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { LocationTypesList } from '../../../models/status-enums';
 
-
 @Component({
   selector: 'app-location-types-component',
   imports: [ButtonComponent, DatePipe, PaginationComponent, SpinnerComponent, EnumToStringPipe],

@@ -23,7 +23,7 @@ export class RegistersServices extends GenericDataService<CashRegisterModel> {
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(1);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 
@@ -80,6 +80,21 @@ export class RegistersServices extends GenericDataService<CashRegisterModel> {
     }
     return JSON.parse(this.registersResource.headers()?.get('X-Pagination') ?? '{}');
   });
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+  }
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);

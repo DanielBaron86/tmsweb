@@ -39,6 +39,7 @@ import { Router } from '@angular/router';
     SelectWithSearch,
     DropdownDirective,
   ],
+  providers: [{ provide: GenericDataService, useExisting: RegistersServices }],
   templateUrl: './view-register-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

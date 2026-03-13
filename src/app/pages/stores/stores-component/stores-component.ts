@@ -28,7 +28,6 @@ import { LocationUnitModel } from '../../../models/location-models';
 import { Router } from '@angular/router';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 
-
 @Component({
   selector: 'app-stores-component',
   imports: [

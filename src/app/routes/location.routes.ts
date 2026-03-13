@@ -13,7 +13,7 @@ export const locationRoutes: Routes = [
     loadComponent: () =>
       import('../pages/locations/locations-component/locations-component').then(
         (m) => m.LocationsComponent,
-      )
+      ),
   },
   {
     path: 'edit',

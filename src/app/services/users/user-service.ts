@@ -5,7 +5,7 @@ import { CreateUser, EditUser, UserResource } from '../../models/user-models';
 import { QueryFilters } from '../../models/query-models';
 import { PaginationHeader } from '../../models/base-model';
 import GenericDataService from '../data-service';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({

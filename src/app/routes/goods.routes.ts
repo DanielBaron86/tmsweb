@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-
 export const goodsRoutes: Routes = [
   {
     path: 'good_types',

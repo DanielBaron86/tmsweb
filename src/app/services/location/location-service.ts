@@ -22,7 +22,7 @@ export class LocationService extends GenericDataService<LocationUnitModel> {
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(5);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 

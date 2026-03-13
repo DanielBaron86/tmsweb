@@ -11,7 +11,7 @@ import GenericDataService from '../data-service';
 })
 export class LocationTypesService extends GenericDataService<LocationTypesModel> {
   override search(filters: QueryFilters): void {
-      throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
@@ -19,7 +19,7 @@ export class LocationTypesService extends GenericDataService<LocationTypesModel>
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(3);
+  pageSize = signal<number>(20);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 

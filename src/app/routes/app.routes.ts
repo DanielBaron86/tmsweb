@@ -27,13 +27,13 @@ export const routes: Routes = [
     path: 'users',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-        children: [...userRoutes],
+    children: [...userRoutes],
   },
   {
     path: 'inventory',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-        children: [...inventoryRoutes],
+    children: [...inventoryRoutes],
   },
   {
     path: 'locations',
@@ -45,7 +45,7 @@ export const routes: Routes = [
     path: 'clients',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-        children: [...clientsRoutes],
+    children: [...clientsRoutes],
   },
   {
     path: 'tasks',
@@ -57,13 +57,13 @@ export const routes: Routes = [
     path: 'stores',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-        children: [...storesRoutes],
+    children: [...storesRoutes],
   },
   {
     path: 'carts',
     loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
     canActivate: [CanActivateAuthGuard],
-        children: [...cartsRoutes],
+    children: [...cartsRoutes],
   },
   {
     path: 'reports',

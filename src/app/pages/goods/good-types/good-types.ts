@@ -16,7 +16,6 @@ import { InventoryKey } from '../../../models/status-enums';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import GenericDataService from '../../../services/data-service';
 
-
 @Component({
   selector: 'app-good-types',
   imports: [ButtonComponent, SpinnerComponent, DatePipe, EnumToStringPipe, PaginationComponent],

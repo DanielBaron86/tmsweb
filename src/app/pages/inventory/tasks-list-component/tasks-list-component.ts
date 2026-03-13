@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  OnInit,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { ButtonComponent } from '../../../components/ui/button-component/button-component';
 import { InventoryService } from '../../../services/inventory/inventory.service';
 import { DatePipe, LocationStrategy } from '@angular/common';
@@ -28,6 +20,7 @@ import { PaginationComponent } from '../../../components/shared/pagination-compo
     ButtonComponent,
     PaginationComponent,
   ],
+  providers: [{ provide: GenericDataService, useExisting: InventoryService }],
   templateUrl: './tasks-list-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

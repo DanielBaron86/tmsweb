@@ -306,6 +306,7 @@
     </table>
   </div>
   <app-pagination-component
+    [service]="dataService"
     [pageNumbers]="pageNumbers()"
     [totalPageCount]="this.headerInfo().TotalPageCount"
   >

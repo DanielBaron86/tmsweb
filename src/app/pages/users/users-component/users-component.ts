@@ -22,6 +22,7 @@ import { PaginationComponent } from '../../../components/shared/pagination-compo
     EnumToStringPipe,
     PaginationComponent,
   ],
+  providers: [{ provide: GenericDataService, useExisting: UserService }],
   templateUrl: './users-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

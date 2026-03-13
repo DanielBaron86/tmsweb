@@ -22,6 +22,7 @@ import { ClientService } from '../../../services/clients/client-service';
     QueryBuilder,
     SpinnerComponent,
   ],
+  providers: [{ provide: GenericDataService, useExisting: ClientService }],
   templateUrl: './clients-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

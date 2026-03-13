@@ -86,6 +86,22 @@ export class CartsServices extends GenericDataService<CartModelWithDetails> {
     );
   });
 
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+  }
+
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);
