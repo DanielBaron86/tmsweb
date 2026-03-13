@@ -14,11 +14,13 @@ import { DatePipe, LocationStrategy } from '@angular/common';
 import { EnumToStringPipe } from '../../../pipes/enum-to-string-pipe';
 import { InventoryKey } from '../../../models/status-enums';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
-import DataService from '../../../services/data-service';
+import GenericDataService from '../../../services/data-service';
+
 
 @Component({
   selector: 'app-good-types',
   imports: [ButtonComponent, SpinnerComponent, DatePipe, EnumToStringPipe, PaginationComponent],
+  providers: [{ provide: GenericDataService, useExisting: GoodsTypesService }],
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +36,7 @@ export class GoodTypes {
     });
   }
 
-  dataService = inject(DataService) as GoodsTypesService;
+  dataService = inject(GenericDataService) as GoodsTypesService;
   location = inject(LocationStrategy);
   readonly tableList = viewChildren<ElementRef<HTMLTableRowElement>>('goodTypeList');
   protected readonly InventoryKey = InventoryKey;

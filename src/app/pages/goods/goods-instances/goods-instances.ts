@@ -16,9 +16,11 @@ import { SpinnerComponent } from '../../../components/ui/spinner-component/spinn
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 import GenericDataService from '../../../services/data-service';
 
+
 @Component({
   selector: 'app-goods-instances',
   imports: [ButtonComponent, DatePipe, EnumToStringPipe, SpinnerComponent, PaginationComponent],
+  providers: [{ provide: GenericDataService, useExisting: GoodsInstancesService }],
   templateUrl: './goods-instances.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

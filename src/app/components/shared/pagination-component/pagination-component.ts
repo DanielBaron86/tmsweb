@@ -13,6 +13,7 @@ export class PaginationComponent {
 
   dataService = computed(() => {
     const service = this.inputService() ?? this.injectedService;
+    console.log('service', service);
     if (!service)
       throw new Error('PaginationComponent requires a DataService via input or injection');
     return service;
