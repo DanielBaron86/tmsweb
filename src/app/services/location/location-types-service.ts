@@ -4,18 +4,22 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { LocationTypesModel } from '../../models/location-models';
 import { PaginationHeader } from '../../models/base-model';
+import GenericDataService from '../data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocationTypesService {
+export class LocationTypesService extends GenericDataService<LocationTypesModel> {
+  override search(filters: QueryFilters): void {
+      throw new Error("Method not implemented.");
+  }
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(20);
+  pageSize = signal<number>(3);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 
@@ -71,4 +75,20 @@ export class LocationTypesService {
     }
     return JSON.parse(this.locationsTypesResource.headers()?.get('X-Pagination') ?? '{}');
   });
+
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+  }
 }

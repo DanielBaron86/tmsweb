@@ -23,7 +23,7 @@ export class RegistersServices extends GenericDataService<CashRegisterModel> {
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(20);
+  pageSize = signal<number>(1);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 

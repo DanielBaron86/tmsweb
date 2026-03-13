@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import { LocationService } from '../services/location/location-service';
-import GenericDataService from '../services/data-service';
-import { LocationTypesService } from '../services/location/location-types-service';
 
 export const locationRoutes: Routes = [
   {
@@ -10,15 +7,13 @@ export const locationRoutes: Routes = [
       import('../pages/locations/location-types-component/location-types-component').then(
         (m) => m.LocationTypesComponent,
       ),
-    providers: [{ provide: GenericDataService, useClass: LocationTypesService }],
   },
   {
     path: 'list',
     loadComponent: () =>
       import('../pages/locations/locations-component/locations-component').then(
         (m) => m.LocationsComponent,
-      ),
-    providers: [{ provide: GenericDataService, useClass: LocationService }],
+      )
   },
   {
     path: 'edit',

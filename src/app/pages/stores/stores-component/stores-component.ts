@@ -26,6 +26,8 @@ import { QueryFields, QueryFilters } from '../../../models/query-models';
 import { LocationService } from '../../../services/location/location-service';
 import { LocationUnitModel } from '../../../models/location-models';
 import { Router } from '@angular/router';
+import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
+
 
 @Component({
   selector: 'app-stores-component',
@@ -38,7 +40,9 @@ import { Router } from '@angular/router';
     LabelComponent,
     QueryBuilder,
     SelectWithSearch,
+    PaginationComponent,
   ],
+  providers: [{ provide: GenericDataService, useExisting: RegistersServices }],
   templateUrl: './stores-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -62,7 +66,9 @@ export class StoresComponent implements OnInit {
       },
     ],
   };
-
+  pageNumbers = computed(() =>
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
+  );
   displayLocations = linkedSignal({
     source: () => this.locationService.locationsTypesResource.value(),
     computation: () => {

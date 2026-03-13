@@ -21,7 +21,7 @@ export default class BaseItemsService extends GenericDataService<BaseCollectionN
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(20);
+  pageSize = signal<number>(50);
   queryFilters = signal<QueryFilters | null>(null);
   cachedPages: number[] = [];
 

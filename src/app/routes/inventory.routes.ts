@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import GenericDataService from '../services/data-service';
-import { InventoryService } from '../services/inventory/inventory.service';
 
 export const inventoryRoutes: Routes = [
   {
@@ -9,7 +7,6 @@ export const inventoryRoutes: Routes = [
       import('../pages/inventory/tasks-list-component/tasks-list-component').then(
         (m) => m.TasksListComponent,
       ),
-    providers: [{ provide: GenericDataService, useClass: InventoryService }],
   },
   {
     path: 'view_task/procurement/:id',

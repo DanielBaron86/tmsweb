@@ -21,7 +21,7 @@ import { EditLocation } from '../../../components/locations/edit-location/edit-l
     SpinnerComponent,
     EditLocation,
   ],
-
+  providers: [{ provide: GenericDataService, useExisting: LocationService }],
   templateUrl: './locations-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
