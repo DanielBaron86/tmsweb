@@ -86,6 +86,18 @@ export class SessionService extends DataService<CashRegisterSession> {
     );
   });
 
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+  }
+
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);

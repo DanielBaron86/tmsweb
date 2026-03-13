@@ -80,6 +80,18 @@ export class RegistersServices extends DataService<CashRegisterModel> {
     }
     return JSON.parse(this.registersResource.headers()?.get('X-Pagination') ?? '{}');
   });
+
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+  }
   refresh() {
     this.cachedPages = [];
     this.queryFilters.set(null);

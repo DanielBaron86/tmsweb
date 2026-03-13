@@ -4,11 +4,12 @@ import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
 import { LocationTypesModel } from '../../models/location-models';
 import { PaginationHeader } from '../../models/base-model';
+import DataService from '../data-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocationTypesService {
+export class LocationTypesService extends DataService<LocationTypesModel> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
@@ -71,4 +72,20 @@ export class LocationTypesService {
     }
     return JSON.parse(this.locationsTypesResource.headers()?.get('X-Pagination') ?? '{}');
   });
+
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+  }
 }

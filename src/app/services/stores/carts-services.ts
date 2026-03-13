@@ -74,6 +74,18 @@ export class CartsServices extends DataService<CartModelWithDetails> {
     return JSON.parse(this.cartsResource.headers()?.get('X-Pagination') ?? '{}');
   });
 
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+  }
+
   selectCartId = signal<number | null>(null);
   selectedCart = computed(() => {
     const cache = this.cache() as Record<number, CartModelWithDetails[]>;

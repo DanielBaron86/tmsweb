@@ -26,6 +26,7 @@ import { QueryFields, QueryFilters } from '../../../models/query-models';
 import { LocationService } from '../../../services/location/location-service';
 import { LocationUnitModel } from '../../../models/location-models';
 import { Router } from '@angular/router';
+import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-stores-component',
@@ -38,6 +39,7 @@ import { Router } from '@angular/router';
     LabelComponent,
     QueryBuilder,
     SelectWithSearch,
+    PaginationComponent,
   ],
   templateUrl: './stores-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,6 +53,9 @@ export class StoresComponent implements OnInit {
   readonly router = inject(Router);
 
   readonly headerInfo = this.dataService.header;
+  pageNumbers = computed(() =>
+    Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
+  );
   locationQuery: QueryFilters = {
     pageNumber: 1,
     pageSize: 10,

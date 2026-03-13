@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import DataService from '../data-service';
 import { PaginationHeader, TaskModelsCollectionName } from '../../models/base-model';
 import { Observable } from 'rxjs';
+import { QueryFilters } from '../../models/query-models';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,23 @@ export class InventoryService extends DataService<TaskModelsCollectionName> {
       ? JSON.parse(this.#taskList.headers()?.get('X-Pagination') ?? '{}')
       : {},
   );
+
+  queryFilters = signal<QueryFilters | null>(null);
+  override setActivePage(pageNumber: number, hasFilters = false) {
+    if (hasFilters && !this.cachedPages.includes(pageNumber)) {
+      this.queryFilters.update((value) => {
+        if (!value) return value;
+        return { ...value, pageNumber: pageNumber };
+      });
+      this.activePage.set(pageNumber);
+    } else {
+      this.activePage.set(pageNumber);
+    }
+
+    if (!this.cachedPages.includes(pageNumber)) {
+      this.pageNumber.set(pageNumber);
+    }
+  }
 
   #taskList = httpResource<TaskModels[]>(() => ({
     url: `${this.apiUrl}/v1/tasks`,
