@@ -31,9 +31,9 @@ export default class GoodsInstancesService extends DataService<ItemInstanceColle
     const pageNumber = this.pageNumber();
     const pageSize = this.pageSize();
     return this.queryFilters()
-      ? { url: `${this.apiUrl}/v1/goods_instance/query`, method: 'POST', body: filters }
+      ? { url: `${this.apiUrl}/v1/goods_instance/view/query`, method: 'POST', body: filters }
       : {
-          url: `${this.apiUrl}/v1/goods_instance/view`,
+          url: `${this.apiUrl}/v1/goods_instance`,
           method: 'GET',
           params: { pageNumber, pageSize },
         };

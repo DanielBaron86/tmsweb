@@ -117,4 +117,14 @@ export class SessionService extends DataService<CashRegisterSession> {
   CloseSession(id: number) {
     return this.http.post(`${this.apiUrl}/v1/stores/close_session/${id}`, {});
   }
+
+  getActiveSession(param: () => number) {
+    return httpResource<CashRegisterSession>(() => {
+      const id = param();
+      return {
+        url: `${this.apiUrl}/v1/stores/get_sessions/active/${id}`,
+        method: 'GET',
+      };
+    });
+  }
 }

@@ -15,6 +15,7 @@ import { ClientService } from '../services/clients/client-service';
 import { RegistersServices } from '../services/stores/registers-services';
 import { CartsServices } from '../services/stores/carts-services';
 import { cartsRoutes } from './carts.routes';
+import { salesRoutes } from './sales.routes';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,13 @@ export const routes: Routes = [
     canActivate: [CanActivateAuthGuard],
     providers: [{ provide: DataService, useClass: CartsServices }],
     children: [...cartsRoutes],
+  },
+  {
+    path: 'sales',
+    loadComponent: () => import('../components/main-page/main-page').then((m) => m.MainPage),
+    canActivate: [CanActivateAuthGuard],
+    providers: [{ provide: DataService, useClass: CartsServices }],
+    children: [...salesRoutes],
   },
   {
     path: 'reports',

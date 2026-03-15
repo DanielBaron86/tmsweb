@@ -5,6 +5,8 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
+  OnInit,
   output,
   signal,
   viewChild,
@@ -24,7 +26,7 @@ import { SelectedOption } from '../../form/select-with-search/select-with-search
   templateUrl: './goods-instance-search.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoodsInstanceSearch {
+export class GoodsInstanceSearch implements OnInit {
   constructor() {
     effect(() => {
       const menuEl = this.dropdownMenu()?.nativeElement;
@@ -33,8 +35,15 @@ export class GoodsInstanceSearch {
       }
     });
   }
+  ngOnInit(): void {
+    if (this.defaultFilters() != null) {
+      this.dataService.search(this.defaultFilters()!);
+    }
+  }
   dropdownMenu = viewChild<ElementRef<HTMLElement>>('dropdownMenu');
   dataService = inject(DataService) as GoodsInstancesService;
+  defaultFilters = input<null | QueryFilters>(null);
+  defaultOptions = input<SelectedOption[] | null>(null);
   headerInfo = this.dataService.header;
   pageNumbers = computed(() =>
     Array.from({ length: this.headerInfo().TotalPageCount }, (_, i) => i + 1),
@@ -51,14 +60,25 @@ export class GoodsInstanceSearch {
     }
     this.selectItem.emit(item);
   }
-  availableOptions: SelectedOption[] = [
-    { value: 'Id', text: 'Id' },
-    { value: 'GoodModelId', text: 'Good Model Id' },
-    { value: 'Price', text: 'Price' },
-    { value: 'LocationId', text: 'Location Id' },
-    { value: 'SerialNumber', text: 'Serial Number' },
-  ];
+  availableOptions = computed(() => {
+    const availableOptions: SelectedOption[] = [
+      { value: 'Id', text: 'Id' },
+      { value: 'GoodModelId', text: 'Good Model Id' },
+      { value: 'Price', text: 'Price' },
+      { value: 'LocationId', text: 'Location Id' },
+      { value: 'SerialNumber', text: 'Serial Number' },
+      { value: 'status', text: 'Status' },
+    ];
+    return this.defaultOptions() ?? availableOptions;
+  });
+
   protected ReceiveFilters($event: QueryFilters) {
+    const existing = this.defaultFilters();
+    if (this.defaultFilters() != null) {
+      $event.pageNumber = this.defaultFilters()!.pageNumber;
+      $event.pageSize = this.defaultFilters()!.pageSize;
+      $event.queryFields = [...($event.queryFields ?? []), ...(existing!.queryFields ?? [])];
+    }
     this.dataService.search($event);
   }
 }

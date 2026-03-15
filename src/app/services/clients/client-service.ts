@@ -7,6 +7,7 @@ import { CreateUser, EditUser, UserResource } from '../../models/user-models';
 import DataService from '../data-service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CartModelWithDetails, CashRegisterSession } from '../../models/stores-models';
 
 @Injectable({
   providedIn: 'root',
@@ -56,6 +57,11 @@ export class ClientService extends DataService<UserResource> {
     },
   });
 
+  flatCache = computed(() => {
+    const flatCache = this.cache() as Record<number, UserResource[]>;
+    return Object.values(flatCache).flat();
+  });
+
   displayItems = computed(() => {
     const pagedData = this.cache() as UserResource[][];
     const currentPage = this.activePage();
@@ -80,7 +86,8 @@ export class ClientService extends DataService<UserResource> {
     this.pageNumber.set(1);
     this.accountsResourceResource.reload();
   }
-  search(newFilters: QueryFilters) {
+  search(newFilters: QueryFilters | null) {
+    if (!newFilters) return;
     this.cachedPages = [];
     this.cache.update(() => []);
     this.queryFilters.set(newFilters);
@@ -103,6 +110,13 @@ export class ClientService extends DataService<UserResource> {
       this.pageNumber.set(pageNumber);
     }
   }
+
+  selectClientId = signal<number | null>(null);
+  selectClient = computed(() => {
+    const id = this.selectClientId();
+    if (!id) return null;
+    return this.flatCache().find((register) => register.id === id) ?? null;
+  });
 
   getUserById(idFactory: () => number | undefined) {
     return httpResource<UserResource>(

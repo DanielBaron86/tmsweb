@@ -26,6 +26,7 @@ export interface CashRegisterSession extends BaseModel {
   closeHour: Date | null;
   notes: string[];
   user: UserResource;
+  cashRegisterEntity?: CashRegisterEntityModel;
 }
 
 export interface CreateSessionModel {
@@ -68,4 +69,11 @@ export interface CartModel extends BaseModel {
 
 export interface CartModelWithDetails extends CartModel {
   storeCartsEntityDetails: StoreCartsEntityDetailsModel[];
+}
+
+export interface CartItem {
+  operationType: number;
+  goodId: number;
+  price: number;
+  notes: string[];
 }

@@ -12,7 +12,7 @@
       <app-query-builder
         (emitQueryFilter)="ReceiveFilters($event)"
         [queryTitle]="'Item Filters'"
-        [selectOptions]="availableOptions"
+        [selectOptions]="availableOptions()"
       >
       </app-query-builder>
       <hr class="my-6 dark:border-gray-700" />
