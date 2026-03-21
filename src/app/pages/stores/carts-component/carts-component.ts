@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import { DropdownDirective } from '../../../directives/dropdown-directive';
 import { Router } from '@angular/router';
 import { PaginationComponent } from '../../../components/shared/pagination-component/pagination-component';
+import { SessionStatusEnum } from '../../../models/status-enums';
+import { ClientService } from '../../../services/clients/client-service';
 
 @Component({
   selector: 'app-carts-component',
@@ -15,6 +17,7 @@ import { PaginationComponent } from '../../../components/shared/pagination-compo
 })
 export class CartsComponent {
   readonly dataService = inject(CartsServices);
+  readonly clientService = inject(ClientService);
   readonly router = inject(Router);
   readonly headerInfo = this.dataService.header;
   pageNumbers = computed(() =>
@@ -34,5 +37,13 @@ export class CartsComponent {
 
   protected ViewCart(cartId: number) {
     this.router.navigate([`/carts/${cartId}/view`]);
+  }
+
+  protected readonly SessionStatusEnum = SessionStatusEnum;
+
+  protected EditCart(id: number, clientId: number) {
+    this.dataService.selectCartId.set(id);
+    this.clientService.selectClientId.set(clientId);
+    this.router.navigate([`/sales`]);
   }
 }

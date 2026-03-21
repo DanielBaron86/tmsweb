@@ -1,5 +1,5 @@
-import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
-import { CartModelWithDetails } from '../../models/stores-models';
+import { computed, inject, Injectable, Injector, linkedSignal, signal } from '@angular/core';
+import { CartItem, CartModelWithDetails, CreateCart } from '../../models/stores-models';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { ConfigService } from '../config/config-service';
 import { QueryFilters } from '../../models/query-models';
@@ -13,6 +13,7 @@ export class CartsServices extends DataService<CartModelWithDetails> {
   readonly http = inject(HttpClient);
   readonly config = inject(ConfigService);
   readonly apiUrl = this.config.apiUrl;
+  readonly injector = inject(Injector);
 
   activePage = signal(1);
   pageNumber = signal<number>(1);
@@ -115,12 +116,25 @@ export class CartsServices extends DataService<CartModelWithDetails> {
   }
 
   GetCartById(param: () => number) {
-    return httpResource<CartModelWithDetails>(() => {
-      const id = param();
-      return {
-        url: `${this.apiUrl}/v1/stores/${id}`,
-        method: 'GET',
-      };
-    });
+    return httpResource<CartModelWithDetails>(
+      () => {
+        const id = param();
+        return {
+          url: `${this.apiUrl}/v1/stores/${id}`,
+          method: 'GET',
+        };
+      },
+      { injector: this.injector },
+    );
   }
+
+  CreateCart(body: CreateCart) {
+    return this.http.post<CartModelWithDetails>(`${this.apiUrl}/v1/stores/create_cart`, body);
+  }
+
+  AddToCart(cartId: number, cartItem: CartItem) {
+    return this.http.post(`${this.apiUrl}/v1/stores/addto_cart/${cartId}`, cartItem);
+  }
+
+  RemoteItemFromCart(goodId: number) {}
 }

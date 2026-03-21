@@ -52,6 +52,11 @@ export interface StoreCartsEntityDetailsModel extends BaseModel {
   notes?: string[] | null;
 }
 
+export interface CreateCart {
+  clerktId: number;
+  storeLocation: number;
+  clientId: number;
+}
 export interface CartModel extends BaseModel {
   id: number;
   clerktId: number;

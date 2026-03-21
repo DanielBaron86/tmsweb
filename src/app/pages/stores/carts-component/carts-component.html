@@ -559,14 +559,14 @@
                         >
                           View More
                         </button>
-                        <!--                          @if (cartItem.sessionStatus === SessionStatusEnum.OPEN) {-->
-                        <!--                            <button-->
-                        <!--                              (click)="CloseSession(cartItem.id)"-->
-                        <!--                              class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"-->
-                        <!--                            >-->
-                        <!--                              Close-->
-                        <!--                            </button>-->
-                        <!--                          }-->
+                        @if (cartItem.status === SessionStatusEnum.OPEN) {
+                          <button
+                            (click)="EditCart(cartItem.id, cartItem.clientId)"
+                            class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
+                          >
+                            Edit
+                          </button>
+                        }
                       </div>
                     </div>
                   </div>

@@ -115,7 +115,7 @@ export class ClientService extends DataService<UserResource> {
   selectClient = computed(() => {
     const id = this.selectClientId();
     if (!id) return null;
-    return this.flatCache().find((register) => register.id === id) ?? null;
+    return this.flatCache().find((client) => client.id == id);
   });
 
   getUserById(idFactory: () => number | undefined) {

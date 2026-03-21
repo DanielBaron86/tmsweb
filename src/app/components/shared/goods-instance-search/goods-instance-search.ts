@@ -75,8 +75,6 @@ export class GoodsInstanceSearch implements OnInit {
   protected ReceiveFilters($event: QueryFilters) {
     const existing = this.defaultFilters();
     if (this.defaultFilters() != null) {
-      $event.pageNumber = this.defaultFilters()!.pageNumber;
-      $event.pageSize = this.defaultFilters()!.pageSize;
       $event.queryFields = [...($event.queryFields ?? []), ...(existing!.queryFields ?? [])];
     }
     this.dataService.search($event);
